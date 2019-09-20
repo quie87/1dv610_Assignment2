@@ -7,7 +7,7 @@
  require_once('model/DateTimeModel.php');
  require_once('model/LoginModel.php');
  require_once('controller/AuthenticationController.php');
-// require_once('AuthenticationApplication.php');
+//  require_once('AuthenticationApplication.php');
 
 //MAKE SURE ERRORS ARE SHOWN... MIGHT WANT TO TURN THIS OFF ON A PUBLIC SERVER
 error_reporting(E_ALL);
