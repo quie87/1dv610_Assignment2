@@ -1,39 +1,35 @@
 <?php
 
+// require error handler
+
 class UserModel {
-    private $userID = '';
-    private $userName = '';
-    private $passWord = '';
-    private $users = (object) array(
-        'admin' => '12345'
-    );
+    private static $minNameLength = 2;
+    private $name = null;
+    private $password = null;
 
+    public function __construct(string $userName, string $password)
+    {
+        $this->name = $this->applyFilter($userName);
+        $this->password = $password;
 
-    //var_dump($users->{'admin'});
-
-    // public function __construct($userName, $passWord) {
-    //     $this->userName = $userName;
-    //     $this->passWord = $passWord;
-
-    public function compareUserCredentials($userNameInput, $passWordInput) {
-        $this->findUser($userNameInput);
-
-        throw new Exception('Not implemented yet');
+        if(strlen($this->name) < self::$minNameLength) {
+            throw new Exception('Name is to short');
+        }
     }
 
-    private function findUser($userNameInput) {
-        throw new Exception('Not implemented yet');
+    public function setName(UserName $userName) {
+        $this->name = $userName->getUserName();
     }
 
     public function getUserName() {
-        return $this->userName;
+        return $this->name;
     }
 
-    public function setUserName() {
-        throw new Exception('Not implemented yet');
+    public function setPassWord(UserPassWord $password) {
+        $this->password = $password->getPassWord();
     }
 
-    public function setPassWord() {
-        throw new Exception('Not implemented yet');
+    public static function applyFilter(string $rawInput) : string {
+        return trim(htmlentities($rawInput));
     }
 }

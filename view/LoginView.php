@@ -73,5 +73,9 @@ class LoginView {
 		//RETURN REQUEST VARIABLE: USERNAME
 		return $this->name;
 	}
-	
+
+	private function getRequestPassWord() {
+		//RETURN REQUEST VARIABLE: USERNAME
+		return $this->password;
+	}
 }
