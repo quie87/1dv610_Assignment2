@@ -1,6 +1,6 @@
 <?php
 
-use \Modal\LoginModal;
+use \Model\LoginModel;
 
 class AuthenticationController {
 
@@ -15,7 +15,7 @@ class AuthenticationController {
     function checkForUserInput() {
         // $user = LoginModal::validateUserInput($this->view::getRequestUserName());
         // var_dump($user);
-        $user = LoginModal::validateUserInput();
+        $user = LoginModel::validateUserInput();
 
         // if($this->view->userWantToRegister) {
         //     throw new Exception('not implemented yet');

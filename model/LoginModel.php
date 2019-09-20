@@ -1,10 +1,10 @@
 <?php
 
-namespace Modal;
+namespace Model;
 
-class LoginModal {
+class LoginModel {
     public static function validateUserInput() {
-        return true;
+        return false;
     }
   
 }
