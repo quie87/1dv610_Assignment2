@@ -1,15 +1,15 @@
 <?php
 
-use Modal\LoginModal;
+use \Modal\LoginModal;
 
 class AuthenticationController {
 
     private $view;
     private $user;
 
-    public function __construct($v)
+    public function __construct($view)
     {
-        $this->view = $v;
+        $this->view = $view;
     }
 
     function checkForUserInput() {
