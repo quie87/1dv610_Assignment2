@@ -5,7 +5,7 @@ use \Modal\LoginModal;
 class AuthenticationController {
 
     private $view;
-    private $user;
+    // private $user;
 
     public function __construct($view)
     {

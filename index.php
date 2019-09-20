@@ -14,15 +14,6 @@ error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
 
-//CREATE OBJECTS OF THE VIEWS
-$v = new LoginView();
-$dtv = new DateTimeView();
-$lv = new LayoutView();
-$auth = new AuthenticationController($v);
-
-$userIsAuthenticated = $auth->checkForUserInput();
-
-// Kolla med controllern om användaren är inloggad, i så fall skicka med "true" i anropet nedan "$lv->render($userloggedinornot, $v, $dtv)"
 if($_SERVER['SERVER_NAME'] == 'localhost') {
     $hostname = 'localhost';
     $username = 'root';
@@ -46,6 +37,15 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+//CREATE OBJECTS OF THE VIEWS
+$v = new LoginView();
+$dtv = new DateTimeView();
+$lv = new LayoutView();
+$auth = new AuthenticationController($v);
+
+$userIsAuthenticated = $auth->checkForUserInput();
+
+// Kolla med controllern om användaren är inloggad, i så fall skicka med "true" i anropet nedan "$lv->render($userloggedinornot, $v, $dtv)"
 
 $lv->render($userIsAuthenticated, $v, $dtv);
 
