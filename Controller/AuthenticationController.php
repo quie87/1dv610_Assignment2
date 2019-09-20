@@ -17,15 +17,15 @@ class AuthenticationController {
         // var_dump($user);
         $user = LoginModal::validateUserInput();
 
-        if($this->view->userWantToRegister) {
-            throw new Exception('not implemented yet');
-        } else if ($this->view->userWantsToLogIn) {
-            if ($user === true) {
-                return true;
-            } else {
-                return false;
-            }
-        }
+        // if($this->view->userWantToRegister) {
+        //     throw new Exception('not implemented yet');
+        // } else if ($this->view->userWantsToLogIn) {
+        // }
+                if ($user === true) {
+                    return true;
+                } else {
+                    return false;
+                }
 
     }
 }
