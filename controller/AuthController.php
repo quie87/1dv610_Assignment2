@@ -2,7 +2,7 @@
 
 use \Model\LoginModel;
 
-class AuthenticationController {
+class AuthController {
 
     private $view;
     // private $user;

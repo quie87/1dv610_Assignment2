@@ -6,7 +6,7 @@ require_once('view/DateTimeView.php');
 require_once('view/LayoutView.php');
 require_once('model/DateTimeModel.php');
 require_once('model/LoginModel.php');
-require_once('controller/AuthenticationController.php');
+require_once('controller/AuthController.php');
 
 class AuthenticationApplication {
     private $user;
@@ -21,7 +21,7 @@ class AuthenticationApplication {
         $this->loginView = new LoginView();
         $this->dateTimeView = new DateTimeView();
         $this->layoutView = new LayoutView();
-        $this->controller = new AuthenticationController($this->loginView);
+        $this->controller = new AuthController($this->loginView);
     }
 
     public function run() {
