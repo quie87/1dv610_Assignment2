@@ -2,6 +2,8 @@
 
 namespace controller;
 
+use Exception;
+
 class AuthController {
 
     private $user;
@@ -36,6 +38,25 @@ class AuthController {
             } else {
                 return false;
             }
+    }
+
+    private function getUserCredentials($name) {
+        $name = $this->view->getUserName();
+        $this->saveUserCredentials($name);
+    }
+
+    private function saveUserCredentials($name) {
+        $this->user->setUserName($name);
+        $this->saveUserCredentialsToDB();
+        $this->saveUserCredentialsSession();
+    }
+
+    private function saveUserCredentialsToDB() {
+        throw new Exception('Not implemented yet');
+    }
+
+    private function saveUserCredentialsSession() {
+        throw new Exception('Not implemented yet');
     }
 
     private function getUserFromSession(){
