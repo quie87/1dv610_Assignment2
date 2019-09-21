@@ -4,7 +4,7 @@ namespace controller;
 
 class AuthController {
 
-    // private $user;
+    private $user;
     private $view;
 
     public function __construct(\model\UserModel $user, \view\LoginView $view)
