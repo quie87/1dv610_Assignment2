@@ -1,5 +1,7 @@
 <?php
 
+namespace view;
+
 class LoginView {
 	private static $login = 'LoginView::Login';
 	private static $logout = 'LoginView::Logout';
@@ -8,9 +10,13 @@ class LoginView {
 	private static $cookieName = 'LoginView::CookieName';
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
-	private static $messageId = 'LoginView::Message';
+	private static $messageId = 'LoginView::Message';	
+	private $user;
 
-	
+	public function __construct(\Model\UserModel $userToBeViewed)
+	{
+		$this->user = $userToBeViewed;
+	}
 
 	/**
 	 * Create HTTP response
@@ -26,6 +32,31 @@ class LoginView {
 		
 		//$response .= $this->generateLogoutButtonHTML($message);
 		return $response;
+	}
+
+	public function userWantToLogIn() : bool {
+		return isset($_POST[self::$name]);
+	}
+	
+	public function getUserName() : \Model\UserModel {
+		return new \Model\UserModel($this->getInputValueFiltered());
+	}
+	//CREATE GET-FUNCTIONS TO FETCH REQUEST VARIABLES
+	private function getRequestUserName() {
+		//RETURN REQUEST VARIABLE: USERNAME
+		$inputValue = $_GET[self::$name];
+
+		
+		return new \Model\UserModel($inputValue);
+	}
+
+	private function getRequestPassWord() {
+		//RETURN REQUEST VARIABLE: USERNAME
+		return $this->password;
+	}
+
+	private function getInputValueFiltered() : string {
+		return \Model\UserModel::applyFilter($_POST[self::$name]);
 	}
 
 	/**
@@ -67,16 +98,5 @@ class LoginView {
 				</fieldset>
 			</form>
 		';
-	}
-	
-	//CREATE GET-FUNCTIONS TO FETCH REQUEST VARIABLES
-	private function getRequestUserName() {
-		//RETURN REQUEST VARIABLE: USERNAME
-		return $this->name;
-	}
-
-	private function getRequestPassWord() {
-		//RETURN REQUEST VARIABLE: USERNAME
-		return $this->password;
 	}
 }

@@ -6,6 +6,7 @@ require_once('view/DateTimeView.php');
 require_once('view/LayoutView.php');
 require_once('model/DateTimeModel.php');
 require_once('model/LoginModel.php');
+require_once('model/UserModel.php');
 require_once('controller/AuthController.php');
 
 class AuthenticationApplication {
@@ -18,10 +19,11 @@ class AuthenticationApplication {
 
     public function __construct()
     {
-        $this->loginView = new LoginView();
+        $this->user = new model\UserModel('Default');
+        $this->loginView = new view\LoginView($this->user);
         $this->dateTimeView = new DateTimeView();
         $this->layoutView = new LayoutView();
-        $this->controller = new AuthController($this->loginView);
+        $this->controller = new \controller\AuthController($this->user, $this->loginView);
     }
 
     public function run() {
@@ -31,7 +33,12 @@ class AuthenticationApplication {
 
     
 	private function changeState() {
-        $this->userIsAuthenticated = $this->controller->checkForUserInput();
+        if ($this->userIsAuthenticated) {
+            return;
+        } else {
+            $this->userIsAuthenticated = $this->controller->checkForUserInput();
+            // Save user function
+        }
     }
     
 	private function generateOutput() {
