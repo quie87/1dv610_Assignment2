@@ -23,7 +23,6 @@ class AuthController {
         if ($this->view->userWantToLogIn()) {
             try {
                 $name = $this->view->getUserName();
-                var_dump($name);
                 $this->user->setUserName($name);
             } catch (\Exeption $e) {
                 $this->view->errorMessage($e);
