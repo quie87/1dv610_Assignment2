@@ -1,6 +1,5 @@
 <?php
 
-
 class DateTimeModel {
     public static function getCurrentTime () : string {
 		
