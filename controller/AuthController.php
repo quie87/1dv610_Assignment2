@@ -5,7 +5,7 @@ use \Model\LoginModel;
 class AuthController {
 
     private $view;
-    // private $user;
+    private $user;
 
     public function __construct($view)
     {
