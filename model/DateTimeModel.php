@@ -4,13 +4,11 @@ class DateTimeModel {
     public static function getCurrentTime () : string {
 		
 		$weekDay = date('l');
-		$date = date('d');
+		$date = date('dS');
 		$month = date('F');
 		$year = date('Y');
-		$hour = date('G');
-		$minutes = date('i');
-		$seconds = date('s');
+		$currentTime = date('H:i:s');
 
-		return "${weekDay}, the ${date}th of ${month} ${year}, The time is ${hour}:${minutes}:${seconds}";
+		return "${weekDay}, the ${date} of ${month} ${year}, The time is ${currentTime}";
 	}
 }

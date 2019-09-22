@@ -44,7 +44,7 @@ class AuthController {
         self::$name = $this->view->getUserName();
         self::$password = $this->view->getUserPassword();
         // self::$keep = $this->view->getUserKeep(); //getUserKeep funkar inte just nu
-        var_dump(self::$name . self::$password);
+        // var_dump(self::$name . self::$password);
     }
 
     private function setUserCredentials() {
