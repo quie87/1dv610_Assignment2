@@ -11,7 +11,7 @@ class LoginView {
 	private static $password = 'LoginView::Password';
 	private static $cookieName = 'LoginView::CookieName';
 	private static $cookiePassword = 'LoginView::CookiePassword';
-	private static $keep = 'LoginView::KeepMeLoggedIn';
+	private static $stayLoggedIn = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
 
 	public function __construct() {}
@@ -64,8 +64,8 @@ class LoginView {
 					<label for="' . self::$password . '">Password :</label>
 					<input type="password" id="' . self::$password . '" name="' . self::$password . '" />
 
-					<label for="' . self::$keep . '">Keep me logged in  :</label>
-					<input type="checkbox" id="' . self::$keep . '" name="' . self::$keep . '" />
+					<label for="' . self::$stayLoggedIn . '">Keep me logged in  :</label>
+					<input type="checkbox" id="' . self::$stayLoggedIn . '" name="' . self::$stayLoggedIn . '" />
 					
 					<input type="submit" name="' . self::$login . '" value="login" />
 				</fieldset>
@@ -78,21 +78,33 @@ class LoginView {
 	}
 
 	public function getUserName() {
+		// return ($_POST[self::$name]);
 		return \model\UserModel::applyFilter($_POST[self::$name]);
-		// return \Model\UserModel($this->getInputValueFiltered());
 	}
 
 	public function getUserPassword() {
-		return ($_POST[self::$password]);
+		return \model\UserModel::applyFilter(($_POST[self::$password]));
 	}
 
-	public function getUserKeep() {
-		return ($_POST[self::$keep]);
-		// if ($_POST[self::$keep]) {
-		// 	return true;
-		// } else {
-		// 	return false;
-		// }
+	public function getStayLoggedIn() : bool {
+		return isset($_POST[self::$stayLoggedIn]);
+	}
+
+	private function hasUsername () : bool {
+		return isset($_POST[self::$name]);
+	}
+	private function hasPassword () : bool {
+		return isset($_POST[self::$password]);
+	}
+
+	public function getUserCredentials () : \model\UserModel {
+		if ($this->hasUsername() && $this->hasPassword()) {
+			$name = $this->getUsername();
+			$pass = $this->getUserPassword();
+			$stayLoggedIn = $this->getStayLoggedIn();
+
+			return new \model\UserModel($name, $pass, $stayLoggedIn);
+		}
 	}
 
 	public function setMessage() {

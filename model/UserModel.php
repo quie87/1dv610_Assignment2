@@ -1,42 +1,29 @@
 <?php
 
-// require error handler
 namespace model;
 
 class UserModel {
-    private $name = null;
-    private $password = null;
-    private $keep = false;
+    private $userName;
+    private $password;
+    private $stayLoggedIn;
 
     public function __construct(string $userName, string $password, bool $stay)
     {
-        $this->name = $this->applyFilter($userName);
+        $this->name = $userName;
         $this->password = $password;
-        $this->keep = $stay;
+        $this->stayLoggedIn = $stay;
     }
     
     public function getUserName() {
-        return $this->name;
-    }
-
-    public function setUserName(UserModel $newName) {
-        $this->name = $newName->getUserName();
+        return $this->userName;
     }
 
     public function getUserPassword() {
         return $this->password;
     }
 
-    public function setUserPassword(UserModel $password) {
-        $this->password = $password->getUserPassword();
-    }
-
-    public function getKeepOnline() {
-        return $this->keep;
-    }
-    
-    public function setKeepOnline(UserModel $keep) {
-        $this->keep = $keep->getKeepOnline();
+    public function getStayLoggedIn() : bool {
+        return $this->stayLoggedIn;
     }
 
     public static function applyFilter(string $rawInput) : string {

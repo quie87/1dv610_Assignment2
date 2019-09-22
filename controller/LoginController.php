@@ -6,16 +6,16 @@ class LoginController {
 
     private static $name;
     private static $password;
-    private static $keep;
+    private static $stayLoggedIn;
     private $user;
     private $view;
-    private $loginModal;
+    private $authenticationModel;
 
-    public function __construct(\model\UserModel $user, \view\LoginView $view)
+    public function __construct(\view\LoginView $view)
     {
-        $this->user = $user;
+        // $this->user = $user;
         $this->view = $view;
-        $this->loginModal = new \model\LoginModel($this->user);
+        $this->authenticationModel = new \model\AuthenticationModel();
     }
 
     public function tryToLoginUser() {
@@ -25,43 +25,20 @@ class LoginController {
     }
     
     private function loginUser() {
-        $this->getUserCredentials();
+        // $this->getUserCredentials();
+        $credentials = $this->view->getUserCredentials();
+        // var_dump($credentials);
         // $this->setUserCredentials();
-
-        return $this->validateUserLoginCredentials();
+        $this->authenticationModel->tryToLogin($credentials);
+        // $this->validateUserLoginCredentials();
     }
 
-    private function validateUserLoginCredentials() {
-        $user = \model\LoginModel::validateUserInput();
-            if ($user === true) {
-                return true;
-            } else {
-                return false;
-            }
-    }
-
+    
     private function getUserCredentials() {
         self::$name = $this->view->getUserName();
         self::$password = $this->view->getUserPassword();
-        // self::$keep = $this->view->getUserKeep(); //getUserKeep funkar inte just nu
-        // var_dump(self::$name . self::$password);
+        self::$stayLoggedIn = $this->view->getStayLoggedIn();
+        var_dump(self::$name . '<br>' . self::$password . '<br>' . self::$stayLoggedIn);
     }
 
-    private function setUserCredentials() {
-        $this->user->setUserName();
-        $this->saveUserCredentialsToDB();
-        $this->saveUserCredentialsSession();
-    }
-
-    private function saveUserCredentialsToDB() {
-        throw new Exception('Not implemented yet');
-    }
-
-    private function saveUserCredentialsSession() {
-        throw new Exception('Not implemented yet');
-    }
-
-    private function getUserFromSession(){
-        throw new Exception('Not implemented yet');
-    }
 }
