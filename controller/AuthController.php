@@ -2,37 +2,37 @@
 
 namespace controller;
 
-use Exception;
-
 class AuthController {
 
+    private static $name;
+    private static $password;
+    private static $keep;
     private $user;
     private $view;
+    private $loginModal;
 
     public function __construct(\model\UserModel $user, \view\LoginView $view)
     {
         $this->user = $user;
         $this->view = $view;
+        $this->loginModal = new \model\LoginModel($this->user);
     }
 
-    function checkForUserInput() {
-        // Kolla om en användare finns - Hämta först från session och sedan från formuläret
-        // Om det inte finns en användare i session, hämta input från LoginView
-        // Kolla om den användaren finns i databasen.
-        // Om det inte finns en registrerad användare, visa felmeddelande
-        // Annars logga in användaren via LoginView
-
+    public function tryToLoginUser() {
         if ($this->view->userWantToLogIn()) {
-            try {
-                $name = $this->view->getUserName();
-                $this->user->setUserName($name);
-            } catch (\Exeption $e) {
-                $this->view->errorMessage($e);
-            }
+            $this->loginUser();
         }
+    }
+    
+    private function loginUser() {
+        $this->getUserCredentials();
+        // $this->setUserCredentials();
 
+        return $this->validateUserLoginCredentials();
+    }
 
-        $user = \model\LoginModel::validateUserInput($this->user);
+    private function validateUserLoginCredentials() {
+        $user = \model\LoginModel::validateUserInput();
             if ($user === true) {
                 return true;
             } else {
@@ -40,13 +40,15 @@ class AuthController {
             }
     }
 
-    private function getUserCredentials($name) {
-        $name = $this->view->getUserName();
-        $this->saveUserCredentials($name);
+    private function getUserCredentials() {
+        self::$name = $this->view->getUserName();
+        self::$password = $this->view->getUserPassword();
+        // self::$keep = $this->view->getUserKeep(); //getUserKeep funkar inte just nu
+        var_dump(self::$name . self::$password);
     }
 
-    private function saveUserCredentials($name) {
-        $this->user->setUserName($name);
+    private function setUserCredentials() {
+        $this->user->setUserName();
         $this->saveUserCredentialsToDB();
         $this->saveUserCredentialsSession();
     }

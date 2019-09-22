@@ -19,10 +19,10 @@ class AuthenticationApplication {
 
     public function __construct()
     {
-        $this->user = new model\UserModel('Default');
-        $this->loginView = new view\LoginView($this->user);
-        $this->dateTimeView = new DateTimeView();
+        $this->user = new model\UserModel('', '', false);
         $this->layoutView = new LayoutView();
+        $this->loginView = new view\LoginView();
+        $this->dateTimeView = new DateTimeView();
         $this->controller = new \controller\AuthController($this->user, $this->loginView);
     }
 
@@ -33,15 +33,19 @@ class AuthenticationApplication {
 
     
 	private function changeState() {
-        if ($this->userIsAuthenticated) {
+        //change this. Varible "userIsAuthenticated" should not be used. Try get this information from the Userobject in session instead.
+        // If no user in session, then try to either Register a user or signin depending on what the user is trying to do.
+
+        if ($this->user->getKeepOnline()) {
             return;
         } else {
-            $this->userIsAuthenticated = $this->controller->checkForUserInput();
+            $this->controller->tryToLoginUser();
+            // var_dump($this->user); // -------------------------------------------------------------------------------------Var_dump here
             // Save user function
         }
     }
     
 	private function generateOutput() {
-        $this->layoutView->render($this->userIsAuthenticated, $this->loginView, $this->dateTimeView);
+        $this->layoutView->render($this->user->getKeepOnline(), $this->loginView, $this->dateTimeView);
 	}
 }

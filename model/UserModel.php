@@ -1,27 +1,42 @@
 <?php
 
 // require error handler
-namespace Model;
+namespace model;
 
 class UserModel {
-    // private static $minNameLength = 2;
-    private $name;
+    private $name = null;
+    private $password = null;
+    private $keep = false;
 
-    public function __construct(string $userName)
+    public function __construct(string $userName, string $password, bool $stay)
     {
         $this->name = $this->applyFilter($userName);
-
-        // if(strlen($this->name) < self::$minNameLength) {
-        //     throw new Exception('Name is to short');
-        // }
+        $this->password = $password;
+        $this->keep = $stay;
+    }
+    
+    public function getUserName() {
+        return $this->name;
     }
 
     public function setUserName(UserModel $newName) {
-        $this->name = $newName;
+        $this->name = $newName->getUserName();
     }
 
-    public function getUserName() {
-        return $this->name;
+    public function getUserPassword() {
+        return $this->password;
+    }
+
+    public function setUserPassword(UserModel $password) {
+        $this->password = $password->getUserPassword();
+    }
+
+    public function getKeepOnline() {
+        return $this->keep;
+    }
+    
+    public function setKeepOnline(UserModel $keep) {
+        $this->keep = $keep->getKeepOnline();
     }
 
     public static function applyFilter(string $rawInput) : string {

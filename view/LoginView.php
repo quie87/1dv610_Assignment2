@@ -2,6 +2,8 @@
 
 namespace view;
 
+use Exception;
+
 class LoginView {
 	private static $login = 'LoginView::Login';
 	private static $logout = 'LoginView::Logout';
@@ -10,13 +12,9 @@ class LoginView {
 	private static $cookieName = 'LoginView::CookieName';
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
-	private static $messageId = 'LoginView::Message';	
-	private $user;
+	private static $messageId = 'LoginView::Message';
 
-	public function __construct(\Model\UserModel $userToBeViewed)
-	{
-		$this->user = $userToBeViewed;
-	}
+	public function __construct() {}
 
 	/**
 	 * Create HTTP response
@@ -34,31 +32,6 @@ class LoginView {
 		return $response;
 	}
 
-	public function userWantToLogIn() : bool {
-		return isset($_POST[self::$name]);
-	}
-	
-	public function getUserName() : \Model\UserModel {
-		return new \Model\UserModel($this->getInputValueFiltered());
-	}
-	//CREATE GET-FUNCTIONS TO FETCH REQUEST VARIABLES
-	private function getRequestUserName() {
-		//RETURN REQUEST VARIABLE: USERNAME
-		$inputValue = $_GET[self::$name];
-
-		
-		return new \Model\UserModel($inputValue);
-	}
-
-	private function getRequestPassWord() {
-		//RETURN REQUEST VARIABLE: USERNAME
-		return $this->password;
-	}
-
-	private function getInputValueFiltered() : string {
-		return \Model\UserModel::applyFilter($_POST[self::$name]);
-	}
-
 	/**
 	* Generate HTML code on the output buffer for the logout button
 	* @param $message, String output message
@@ -74,7 +47,7 @@ class LoginView {
 	}
 	
 	/**
-	* Generate HTML code on the output buffer for the logout button
+	* Generate HTML code on the output buffer for the Login form
 	* @param $message, String output message
 	* @return  void, BUT writes to standard output!
 	*/
@@ -98,5 +71,46 @@ class LoginView {
 				</fieldset>
 			</form>
 		';
+	}
+	
+	public function userWantToLogIn() : bool {
+		return isset($_POST[self::$name]);
+	}
+
+	public function getUserName() {
+		return \model\UserModel::applyFilter($_POST[self::$name]);
+		// return \Model\UserModel($this->getInputValueFiltered());
+	}
+
+	public function getUserPassword() {
+		return ($_POST[self::$password]);
+	}
+
+	public function getUserKeep() {
+		return ($_POST[self::$keep]);
+		// if ($_POST[self::$keep]) {
+		// 	return true;
+		// } else {
+		// 	return false;
+		// }
+	}
+
+	public function setMessage() {
+		throw new Exception('Not implemented yet');
+	}
+
+
+	public function getInputValueFiltered() : string {
+			return \Model\UserModel::applyFilter($_POST[self::$name]);
+		
+		// if ($this->userWantToLogIn()) {
+		// 	$inputValue = $_GET[self::$name];
+		// 	return \model\UserModel::applyFilter($inputValue);
+		// }
+		// return "";
+	}
+
+	private function logErrorMessage() {
+		throw new Exception('Not implemented yet');
 	}
 }
