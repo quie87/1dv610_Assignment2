@@ -2,7 +2,7 @@
 
 namespace controller;
 
-class AuthController {
+class LoginController {
 
     private static $name;
     private static $password;
