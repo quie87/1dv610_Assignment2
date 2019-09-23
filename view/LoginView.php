@@ -14,6 +14,8 @@ class LoginView {
 	private static $stayLoggedIn = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
 
+	private $message;
+
 	public function __construct() {}
 
 	/**
@@ -74,7 +76,15 @@ class LoginView {
 	}
 	
 	public function userWantToLogIn() : bool {
-		return isset($_POST[self::$name]);
+		if ($this->userClickedLogin()) {
+			$this->checkForEmptyFields();
+		}
+		
+		if ($this->userClickedLogin() && $this->hasUsername() && $this->hasPassword()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public function getUserName() {
@@ -96,6 +106,24 @@ class LoginView {
 		return isset($_POST[self::$password]);
 	}
 
+	private function userClickedLogin() {
+		return isset($_POST[self::$login]);
+	}
+
+	private function checkForEmptyFields () {
+		if (!$this->hasUsername()) {
+			$this->setMessage("Username is missing");
+		}
+
+		if (!$this->hasPassword()) {
+			$this->setMessage("Password is missing");
+		}
+	}
+
+	public function setMessage($message) {
+		$this->message = $message;
+	}
+
 	public function getUserCredentials () : \model\UserModel {
 		if ($this->hasUsername() && $this->hasPassword()) {
 			$name = $this->getUsername();
@@ -105,11 +133,6 @@ class LoginView {
 			return new \model\UserModel($name, $pass, $stayLoggedIn);
 		}
 	}
-
-	public function setMessage() {
-		throw new Exception('Not implemented yet');
-	}
-
 
 	public function getInputValueFiltered() : string {
 			return \Model\UserModel::applyFilter($_POST[self::$name]);

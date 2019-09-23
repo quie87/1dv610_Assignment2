@@ -4,11 +4,14 @@ namespace model;
 
 class AuthenticationModel {
     private $isLoggedIn;
+    private $userCredentials;
 
-    public function __construct() {}
+    public function __construct() {
+    }
 
-    public function tryToLogin($credentials) {
-        $user = $this->validateUserInput($credentials);
+    public function tryToLogin(\model\UserModel $userCredentials) {
+        // var_dump($userCredentials);
+        $user = $this->validateUserInput();
 
         if ($user === true) {
             return true;
@@ -17,14 +20,12 @@ class AuthenticationModel {
         }
     }
 
-    public static function validateUserInput($credentials) {
+    public static function validateUserInput() {
         return true;
     }
 
-    private function setUserCredentials() {
-        // $this->user->setUserName();
-        // $this->saveUserCredentialsToDB();
-        // $this->saveUserCredentialsSession();
+    private function checkIfThereIsAUserName() {
+
     }
     
     private function saveUserCredentialsToDB() {

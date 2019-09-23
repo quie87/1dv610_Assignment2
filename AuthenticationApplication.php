@@ -31,7 +31,10 @@ class AuthenticationApplication {
 
     
 	private function changeState() {
-        $this->isLoggedIn = $this->loginController->tryToLoginUser();        
+        // TODO: Implement function to see if there is a session and a function to see if there is a cookie saved.
+        // If no session and no cookie, check if user wants to register or tries to login
+        $this->isLoggedIn = $this->loginController->doesUserWantToLogin();
+        var_dump($this->isLoggedIn);
     }
     
 	private function generateOutput() {

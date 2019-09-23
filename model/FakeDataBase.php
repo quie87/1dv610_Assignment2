@@ -5,7 +5,7 @@ class FakeUserData {
     private $userName = '';
     private $passWord = '';
     private $users = (object) array(
-        'admin' => '12345'
+        'Admin' => 'Password'
     );
 
 

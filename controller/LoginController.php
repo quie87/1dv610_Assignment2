@@ -2,33 +2,54 @@
 
 namespace controller;
 
-class LoginController {
+use Exception;
 
-    private static $name;
-    private static $password;
-    private static $stayLoggedIn;
-    private $user;
+class LoginController {
     private $view;
     private $authenticationModel;
 
     public function __construct(\view\LoginView $view)
     {
-        // $this->user = $user;
         $this->view = $view;
         $this->authenticationModel = new \model\AuthenticationModel();
     }
 
-    public function tryToLoginUser() {
+    public function doesUserWantToLogin() {
         if ($this->view->userWantToLogIn()) {
-            $this->loginUser();
+            $this->tryToLoginUser();
         }
     }
     
-    private function loginUser() {
+    private function tryToLoginUser() {
+        // $this->getValidUserInput();
         $credentials = $this->view->getUserCredentials();
-        $this->authenticationModel->tryToLogin($credentials);
-        var_dump($credentials);
-        // $this->setUserCredentials();
-        // $this->validateUserLoginCredentials();
+
+        if ($this->authenticationModel->tryToLogin($credentials)) {
+            return true;
+        } else {
+            $this->view->setMessage('Wrong name or password');
+            return false;
+        }
+        
+    }
+    
+    private function getValidUserInput() {
+        // Hämta credentials. Kolla så de är korrekta. I så fall se till så att login kommer åt den datan
+        $credentials = $this->view->getUserCredentials();
+        if ($this->verifyCredentials($credentials)) {
+            return true;
+        } else {
+            $this->view->setMessage('Wrong name or password');
+            return false;
+        }
+    }
+
+    private function verifyCredentials($credentials) {
+        $this->verifyUserName($credentials);
+        $this->verifyPassword($credentials);
+    }
+
+    private function verifyPassword($credentials) {
+        return;
     }
 }
