@@ -48,8 +48,8 @@ class AuthenticationApplication {
                 $this->isLoggedIn = $this->loginController->login();
             }
             //else if $this->registerController->register();
-            else {
-                $this->isLoggedIn = $this->loginController->logout();
+            else if ($this->isLoggedIn) {
+                $this->loginController->logout();
             }
         }
     }
