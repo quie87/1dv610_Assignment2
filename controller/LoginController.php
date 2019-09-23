@@ -25,20 +25,10 @@ class LoginController {
     }
     
     private function loginUser() {
-        // $this->getUserCredentials();
         $credentials = $this->view->getUserCredentials();
-        // var_dump($credentials);
-        // $this->setUserCredentials();
         $this->authenticationModel->tryToLogin($credentials);
+        var_dump($credentials);
+        // $this->setUserCredentials();
         // $this->validateUserLoginCredentials();
     }
-
-    
-    private function getUserCredentials() {
-        self::$name = $this->view->getUserName();
-        self::$password = $this->view->getUserPassword();
-        self::$stayLoggedIn = $this->view->getStayLoggedIn();
-        var_dump(self::$name . '<br>' . self::$password . '<br>' . self::$stayLoggedIn);
-    }
-
 }

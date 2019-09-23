@@ -78,12 +78,11 @@ class LoginView {
 	}
 
 	public function getUserName() {
-		// return ($_POST[self::$name]);
-		return \model\UserModel::applyFilter($_POST[self::$name]);
+		return ($_POST[self::$name]);
 	}
 
 	public function getUserPassword() {
-		return \model\UserModel::applyFilter(($_POST[self::$password]));
+		return ($_POST[self::$password]);
 	}
 
 	public function getStayLoggedIn() : bool {
