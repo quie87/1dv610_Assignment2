@@ -102,10 +102,10 @@ class LoginView {
 	}
 
 	private function hasUsername () : bool {
-		return isset($_POST[self::$name]);
+		return isset($_POST[self::$name]) && !empty($_POST[self::$name]);
 	}
 	private function hasPassword () : bool {
-		return isset($_POST[self::$password]);
+		return isset($_POST[self::$password]) && !empty($_POST[self::$password]);
 	}
 
 	private function userClickedLogin() {
