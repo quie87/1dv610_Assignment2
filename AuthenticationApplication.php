@@ -47,6 +47,7 @@ class AuthenticationApplication {
             if($wantToLoggIn) {
                 $this->isLoggedIn = $this->loginController->login();
             }
+            //else $this->registerController->register();
         }
     }
     

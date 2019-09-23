@@ -19,5 +19,4 @@ class AuthenticationModel {
     public function getIsUserLoggedIn() {
         return $this->isLoggedIn;
     }
-
 }

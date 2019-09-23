@@ -26,17 +26,12 @@ class LoginView {
 	 * @return  void BUT writes to standard output and cookies!
 	 */
 	public function response($isLoggedin) {
-		$this->message = '';
-
 		if(!$isLoggedin) {
 			$response = $this->generateLoginFormHTML($this->message);
 		} else {
-			$response = $this->generateLoginFormHTML($this->message);
-			$response .= $this->generateLogoutButtonHTML($this->message);
+			$response = $this->generateLogoutButtonHTML($this->message);
 		}
 		
-		
-		//$response .= $this->generateLogoutButtonHTML($message);
 		return $response;
 	}
 
