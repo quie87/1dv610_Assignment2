@@ -20,7 +20,7 @@ class LoginController {
         $isAuthenticated = $this->authenticationModel->tryToLogin($credentials);
 
         if ($isAuthenticated && $this->view->getStayLoggedIn()) {
-            $this->view->setMessage('Welcome and what ever this should say');
+            $this->view->setMessage('Welcome and you will be remembered');
             //save to cookie
             return true;
         } else if($isAuthenticated) {
