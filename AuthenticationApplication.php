@@ -8,6 +8,7 @@ require_once('model/DateTimeModel.php');
 require_once('model/AuthenticationModel.php');
 require_once('model/UserModel.php');
 require_once('controller/LoginController.php');
+require_once('model/AuthenticationModel.php');
 
 class AuthenticationApplication {
     private $loginView;
@@ -15,13 +16,15 @@ class AuthenticationApplication {
     private $layoutView;
     private $loginController;
     private $isLoggedIn;
+    private $authenticationModel;
 
     public function __construct()
     {
         $this->layoutView = new LayoutView();
         $this->loginView = new view\LoginView();
         $this->dateTimeView = new DateTimeView();
-        $this->loginController = new \controller\LoginController($this->loginView);
+        $this->authenticationModel = new \model\AuthenticationModel();
+        $this->loginController = new \controller\LoginController($this->loginView, $this->authenticationModel);
     }
     
     public function run() {
@@ -31,10 +34,20 @@ class AuthenticationApplication {
 
     
 	private function changeState() {
-        // TODO: Implement function to see if there is a session and a function to see if there is a cookie saved.
+        $this->isLoggedIn = $this->authenticationModel->getIsUserLoggedIn();
+        // TODO: Implement function to see if there is a session and a function to see if there is a cookie saved. Aka, if there is a user stored
         // If no session and no cookie, check if user wants to register or tries to login
-        $this->isLoggedIn = $this->loginController->doesUserWantToLogin();
-        var_dump($this->isLoggedIn);
+        // if (!$this->isLoggedIn && $this->loginView->userWantToLogIn) {
+        // } else {
+        //     return;
+        // }
+        if (!$this->isLoggedIn) {
+            $wantToLoggIn = $this->loginView->userWantToLogIn();
+            
+            if($wantToLoggIn) {
+                $this->isLoggedIn = $this->loginController->login();
+            }
+        }
     }
     
 	private function generateOutput() {

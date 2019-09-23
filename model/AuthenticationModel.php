@@ -3,7 +3,7 @@
 namespace model;
 
 class AuthenticationModel {
-    private $isLoggedIn;
+    private $isLoggedIn = false;
     private $userCredentials;
 
     public function __construct() {
@@ -11,33 +11,24 @@ class AuthenticationModel {
 
     public function tryToLogin(\model\UserModel $userCredentials) {
         // var_dump($userCredentials);
-        $user = $this->validateUserInput();
+        // $user = $this->validateUserInput();
+        $this->isLoggedIn = true;
+        return true;
 
-        if ($user === true) {
-            return true;
-        } else {
-            return false;
-        }
+        // if ($user === true) {
+        //     return true;
+        // } else {
+        //     return false;
+        // }
     }
 
     public static function validateUserInput() {
+        $this->isLoggedIn = true;
         return true;
     }
 
-    private function checkIfThereIsAUserName() {
-
-    }
-    
-    private function saveUserCredentialsToDB() {
-        throw new Exception('Not implemented yet');
-    }
-
-    private function saveUserCredentialsSession() {
-        throw new Exception('Not implemented yet');
-    }
-
-    private function getUserFromSession(){
-        throw new Exception('Not implemented yet');
+    public function getIsUserLoggedIn() {
+        return $this->isLoggedIn;
     }
 
 }

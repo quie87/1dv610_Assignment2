@@ -8,29 +8,22 @@ class LoginController {
     private $view;
     private $authenticationModel;
 
-    public function __construct(\view\LoginView $view)
+    public function __construct(\view\LoginView $view, \model\AuthenticationModel $authenticationModel)
     {
         $this->view = $view;
-        $this->authenticationModel = new \model\AuthenticationModel();
+        $this->authenticationModel = $authenticationModel;
     }
 
-    public function doesUserWantToLogin() {
-        if ($this->view->userWantToLogIn()) {
-            $this->tryToLoginUser();
-        }
-    }
-    
-    private function tryToLoginUser() {
+    public function login() {
         // $this->getValidUserInput();
         $credentials = $this->view->getUserCredentials();
 
-        if ($this->authenticationModel->tryToLogin($credentials)) {
+        $isAuthenticated = $this->authenticationModel->tryToLogin($credentials);
+        if($isAuthenticated) {
             return true;
         } else {
-            $this->view->setMessage('Wrong name or password');
             return false;
         }
-        
     }
     
     private function getValidUserInput() {
@@ -42,14 +35,5 @@ class LoginController {
             $this->view->setMessage('Wrong name or password');
             return false;
         }
-    }
-
-    private function verifyCredentials($credentials) {
-        $this->verifyUserName($credentials);
-        $this->verifyPassword($credentials);
-    }
-
-    private function verifyPassword($credentials) {
-        return;
     }
 }

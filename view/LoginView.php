@@ -79,6 +79,7 @@ class LoginView {
 		if ($this->userClickedLogin()) {
 			$this->checkForEmptyFields();
 		}
+		//else check if user tries to register
 		
 		if ($this->userClickedLogin() && $this->hasUsername() && $this->hasPassword()) {
 			return true;
