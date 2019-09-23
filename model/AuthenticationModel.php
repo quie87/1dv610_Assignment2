@@ -19,4 +19,9 @@ class AuthenticationModel {
     public function getIsUserLoggedIn() {
         return $this->isLoggedIn;
     }
+
+    public function logout() {
+        $this->isLoggedIn = false;
+        return;
+    }
 }

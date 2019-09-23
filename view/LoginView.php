@@ -115,11 +115,10 @@ class LoginView {
 	private function checkForEmptyFields () {
 		if (!$this->hasUsername()) {
 			$this->setMessage("Username is missing");
-		}
-
-		if (!$this->hasPassword()) {
+		} else if (!$this->hasPassword()) {
 			$this->setMessage("Password is missing");
 		}
+		return;
 	}
 
 	public function setMessage($message) {
@@ -136,17 +135,14 @@ class LoginView {
 		}
 	}
 
-	public function getInputValueFiltered() : string {
-			return \Model\UserModel::applyFilter($_POST[self::$name]);
+	// public function getInputValueFiltered() : string {
+			// return \Model\UserModel::applyFilter($_POST[self::$name]);
 		
 		// if ($this->userWantToLogIn()) {
 		// 	$inputValue = $_GET[self::$name];
 		// 	return \model\UserModel::applyFilter($inputValue);
 		// }
 		// return "";
-	}
+	// }
 
-	private function logErrorMessage() {
-		throw new Exception('Not implemented yet');
-	}
 }
