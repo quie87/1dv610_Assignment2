@@ -39,7 +39,7 @@ class AuthenticationApplication {
         // If no session and no cookie, check if user wants to register or tries to login
         // if (!$this->isLoggedIn && $this->loginView->userWantToLogIn) {
         // } else {
-        //     return;
+        //     $this->registerController->register();
         // }
         if (!$this->isLoggedIn) {
             $wantToLoggIn = $this->loginView->userWantToLogIn();

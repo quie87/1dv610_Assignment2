@@ -15,25 +15,22 @@ class LoginController {
     }
 
     public function login() {
-        // $this->getValidUserInput();
         $credentials = $this->view->getUserCredentials();
 
         $isAuthenticated = $this->authenticationModel->tryToLogin($credentials);
         if($isAuthenticated) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
-    private function getValidUserInput() {
-        // Hämta credentials. Kolla så de är korrekta. I så fall se till så att login kommer åt den datan
-        $credentials = $this->view->getUserCredentials();
-        if ($this->verifyCredentials($credentials)) {
+            $this->view->setMessage('Welcome');
             return true;
         } else {
             $this->view->setMessage('Wrong name or password');
             return false;
         }
+    }
+
+    // Lägg till en funktion som sparar session/cookie eller vad nu behövs
+    
+    public function logout() {
+        throw new Exception('Not implemented yet');
+        $this->authenticationModel->logout();
     }
 }

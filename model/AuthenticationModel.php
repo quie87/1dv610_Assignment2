@@ -10,16 +10,8 @@ class AuthenticationModel {
     }
 
     public function tryToLogin(\model\UserModel $userCredentials) {
-        // var_dump($userCredentials);
-        // $user = $this->validateUserInput();
-        $this->isLoggedIn = true;
+        // $this->isLoggedIn = true;
         return true;
-
-        // if ($user === true) {
-        //     return true;
-        // } else {
-        //     return false;
-        // }
     }
 
     public static function validateUserInput() {
