@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 
 //INCLUDE THE FILES NEEDED...
 require_once('view/LoginView.php');
