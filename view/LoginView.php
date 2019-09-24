@@ -13,7 +13,8 @@ class LoginView {
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $stayLoggedIn = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
-
+	
+	private $oldUserName;
 	private $message;
 
 	public function __construct() {}
@@ -62,7 +63,7 @@ class LoginView {
 					<p id="' . self::$messageId . '">' . $message . '</p>
 					
 					<label for="' . self::$name . '">Username :</label>
-					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="" />
+					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="' . $this->oldUserName .'" />
 
 					<label for="' . self::$password . '">Password :</label>
 					<input type="password" id="' . self::$password . '" name="' . self::$password . '" />
@@ -116,6 +117,7 @@ class LoginView {
 		if (!$this->hasUsername()) {
 			$this->setMessage("Username is missing");
 		} else if (!$this->hasPassword()) {
+			$this->oldUserName = $this->getUsername();
 			$this->setMessage("Password is missing");
 		}
 		return;
