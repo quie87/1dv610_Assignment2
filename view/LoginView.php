@@ -80,6 +80,7 @@ class LoginView {
 	public function userWantToLogIn() : bool {
 		if ($this->userClickedLogin()) {
 			$this->checkForEmptyFields();
+			$this->oldUserName = $this->getUsername();
 		}
 		//else check if user tries to register
 		
@@ -117,7 +118,6 @@ class LoginView {
 		if (!$this->hasUsername()) {
 			$this->setMessage("Username is missing");
 		} else if (!$this->hasPassword()) {
-			$this->oldUserName = $this->getUsername();
 			$this->setMessage("Password is missing");
 		}
 		return;
