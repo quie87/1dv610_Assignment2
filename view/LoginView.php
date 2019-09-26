@@ -91,6 +91,14 @@ class LoginView {
 		}
 	}
 
+	public function userWantToLogout() : bool {
+		if ($this->userClickedLogout()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public function getUserName() {
 		return ($_POST[self::$name]);
 	}
@@ -112,6 +120,10 @@ class LoginView {
 
 	private function userClickedLogin() {
 		return isset($_POST[self::$login]);
+	}
+
+	private function userClickedLogout() {
+		return isset($_POST[self::$logout]);
 	}
 
 	private function checkForEmptyFields () {
