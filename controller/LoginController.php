@@ -36,7 +36,7 @@ class LoginController {
         }
     }
 
-    // Lägg till en funktion som sparar session/cookie eller vad nu behövs
+    // Lägg till en funktion för registrering
     
     public function logout() {
         $this->userStorage->destroySession();

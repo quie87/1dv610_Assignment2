@@ -17,8 +17,7 @@ class UserStorage {
 	}
 
 	public function destroySession() {
-		$_SESSION = array();
-		session_destroy();
+		unset($_SESSION[self::$SESSION_KEY]);
 	}
 
 	public function isLoggedin() {

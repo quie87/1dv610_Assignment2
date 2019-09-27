@@ -1,8 +1,6 @@
 <?php
 
-use model\UserStorage;
-
-session_start();
+session_start(); 
 
 //INCLUDE THE FILES NEEDED...
 require_once('view/LoginView.php');
@@ -14,6 +12,7 @@ require_once('model/AuthenticationModel.php');
 require_once('model/UserModel.php');
 require_once('model/AuthenticationModel.php');
 require_once('model/UserStorage.php');
+require_once('model/Cookie.php');
 
 require_once('controller/LoginController.php');
 
@@ -27,16 +26,19 @@ class AuthenticationApplication {
     private $loginController;
     private $userStorage;
     private $cookie;
-    
+
     private $isLoggedIn = false;
     
 
     public function __construct()
     {
         $this->layoutView = new LayoutView();
-        $this->loginView = new view\LoginView();
+        $this->loginView = new \view\LoginView();
         $this->dateTimeView = new DateTimeView();
+        
         $this->userStorage = new \model\UserStorage();
+        $this->cookie = new \model\Cookie();
+
         $this->authenticationModel = new \model\AuthenticationModel();
         $this->loginController = new \controller\LoginController($this->loginView, $this->authenticationModel, $this->userStorage);
     }
@@ -50,7 +52,7 @@ class AuthenticationApplication {
 	private function changeState() {
         $userHasSession = $this->userStorage->loadUser();
         $userWantToLoggIn = $this->loginView->userWantToLogIn();
-        $userHasCookie = $this->cookie->getCookie();
+        $userHasCookie = $this->cookie->userHasCookie();
         
         // Temporary code to get session working
         if($userHasSession) {
