@@ -45,7 +45,7 @@ class LayoutView {
 
     if(!$isLoggedIn && !$this->userWantsToRegister()) {
       $ret = '<a href="?register">Register a new user</a>';
-    } else { 
+    } else if (!$isLoggedIn && $this->userWantsToRegister()){ 
       $ret = '<a href="./">Back to login</a>';
     }
     return $ret;

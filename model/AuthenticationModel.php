@@ -20,8 +20,11 @@ class AuthenticationModel {
         return $this->isLoggedIn;
     }
 
+    public function setIsUserLoggedIn (bool $state) {
+        $this->isLoggedIn = $state;
+    }
+
     public function logout() {
-        $this->isLoggedIn = false;
-        return;
+        $this->setIsUserLoggedIn(false);
     }
 }

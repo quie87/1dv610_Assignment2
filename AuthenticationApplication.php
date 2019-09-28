@@ -29,8 +29,8 @@ class AuthenticationApplication {
     private $userStorage;
     private $cookie;
 
-    private $isLoggedIn = false; // Get and uppdate this from authModel instead
-    private $userWantsToRegister = false;
+    // private $isLoggedIn = false; // Get and uppdate this from authModel instead
+    private $userWantsToRegister;
     
 
     public function __construct()
@@ -60,30 +60,29 @@ class AuthenticationApplication {
         $userWantToLoggIn = $this->loginView->userWantToLogIn();
         
         if($userHasSession) {
-            $this->isLoggedIn = true;
+            $this->authenticationModel->setIsUserLoggedIn(true);
         } else if ($userHasCookie){
-            $this->isLoggedIn = $this->loginController->loginWithCookie();
+            $this->authenticationModel->setIsUserLoggedIn($this->loginController->loginWithCookie());
         }
 
-        if ($this->isLoggedIn) {
+        if ($this->authenticationModel->getIsUserLoggedIn()) {
             if ($this->loginView->userWantToLogout()) {
                 $this->loginController->logout();
-                $this->isLoggedIn = false;
             }
         } else {
             if($userWantsToRegister) {
                 $this->userWantsToRegister = true;
             } else if ($userWantToLoggIn) {
-                $this->isLoggedIn = $this->loginController->login();
+                $this->authenticationModel->setIsUserLoggedIn($this->loginController->login());
             }
         }            
     }
     
 	private function generateOutput() {
         if ($this->userWantsToRegister) {
-            $this->layoutView->render($this->isLoggedIn, $this->registerView, $this->dateTimeView);
+            $this->layoutView->render($this->authenticationModel->getIsUserLoggedIn(), $this->registerView, $this->dateTimeView);
         } else {
-            $this->layoutView->render($this->isLoggedIn, $this->loginView, $this->dateTimeView);
+            $this->layoutView->render($this->authenticationModel->getIsUserLoggedIn(), $this->loginView, $this->dateTimeView);
         }
 	}
 }
