@@ -7,7 +7,6 @@ class RegisterView {
 	private static $password = 'RegisterView::Password';
 	private static $passwordRepeat = 'RegisterView::PasswordRepeat';
 	private static $register = 'RegisterView::Register';
-	private static $login = 'RegisterView::Login';
 	private static $messageId = 'RegisterView::Message';
 	
 	private $message;
@@ -51,5 +50,41 @@ class RegisterView {
 				</fieldset>
 			</form>
 		';
+	}
+
+	public function getNewUserName() {
+		return ($_POST[self::$name]);
+	}
+
+	public function getNewUserPassword() {
+		return ($_POST[self::$password]);
+	}
+
+	public function getNewPasswordRepeat() : bool {
+		return isset($_POST[self::$passwordRepeat]);
+	}
+
+	private function hasUsername () : bool {
+		return isset($_POST[self::$name]) && !empty($_POST[self::$name]);
+	}
+	private function hasPassword () : bool {
+		return isset($_POST[self::$password]) && !empty($_POST[self::$password]);
+	}
+	private function hasRepeatPassword () : bool {
+		return isset($_POST[self::$repeatPassword]) && !empty($_POST[self::$repeatPassword]);
+	}
+
+	public function setMessage($message) {
+		$this->message = $message;
+	}
+
+	public function getRegisterCredentials () : \model\RegistrationModel {
+		if ($this->hasUsername() && $this->hasPassword() && $this->hasRepeatPassword()) {
+				$user = $this->getUsername();
+				$password = $this->getUserPassword();
+				$repeatPassword = $this->getPasswordRepeat();
+			
+			return new \model\RegistrationModel($user, $password, $repeatPassword);
+		}
 	}
 }

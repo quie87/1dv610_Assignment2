@@ -9,8 +9,8 @@ class UserModel {
 
     public function __construct(string $userName, string $password, bool $stay)
     {
-        $this->userName = $this->applyFilter($userName );
-        $this->password = $password;
+        $this->userName = $this->applyFilter($userName);
+        $this->password = $this->applyFilter($password);
         $this->stayLoggedIn = $stay;
     }
     
