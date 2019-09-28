@@ -17,11 +17,11 @@ class RegistrationModel {
         $this->repeatPassword = $this->applyFilter($repeatPassword);
 
         if (strlen($this->userName) < $this->userNameLength) {
-            throw new \UserNameToShortException("Username has too few characters, at least 3 characters.");
+            throw new UserNameToShortException("Username has too few characters, at least 3 characters.");
         }
 
         if (strlen($this->password) < $this->passwordLength) {
-            throw new \passwordIsToShortExeption();
+            throw new passwordIsToShortExeption();
         }
     }
     

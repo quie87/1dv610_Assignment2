@@ -2,6 +2,7 @@
 
 namespace controller;
 
+use Exception;
 use \model\UserNameToShortException;
 
 
@@ -16,12 +17,15 @@ class RegisterController {
     }
 
     public function registerNewUser() {
-        $credentials = $this->view->getRegisterCredentials();
-
+        try {
+            $credentials = $this->view->getRegisterCredentials();
+        } catch (\model\UserNameToShortException $e){
+            $this->view->setMessage($e->getMessage());
+        } 
         try {
             $this->authenticationModel->saveUser($credentials);
-        } catch (\model\UserNameToShortException $e){
-            $this->view->setMessage($e);
-        } 
+        } catch (\Exception $e) {
+            throw new \Exception('Something went wrong' . $e);
+        }
     }
 }
