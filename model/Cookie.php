@@ -3,7 +3,8 @@
 namespace model;
 
 class Cookie {
-    // cookie name
+    private static $COOKIE_NAME =  __CLASS__ .  "::UserName";
+    private static $COOKIE_PASSWORD =  __CLASS__ .  "::UserPassword";
     // cookie password
     public function __construct()
     {
@@ -21,11 +22,18 @@ class Cookie {
     }
     
     public function saveCookie($credentials) {
-        setCookie("name", "value", time()+$int);
+        $name = $credentials->getUserName();
+        $password = $credentials->getUserPassword();
+        $int = 3600;
+
+        setCookie($name, $password, time()+$int);
+    }
+
+    public function setCookiTimer() {
+        throw new \Exception('Not implemented yet');
     }
 
     public function removeCookie () {
-        // TODO: Remove the cookie ofc
-        throw new \Exception('Not implemented yet');
+        setCookie([self::$COOKIE_NAME], [self::$COOKIE_PASSWORD], time()-4000);
     }
 }
