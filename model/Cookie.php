@@ -3,8 +3,8 @@
 namespace model;
 
 class Cookie {
-    private static $COOKIE_NAME =  __CLASS__ .  "::UserName";
-    private static $COOKIE_PASSWORD =  __CLASS__ .  "::UserPassword";
+    private static $COOKIE_NAME =  "LoginView::UserName";
+    private static $COOKIE_PASSWORD =  "LoginView::UserPassword";
 
     public function userHasCookie() : bool {
         return isset($_COOKIE[self::$COOKIE_NAME]) && isset($_COOKIE[self::$COOKIE_PASSWORD]);
