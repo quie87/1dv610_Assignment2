@@ -21,7 +21,11 @@ class RegistrationModel {
         }
 
         if (strlen($this->password) < $this->passwordLength) {
-            throw new passwordIsToShortExeption();
+            throw new PasswordIsToShortException("Password has too few characters, at least 6 characters.");
+        }
+
+        if (!$this->passwordMatch()) {
+            throw new PasswordDidNotMatchException("Passwords do not match.");
         }
     }
     
@@ -37,12 +41,14 @@ class RegistrationModel {
         return $this->repeatPassword;
     }
 
-    private function passwordMatch() {
+    private function passwordMatch() : bool {
         $pwd = $this->getUserPassword();
         $pwd2 = $this->getRepeatPassword();
 
-        if (!$pwd == $pwd2) {
-            throw new \passwordDidNotMatchExeption();
+        if ($pwd == $pwd2) {
+            return true;
+        } else {
+            return false;
         }
     }
 

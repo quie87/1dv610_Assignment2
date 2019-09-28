@@ -4,6 +4,8 @@ namespace controller;
 
 use Exception;
 use \model\UserNameToShortException;
+use \model\PasswordIsToShortException;
+use \model\PasswordDidNotMatchException;
 
 
 class RegisterController {
@@ -19,13 +21,13 @@ class RegisterController {
     public function registerNewUser() {
         try {
             $credentials = $this->view->getRegisterCredentials();
+            $this->authenticationModel->saveUser($credentials);
         } catch (\model\UserNameToShortException $e){
             $this->view->setMessage($e->getMessage());
-        } 
-        try {
-            $this->authenticationModel->saveUser($credentials);
-        } catch (\Exception $e) {
-            throw new \Exception('Something went wrong' . $e);
+        } catch (\model\PasswordIsToShortException $e) {
+            $this->view->setMessage($e->getMessage());
+        } catch (\model\PasswordDidNotMatchException $e) {
+            $this->view->setMessage($e->getMessage());
         }
     }
 }
