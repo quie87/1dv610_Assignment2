@@ -15,6 +15,7 @@ require_once('model/AuthenticationModel.php');
 require_once('model/UserStorage.php');
 require_once('model/Cookie.php');
 require_once('model/RegistrationModel.php');
+require_once('model/Exceptions.php');
 
 require_once('controller/LoginController.php');
 require_once('controller/RegisterController.php');

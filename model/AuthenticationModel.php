@@ -24,7 +24,7 @@ class AuthenticationModel {
         $this->isLoggedIn = $state;
     }
 
-    public function saveUser() {
+    public function saveUser($credentials) {
         // TODO: Save user to database
         return;
     }

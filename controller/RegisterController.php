@@ -2,6 +2,9 @@
 
 namespace controller;
 
+use \model\UserNameToShortException;
+
+
 class RegisterController {
     private $view;
     private $authenticationModel;
@@ -16,9 +19,9 @@ class RegisterController {
         $credentials = $this->view->getRegisterCredentials();
 
         try {
-            $this->authenticationModel->saveUser();
-        } catch (\Exception $e){
-            throw new \Exception('Failed to add new user' . $e);
-        }
+            $this->authenticationModel->saveUser($credentials);
+        } catch (\model\UserNameToShortException $e){
+            $this->view->setMessage($e);
+        } 
     }
 }
