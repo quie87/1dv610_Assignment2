@@ -3,12 +3,12 @@
 namespace view;
 
 class RegistrationView {
-    private static $name = 'RegistrationView::UserName';
-	private static $password = 'RegistrationView::Password';
-	private static $repeatPassword = 'RegistrationView::RepeatPassword';
-	private static $register = 'RegistrationView::Register';
-	private static $login = 'RegistrationView::Login';
-	private static $messageId = 'RegistrationView::Message';
+    private static $name = 'RegisterView::UserName';
+	private static $password = 'RegisterView::Password';
+	private static $passwordRepeat = 'RegisterView::PasswordRepeat';
+	private static $register = 'RegisterView::Register';
+	private static $login = 'RegisterView::Login';
+	private static $messageId = 'RegisterView::Message';
 	
 	private $message;
 	private $oldUserName;
@@ -44,8 +44,8 @@ class RegistrationView {
 					<label for="' . self::$password . '">Password :</label>
 					<input type="password" id="' . self::$password . '" name="' . self::$password . '" />
                     
-                    <label for="' . self::$repeatPassword . '">Repeat Password :</label>
-					<input type="password" id="' . self::$repeatPassword . '" name="' . self::$repeatPassword . '" />
+                    <label for="' . self::$passwordRepeat . '">Repeat Password :</label>
+					<input type="password" id="' . self::$passwordRepeat . '" name="' . self::$passwordRepeat . '" />
 					
 					<input type="submit" name="' . self::$register . '" value="Register" />
 
