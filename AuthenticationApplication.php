@@ -6,7 +6,7 @@ session_start();
 require_once('view/LoginView.php');
 require_once('view/DateTimeView.php');
 require_once('view/LayoutView.php');
-require_once('view/RegistrationView.php');
+require_once('view/RegisterView.php');
 
 require_once('model/DateTimeModel.php');
 require_once('model/AuthenticationModel.php');
@@ -21,7 +21,7 @@ class AuthenticationApplication {
     private $loginView;
     private $dateTimeView;
     private $layoutView;
-    private $registrationView;
+    private $registerView;
 
     private $authenticationModel;
     
@@ -37,7 +37,7 @@ class AuthenticationApplication {
     {
         $this->layoutView = new LayoutView();
         $this->loginView = new \view\LoginView();
-        $this->registrationView = new \view\RegistrationView();
+        $this->registerView = new \view\RegisterView();
         $this->dateTimeView = new DateTimeView();
         
         $this->userStorage = new \model\UserStorage();
@@ -89,7 +89,7 @@ class AuthenticationApplication {
 
 
         if ($this->userWantsToRegister) {
-            $this->layoutView->render($this->isLoggedIn, $this->registrationView, $this->dateTimeView);
+            $this->layoutView->render($this->isLoggedIn, $this->registerView, $this->dateTimeView);
         } else {
             $this->layoutView->render($this->isLoggedIn, $this->loginView, $this->dateTimeView);
         }
