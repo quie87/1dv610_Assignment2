@@ -9,7 +9,7 @@ class AuthenticationModel {
     }
 
     public function tryToLogin(\model\UserModel $userCredentials) {
-        if ($userCredentials->getUserName() === 'Admin' && $userCredentials->getUserPassword() === 'Password') {
+        if ($userCredentials->getUserName() == 'Admin' && $userCredentials->getUserPassword() == 'Password') {
             return true;
         } else {
             return false;
@@ -26,6 +26,9 @@ class AuthenticationModel {
 
     public function saveUser($credentials) {
         // TODO: Save user to database
+        if ($credentials->getUserName() == 'Admin') {
+            throw new UserAllReadyExistException("User exists, pick another username.");
+        }
         return;
     }
 

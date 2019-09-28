@@ -6,6 +6,7 @@ use Exception;
 use \model\UserNameToShortException;
 use \model\PasswordIsToShortException;
 use \model\PasswordDidNotMatchException;
+use \model\UserAllReadyExistException;
 
 
 class RegisterController {
@@ -28,6 +29,10 @@ class RegisterController {
             $this->view->setMessage($e->getMessage());
         } catch (\model\PasswordDidNotMatchException $e) {
             $this->view->setMessage($e->getMessage());
+        } catch (\model\UserAllReadyExistException $e) {
+            $this->view->setMessage($e->getMessage());
         }
+
+        $this->view->setMessage('Successful registration');
     }
 }
