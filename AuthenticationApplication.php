@@ -17,6 +17,7 @@ require_once('model/Cookie.php');
 require_once('model/RegistrationModel.php');
 
 require_once('controller/LoginController.php');
+require_once('controller/RegisterController.php');
 
 class AuthenticationApplication {
     private $loginView;
@@ -27,11 +28,12 @@ class AuthenticationApplication {
     private $authenticationModel;
     
     private $loginController;
+    private $registerController;
+
     private $userStorage;
     private $cookie;
 
-    // private $isLoggedIn = false; // Get and uppdate this from authModel instead
-    private $userWantsToRegister;
+    private $userNavigatesToRegister;
     
 
     public function __construct()
@@ -46,6 +48,7 @@ class AuthenticationApplication {
         
         $this->authenticationModel = new \model\AuthenticationModel();
         $this->loginController = new \controller\LoginController($this->loginView, $this->authenticationModel, $this->userStorage);
+        $this->registerController = new \controller\RegisterController($this->registerView, $this->authenticationModel);
     }
     
     public function run() {
@@ -57,7 +60,10 @@ class AuthenticationApplication {
 	private function changeState() {
         $userHasSession = $this->userStorage->loadUser();
         $userHasCookie = $this->cookie->userHasCookie();
-        $userWantsToRegister = $this->layoutView->userWantsToRegister();
+
+        $this->userNavigatesToRegister = $this->layoutView->userNavigatesToRegister();
+
+        $userWantToRegister = $this->registerView->userWantToRegister();
         $userWantToLoggIn = $this->loginView->userWantToLogIn();
         
         if($userHasSession) {
@@ -71,8 +77,8 @@ class AuthenticationApplication {
                 $this->loginController->logout();
             }
         } else {
-            if($userWantsToRegister) {
-                $this->userWantsToRegister = true;
+            if($userWantToRegister) {
+                $this->registerController->registerNewUser();
             } else if ($userWantToLoggIn) {
                 $this->authenticationModel->setIsUserLoggedIn($this->loginController->login());
             }
@@ -80,7 +86,7 @@ class AuthenticationApplication {
     }
     
 	private function generateOutput() {
-        if ($this->userWantsToRegister) {
+        if ($this->userNavigatesToRegister) {
             $this->layoutView->render($this->authenticationModel->getIsUserLoggedIn(), $this->registerView, $this->dateTimeView);
         } else {
             $this->layoutView->render($this->authenticationModel->getIsUserLoggedIn(), $this->loginView, $this->dateTimeView);

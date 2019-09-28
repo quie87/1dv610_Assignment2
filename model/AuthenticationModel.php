@@ -24,6 +24,11 @@ class AuthenticationModel {
         $this->isLoggedIn = $state;
     }
 
+    public function saveUser() {
+        // TODO: Save user to database
+        return;
+    }
+
     public function logout() {
         $this->setIsUserLoggedIn(false);
     }

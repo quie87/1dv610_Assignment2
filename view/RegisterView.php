@@ -52,6 +52,34 @@ class RegisterView {
 		';
 	}
 
+	public function userWantToRegister() : bool {
+		if ($this->userClickedRegister()) {
+			$this->checkForEmptyFields();
+			$this->oldUserName = $this->getNewUsername();
+		}
+		
+		if ($this->userClickedRegister() && $this->hasUsername() && $this->hasPassword() && $this->hasPasswordRepeat()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private function userClickedRegister() {
+		return isset($_POST[self::$register]);
+	}
+
+	private function checkForEmptyFields () {
+		if (!$this->hasUsername()) {
+			$this->setMessage("Username is missing");
+		} else if (!$this->hasPassword()) {
+			$this->setMessage("Password is missing");
+		} else if (!$this->hasPasswordRepeat()) {
+			$this->setMessage("Repeat password is missing");
+		}
+		return;
+	}
+
 	public function getNewUserName() {
 		return ($_POST[self::$name]);
 	}
@@ -60,8 +88,8 @@ class RegisterView {
 		return ($_POST[self::$password]);
 	}
 
-	public function getNewPasswordRepeat() : bool {
-		return isset($_POST[self::$passwordRepeat]);
+	public function getNewPasswordRepeat() {
+		return ($_POST[self::$passwordRepeat]);
 	}
 
 	private function hasUsername () : bool {
@@ -70,8 +98,8 @@ class RegisterView {
 	private function hasPassword () : bool {
 		return isset($_POST[self::$password]) && !empty($_POST[self::$password]);
 	}
-	private function hasRepeatPassword () : bool {
-		return isset($_POST[self::$repeatPassword]) && !empty($_POST[self::$repeatPassword]);
+	private function hasPasswordRepeat () : bool {
+		return isset($_POST[self::$passwordRepeat]) && !empty($_POST[self::$passwordRepeat]);
 	}
 
 	public function setMessage($message) {
@@ -79,12 +107,12 @@ class RegisterView {
 	}
 
 	public function getRegisterCredentials () : \model\RegistrationModel {
-		if ($this->hasUsername() && $this->hasPassword() && $this->hasRepeatPassword()) {
-				$user = $this->getUsername();
-				$password = $this->getUserPassword();
-				$repeatPassword = $this->getPasswordRepeat();
-			
-			return new \model\RegistrationModel($user, $password, $repeatPassword);
+		if ($this->hasUsername() && $this->hasPassword() && $this->hasPasswordRepeat()) {
+			$user = $this->getNewUsername();
+			$password = $this->getNewUserPassword();
+			$passwordRepeat = $this->getNewPasswordRepeat();
+		
+			return new \model\RegistrationModel($user, $password, $passwordRepeat);
 		}
 	}
 }

@@ -82,7 +82,6 @@ class LoginView {
 			$this->checkForEmptyFields();
 			$this->oldUserName = $this->getUsername();
 		}
-		//else check if user tries to register
 		
 		if ($this->userClickedLogin() && $this->hasUsername() && $this->hasPassword()) {
 			return true;
@@ -148,15 +147,4 @@ class LoginView {
 			return new \model\UserModel($name, $pass, $stayLoggedIn);
 		}
 	}
-
-	// public function getInputValueFiltered() : string {
-			// return \Model\UserModel::applyFilter($_POST[self::$name]);
-		
-		// if ($this->userWantToLogIn()) {
-		// 	$inputValue = $_GET[self::$name];
-		// 	return \model\UserModel::applyFilter($inputValue);
-		// }
-		// return "";
-	// }
-
 }

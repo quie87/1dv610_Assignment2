@@ -32,7 +32,7 @@ class LayoutView {
     }
   }
 
-  public function userWantsToRegister() : bool {
+  public function userNavigatesToRegister() : bool {
 		if (isset($_GET['register'])) {
 			return true;
 		} else {
@@ -43,9 +43,9 @@ class LayoutView {
   private function renderLinks($isLoggedIn) {
     $ret = '';
 
-    if(!$isLoggedIn && !$this->userWantsToRegister()) {
+    if(!$isLoggedIn && !$this->userNavigatesToRegister()) {
       $ret = '<a href="?register">Register a new user</a>';
-    } else if (!$isLoggedIn && $this->userWantsToRegister()){ 
+    } else if (!$isLoggedIn && $this->userNavigatesToRegister()){ 
       $ret = '<a href="./">Back to login</a>';
     }
     return $ret;
