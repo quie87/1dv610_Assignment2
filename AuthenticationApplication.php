@@ -40,7 +40,8 @@ class AuthenticationApplication {
         $this->cookie = new \model\Cookie();
 
         $this->authenticationModel = new \model\AuthenticationModel();
-        $this->loginController = new \controller\LoginController($this->loginView, $this->authenticationModel, $this->userStorage);
+        $this->loginController = new \controller\LoginController($this->loginView, $this->authenticationModel, 
+                                                                $this->userStorage, $this->cookie);
     }
     
     public function run() {
@@ -51,14 +52,14 @@ class AuthenticationApplication {
     
 	private function changeState() {
         $userHasSession = $this->userStorage->loadUser();
-        $userWantToLoggIn = $this->loginView->userWantToLogIn();
         $userHasCookie = $this->cookie->userHasCookie();
+        $userWantToLoggIn = $this->loginView->userWantToLogIn();
         
         // Temporary code to get session working
         if($userHasSession) {
             $this->isLoggedIn = true;
         } else if ($userHasCookie) {
-            $this->isLoggedIn = $this->authenticationModel->login();
+            $this->isLoggedIn = $this->loginController->loginWithCookie();
         }
         
         if ($this->isLoggedIn) {
@@ -69,7 +70,8 @@ class AuthenticationApplication {
         } else {
             if ($userWantToLoggIn){
                 $this->isLoggedIn = $this->loginController->login();
-                $this->userStorage->saveUser($this->loginView->getUserCredentials());
+                // $this->userStorage->saveUser($this->loginView->getUserCredentials());
+                // if user wants to stay logged in, save cookie
                 
             } // put the registration here
         }

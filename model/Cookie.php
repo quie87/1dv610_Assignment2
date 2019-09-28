@@ -3,6 +3,8 @@
 namespace model;
 
 class Cookie {
+    // cookie name
+    // cookie password
     public function __construct()
     {
         
@@ -18,9 +20,8 @@ class Cookie {
         return true;
     }
     
-    public function saveCookie() {
-        // TODO: Add logic to save user name and password
-        throw new \Exception('Not implemented yet');
+    public function saveCookie($credentials) {
+        setCookie("name", "value", time()+$int);
     }
 
     public function removeCookie () {
