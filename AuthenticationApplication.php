@@ -27,7 +27,7 @@ class AuthenticationApplication {
     private $userStorage;
     private $cookie;
 
-    private $isLoggedIn = false;
+    private $isLoggedIn = false; // Get and uppdate this from authModel instead 
     
 
     public function __construct()
@@ -38,10 +38,9 @@ class AuthenticationApplication {
         
         $this->userStorage = new \model\UserStorage();
         $this->cookie = new \model\Cookie();
-
+        
         $this->authenticationModel = new \model\AuthenticationModel();
-        $this->loginController = new \controller\LoginController($this->loginView, $this->authenticationModel, 
-                                                                $this->userStorage, $this->cookie);
+        $this->loginController = new \controller\LoginController($this->loginView, $this->authenticationModel, $this->userStorage);
     }
     
     public function run() {
@@ -52,16 +51,15 @@ class AuthenticationApplication {
     
 	private function changeState() {
         $userHasSession = $this->userStorage->loadUser();
-        $userHasCookie = $this->cookie->userHasCookie();
         $userWantToLoggIn = $this->loginView->userWantToLogIn();
+        $userHasCookie = $this->cookie->userHasCookie();
         
-        // Temporary code to get session working
         if($userHasSession) {
             $this->isLoggedIn = true;
-        } else if ($userHasCookie) {
+        } else if ($userHasCookie){
             $this->isLoggedIn = $this->loginController->loginWithCookie();
         }
-        
+
         if ($this->isLoggedIn) {
             if ($this->loginView->userWantToLogout()) {
                 $this->loginController->logout();
@@ -70,37 +68,8 @@ class AuthenticationApplication {
         } else {
             if ($userWantToLoggIn){
                 $this->isLoggedIn = $this->loginController->login();
-                // $this->userStorage->saveUser($this->loginView->getUserCredentials());
-                // if user wants to stay logged in, save cookie
-                
             } // put the registration here
-        }
-        
-        // Code to use when session is working. Then continue with cookie
-        // if ($userHasSession) {
-        //     $this->isLoggedIn = true;
-        // } else if (!$this->isLoggedIn && !$this->cookie->getCookie()) {
-        //     $wantToLoggIn = $this->loginView->userWantToLogIn();
-            
-        //     if($wantToLoggIn) {
-        //         $this->isLoggedIn = $this->loginController->login();
-        //     }
-        //     //else if $this->registerController->WantsToRegister();
-        //     // $this->registerController->register();
-
-        // } else if (!$this->isLoggedIn && $this->cooki->getCookie) {
-        //     $this->isLoggedIn = true;
-        // } else if ($this->isLoggedIn) {
-        //     // First make sure that the user have clicked the logoutbutton
-        //     $this->loginController->logout();
-        // }else {
-        //     throw new Exception('Something went wrong');
-        // }
-
-        // TODO: Implement function to see if there is a session and a function to see if there is a cookie saved. Aka, if there is a user stored
-        // If no session and no cookie, check if user wants to register or tries to login
-        // if (!$this->isLoggedIn && $this->loginView->userWantToLogIn) {
-            
+        }            
     }
     
 	private function generateOutput() {

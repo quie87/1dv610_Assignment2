@@ -2,21 +2,19 @@
 
 namespace controller;
 
-use Exception;
-
 class LoginController {
     private $view;
     private $authenticationModel;
     private $userStorage;
     private $cookie;
 
-    public function __construct(\view\LoginView $view, \model\AuthenticationModel $authenticationModel, 
-                                \model\UserStorage $userStorage, \model\Cookie $cookie)
+    public function __construct(\view\LoginView $view, \model\AuthenticationModel $authenticationModel, \model\UserStorage $userStorage)
     {
         $this->view = $view;
         $this->authenticationModel = $authenticationModel;
         $this->userStorage = $userStorage;
-        $this->cookie = $cookie;
+        $this->cookie = new \model\Cookie();
+
     }
 
     public function login() 
@@ -43,16 +41,23 @@ class LoginController {
 
     public function loginWithCookie() {
         $cookieCredentials = $this->cookie->getUserByCookie();
-        throw new Exception('Not implemented yet');
-        // return false;
-        // $isAuthenticated = $this->authenticationModel->tryToLogin($cookieCredentials);
+        $isAuthenticated = $this->authenticationModel->tryToLogin($cookieCredentials);
 
+        if($isAuthenticated) {
+            $this->userStorage->saveUser($cookieCredentials);
+            $this->view->setMessage('Welcome back with cookie');
+            return true;
+        } else {
+            $this->view->setMessage('Cookie is wrong');
+            return false;
+        }
     }
 
     // Lägg till en funktion för registrering
     
     public function logout() {
         $this->userStorage->destroySession();
+        $this->cookie->removeCookie();
         $this->view->setMessage('Bye bye!');
         $this->authenticationModel->logout();
     }
