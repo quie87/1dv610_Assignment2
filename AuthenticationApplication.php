@@ -6,6 +6,7 @@ session_start();
 require_once('view/LoginView.php');
 require_once('view/DateTimeView.php');
 require_once('view/LayoutView.php');
+require_once('view/RegistrationView.php');
 
 require_once('model/DateTimeModel.php');
 require_once('model/AuthenticationModel.php');
@@ -20,6 +21,7 @@ class AuthenticationApplication {
     private $loginView;
     private $dateTimeView;
     private $layoutView;
+    private $registrationView;
 
     private $authenticationModel;
     
@@ -27,13 +29,15 @@ class AuthenticationApplication {
     private $userStorage;
     private $cookie;
 
-    private $isLoggedIn = false; // Get and uppdate this from authModel instead 
+    private $isLoggedIn = false; // Get and uppdate this from authModel instead
+    private $userWantsToRegister = false;
     
 
     public function __construct()
     {
         $this->layoutView = new LayoutView();
         $this->loginView = new \view\LoginView();
+        $this->registrationView = new \view\RegistrationView();
         $this->dateTimeView = new DateTimeView();
         
         $this->userStorage = new \model\UserStorage();
@@ -51,8 +55,8 @@ class AuthenticationApplication {
     
 	private function changeState() {
         $userHasSession = $this->userStorage->loadUser();
-        $userWantToLoggIn = $this->loginView->userWantToLogIn();
         $userHasCookie = $this->cookie->userHasCookie();
+        $userWantToLoggIn = $this->loginView->userWantToLogIn();
         
         if($userHasSession) {
             $this->isLoggedIn = true;
@@ -66,13 +70,28 @@ class AuthenticationApplication {
                 $this->isLoggedIn = false;
             }
         } else {
-            if ($userWantToLoggIn){
+            if($this->loginView->userWantsToRegister()) {
+                $this->userWantsToRegister = true;
+            } else if ($userWantToLoggIn) {
                 $this->isLoggedIn = $this->loginController->login();
-            } // put the registration here
+            }
         }            
     }
     
 	private function generateOutput() {
-        $this->layoutView->render($this->isLoggedIn, $this->loginView, $this->dateTimeView);
+        // if ($this->userWantsToRegister) {
+        //     $vts = $this->registrationView;
+        // } else {
+        //     $vts = $this->loginView;
+        // }
+        
+        // $this->layoutView->render($this->isLoggedIn, $vts, $this->dateTimeView);
+
+
+        if ($this->userWantsToRegister) {
+            $this->layoutView->render($this->isLoggedIn, $this->registrationView, $this->dateTimeView);
+        } else {
+            $this->layoutView->render($this->isLoggedIn, $this->loginView, $this->dateTimeView);
+        }
 	}
 }

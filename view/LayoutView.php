@@ -2,7 +2,7 @@
 
 class LayoutView {
   
-  public function render($isLoggedIn, \view\LoginView $v, DateTimeView $dtv) {
+  public function render($isLoggedIn, $v, DateTimeView $dtv) {
     echo '<!DOCTYPE html>
       <html>
         <head>
