@@ -71,11 +71,11 @@ class RegisterView {
 
 	private function checkForEmptyFields () {
 		if (!$this->hasUsername()) {
-			$this->setMessage("Username is missing");
+			$this->setMessage("Username has too few characters, at least 3 characters.");
 		} else if (!$this->hasPassword()) {
-			$this->setMessage("Password is missing");
+			$this->setMessage("Password has too few characters, at least 6 characters.");
 		} else if (!$this->hasPasswordRepeat()) {
-			$this->setMessage("Repeat password is missing");
+			$this->setMessage("Password has too few characters, at least 6 characters.");
 		}
 		return;
 	}
