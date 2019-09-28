@@ -20,9 +20,11 @@ class RegisterController {
     }
 
     public function registerNewUser() {
+        $success = false;
+
         try {
             $credentials = $this->view->getRegisterCredentials();
-            $this->authenticationModel->saveUser($credentials);
+            $success = $this->authenticationModel->saveUser($credentials);
         } catch (\model\UserNameToShortException $e){
             $this->view->setMessage($e->getMessage());
         } catch (\model\PasswordIsToShortException $e) {
@@ -33,6 +35,8 @@ class RegisterController {
             $this->view->setMessage($e->getMessage());
         }
 
-        $this->view->setMessage('Successful registration');
+        if ($success) {
+            $this->view->setMessage('Successful registration');
+        }
     }
 }

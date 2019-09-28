@@ -37,6 +37,10 @@ class RegistrationModel {
         return $this->password;
     }
 
+    public function getRepeatPassword() {
+        return $this->repeatPassword;
+    }
+
     private function passwordMatch() : bool {
         $pwd = $this->getUserPassword();
         $pwd2 = $this->getRepeatPassword();

@@ -28,8 +28,9 @@ class AuthenticationModel {
         // TODO: Save user to database
         if ($credentials->getUserName() == 'Admin') {
             throw new UserAllReadyExistException("User exists, pick another username.");
+        } else {
+            return true;
         }
-        return;
     }
 
     public function logout() {
