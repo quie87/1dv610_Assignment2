@@ -9,7 +9,6 @@ class LoginView {
 	private static $logout = 'LoginView::Logout';
 	private static $name = 'LoginView::UserName';
 	private static $password = 'LoginView::Password';
-	private static $register = 'LoginView::Register';
 	private static $cookieName = 'LoginView::CookieName';
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $stayLoggedIn = 'LoginView::KeepMeLoggedIn';
@@ -73,10 +72,6 @@ class LoginView {
 					<input type="checkbox" id="' . self::$stayLoggedIn . '" name="' . self::$stayLoggedIn . '" />
 					
 					<input type="submit" name="' . self::$login . '" value="login" />
-
-					<br /><br />
-					
-					<input type="submit" name="' . self::$register . '" value="Register" />
 				</fieldset>
 			</form>
 		';
@@ -90,14 +85,6 @@ class LoginView {
 		//else check if user tries to register
 		
 		if ($this->userClickedLogin() && $this->hasUsername() && $this->hasPassword()) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	public function userWantsToRegister() : bool {
-		if ($this->userClickedRegister()) {
 			return true;
 		} else {
 			return false;
@@ -133,10 +120,6 @@ class LoginView {
 
 	private function userClickedLogin() {
 		return isset($_POST[self::$login]);
-	}
-
-	private function userClickedRegister() {
-		return isset($_POST[self::$register]);
 	}
 
 	private function userClickedLogout() {

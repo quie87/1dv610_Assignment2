@@ -56,6 +56,7 @@ class AuthenticationApplication {
 	private function changeState() {
         $userHasSession = $this->userStorage->loadUser();
         $userHasCookie = $this->cookie->userHasCookie();
+        $userWantsToRegister = $this->layoutView->userWantsToRegister();
         $userWantToLoggIn = $this->loginView->userWantToLogIn();
         
         if($userHasSession) {
@@ -70,7 +71,7 @@ class AuthenticationApplication {
                 $this->isLoggedIn = false;
             }
         } else {
-            if($this->loginView->userWantsToRegister()) {
+            if($userWantsToRegister) {
                 $this->userWantsToRegister = true;
             } else if ($userWantToLoggIn) {
                 $this->isLoggedIn = $this->loginController->login();
@@ -79,15 +80,6 @@ class AuthenticationApplication {
     }
     
 	private function generateOutput() {
-        // if ($this->userWantsToRegister) {
-        //     $vts = $this->registrationView;
-        // } else {
-        //     $vts = $this->loginView;
-        // }
-        
-        // $this->layoutView->render($this->isLoggedIn, $vts, $this->dateTimeView);
-
-
         if ($this->userWantsToRegister) {
             $this->layoutView->render($this->isLoggedIn, $this->registerView, $this->dateTimeView);
         } else {
