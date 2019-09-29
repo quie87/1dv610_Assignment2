@@ -12,16 +12,17 @@ class RegistrationModel {
 
     public function __construct(string $userName, string $password, string $repeatPassword)
     {
+        
         $this->userName = $this->applyFilter($userName);
         $this->password = $this->applyFilter($password);
         $this->repeatPassword = $this->applyFilter($repeatPassword);
-
+        
         $this->validateInput($this->userName, $this->password, $this->repeatPassword);
 
     }
 
     private function validateInput ($name, $password, $repeatPassword) {
-        if (!$name && !$password) {
+        if ((!$name && !$password && !$repeatPassword) || (!$name && !$password)) {
 			throw new UsernameAndPasswordEmpty("Username has too few characters, at least 3 characters. <br> Password has too few characters, at least 6 characters.");
         }
         
@@ -33,13 +34,13 @@ class RegistrationModel {
             throw new PasswordIsToShortException("Password has too few characters, at least 6 characters.");
         }
 
-        if (!$this->passwordMatch()) {
+        if (!$this->passwordMatch($password, $repeatPassword)) {
             throw new PasswordDidNotMatchException("Passwords do not match.");
         }
 
-        if (htmlspecialchars($this->userName)) {
-            throw new UserHasInvalidCharacters("Username contains invalid characters.");
-        }
+        // if (htmlspecialchars($this->userName)) {
+        //     throw new UserHasInvalidCharacters("Username contains invalid characters.");
+        // }
     }
     
     public function getUserName() {
@@ -54,11 +55,11 @@ class RegistrationModel {
         return $this->repeatPassword;
     }
 
-    private function passwordMatch() : bool {
-        $pwd = $this->getUserPassword();
-        $pwd2 = $this->getRepeatPassword();
+    private function passwordMatch($password, $repeatPassword) : bool {
+        // $pwd = $this->getUserPassword();
+        // $pwd2 = $this->getRepeatPassword();
 
-        if ($pwd == $pwd2) {
+        if ($password == $repeatPassword) {
             return true;
         } else {
             return false;

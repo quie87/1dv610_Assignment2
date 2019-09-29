@@ -26,7 +26,6 @@ class RegisterController {
 
         try {
             $newUser = new \model\RegistrationModel($credentials[0], $credentials[1], $credentials[2]);
-
             $success = $this->authenticationModel->saveUser($newUser);
         } catch (\model\UsernameAndPasswordEmpty $e) {
             $this->view->setMessage($e->getMessage());
@@ -41,7 +40,7 @@ class RegisterController {
         } catch (\model\UserHasInvalidCharacters $e) {
             $this->view->setMessage($e->getMessage());
         } 
-
+        
         if ($success) {
             $this->view->setMessage('Successful registration');
         }
