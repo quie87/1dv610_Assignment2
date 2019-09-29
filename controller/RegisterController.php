@@ -21,11 +21,11 @@ class RegisterController {
 
     public function registerNewUser() {
         $success = false;
-
-        $credentials = $this->view->getRegisterCredentials();
-
+        
         try {
-            $newUser = new \model\RegistrationModel($credentials[0], $credentials[1], $credentials[2]);
+            $newUserCredentials = $this->view->getRegisterCredentials();
+            $newUser = new \model\RegistrationModel($newUserCredentials[0], $newUserCredentials[1], $newUserCredentials[2]);
+
             $success = $this->authenticationModel->saveUser($newUser);
         } catch (\model\UsernameAndPasswordEmpty $e) {
             $this->view->setMessage($e->getMessage());

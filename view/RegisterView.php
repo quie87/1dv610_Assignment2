@@ -55,11 +55,7 @@ class RegisterView {
 	}
 
 	public function userWantToRegister() : bool {
-		if ($this->userClickedRegister()) {
-			return true;
-		} else {
-			return false;
-		}
+		return isset($_POST[self::$register]);
 		// if ($this->userClickedRegister()) {
 		// 	$this->checkForEmptyFields();
 		// 	$this->oldUserName = $this->getNewUsername();
@@ -72,13 +68,13 @@ class RegisterView {
 		// }
 	}
 
-	private function userClickedRegister() {
-		return isset($_POST[self::$register]);
-	}
+	// private function userClickedRegister() {
+	// 	return isset($_POST[self::$register]);
+	// }
 
 	// private function checkForEmptyFields () {
-	// 	if (!$this->hasUsername() && !$this->hasPassword() && !$this->hasPasswordRepeat()) {
-	// 		throw new UsernameAndPasswordEmpty("Username has too few characters, at least 3 characters. <br> Password has too few characters, at least 6 characters.");
+	// 	if (!$this->hasUsername() && !$this->hasPassword()) {
+	// 		$this->setMessage("Username has too few characters, at least 3 characters. <br> Password has too few characters, at least 6 characters.");
 	// 	}
 	// 	if (!$this->hasUsername()) {
 	// 		$this->setMessage("Username has too few characters, at least 3 characters.");
@@ -117,11 +113,21 @@ class RegisterView {
 	}
 
 	public function getRegisterCredentials () {
-		$array = array(
-			$user = $this->getNewUsername(),
+		$newUser = array(
+			$name = $this->getNewUserName(),
 			$password = $this->getNewUserPassword(),
 			$passwordRepeat = $this->getNewPasswordRepeat()
 		);
-			return ($array);
+
+		return $newUser;
+
+
+		// if ($this->hasUsername() && $this->hasPassword() && $this->hasPasswordRepeat()) {
+		// 	$user = $this->getNewUsername();
+		// 	$password = $this->getNewUserPassword();
+		// 	$passwordRepeat = $this->getNewPasswordRepeat();
+		
+		// 	return new \model\RegistrationModel($user, $password, $passwordRepeat);
+		// }
 	}
 }
