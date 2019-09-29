@@ -16,11 +16,20 @@ class RegistrationModel {
         $this->password = $this->applyFilter($password);
         $this->repeatPassword = $this->applyFilter($repeatPassword);
 
-        if (strlen($this->userName) < $this->userNameLength) {
+        $this->validateInput($this->userName, $this->password, $this->repeatPassword);
+
+    }
+
+    private function validateInput ($name, $password, $repeatPassword) {
+        if (!$name && !$password) {
+			throw new UsernameAndPasswordEmpty("Username has too few characters, at least 3 characters. <br> Password has too few characters, at least 6 characters.");
+        }
+        
+        if (strlen($name) < $this->userNameLength) {
             throw new UserNameToShortException("Username has too few characters, at least 3 characters.");
         }
 
-        if (strlen($this->password) < $this->passwordLength) {
+        if (strlen($password) < $this->passwordLength) {
             throw new PasswordIsToShortException("Password has too few characters, at least 6 characters.");
         }
 
