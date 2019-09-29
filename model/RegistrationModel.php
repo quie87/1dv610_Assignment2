@@ -49,7 +49,7 @@ class RegistrationModel {
     }
 
     private function checkIfContainsInvalidCharacters(string $userName) : bool { 
-        return $userName != strip_tags($userName) ? true : false; 
+        return $userName != htmlspecialchars($userName) ? true : false; 
     }
 
     private function passwordMatch($password, $repeatPassword) : bool {
