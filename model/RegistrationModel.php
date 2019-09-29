@@ -12,6 +12,8 @@ class RegistrationModel {
 
     public function __construct(string $userName, string $password, string $repeatPassword)
     {
+        $this->checkIfContainsInvalidCharacters($userName);
+        
         $this->userName = $this->applyFilter($userName);
         $this->password = $this->applyFilter($password);
         $this->repeatPassword = $this->applyFilter($repeatPassword);
@@ -24,10 +26,6 @@ class RegistrationModel {
         }
         if (!$this->passwordMatch()) {
             throw new PasswordDidNotMatchException("Passwords do not match.");
-        }
-
-        if ($this->userName == strip_tags($this->userName)) {
-            throw new UserHasInvalidCharacters("Username contains invalid characters.");
         }
     }
 
@@ -43,15 +41,15 @@ class RegistrationModel {
         return $this->repeatPassword;
     }
 
+    private function checkIfContainsInvalidCharacters(string $userName) : bool { 
+        return $userName != strip_tags($userName) ? true : false; 
+    }
+
     private function passwordMatch() : bool {
         $pwd = $this->getUserPassword();
         $pwd2 = $this->getRepeatPassword();
 
-        if ($pwd == $pwd2) {
-            return true;
-        } else {
-            return false;
-        }
+        return ($pwd == $pwd2) ? true: false;
     }
 
     public static function applyFilter(string $rawInput) : string {
