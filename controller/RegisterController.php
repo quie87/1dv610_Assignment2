@@ -7,6 +7,8 @@ use \model\UserNameToShortException;
 use \model\PasswordIsToShortException;
 use \model\PasswordDidNotMatchException;
 use \model\UserAllReadyExistException;
+use \model\UsernameAndPasswordEmpty;
+use \model\UserHasInvalidCharacters;
 
 
 class RegisterController {
@@ -43,6 +45,6 @@ class RegisterController {
         
         if ($success) {
             $this->view->setMessage('Successful registration');
-        }
+        } 
     }
 }

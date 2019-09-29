@@ -98,28 +98,30 @@ class RegisterView {
 		return ($_POST[self::$passwordRepeat]);
 	}
 
-	// private function hasUsername () : bool {
-	// 	return isset($_POST[self::$name]) && !empty($_POST[self::$name]);
-	// }
-	// private function hasPassword () : bool {
-	// 	return isset($_POST[self::$password]) && !empty($_POST[self::$password]);
-	// }
-	// private function hasPasswordRepeat () : bool {
-	// 	return isset($_POST[self::$passwordRepeat]) && !empty($_POST[self::$passwordRepeat]);
-	// }
+	private function hasUsername () : bool {
+		return isset($_POST[self::$name]) && !empty($_POST[self::$name]);
+	}
+	private function hasPassword () : bool {
+		return isset($_POST[self::$password]) && !empty($_POST[self::$password]);
+	}
+	private function hasPasswordRepeat () : bool {
+		return isset($_POST[self::$passwordRepeat]) && !empty($_POST[self::$passwordRepeat]);
+	}
 
 	public function setMessage($message) {
 		$this->message = $message;
 	}
 
 	public function getRegisterCredentials () {
-		$newUser = array(
-			$name = $this->getNewUserName(),
-			$password = $this->getNewUserPassword(),
-			$passwordRepeat = $this->getNewPasswordRepeat()
-		);
-
-		return $newUser;
+		if($this->hasUsername() && $this->hasPassword() && $this->hasPasswordRepeat()) {
+			$newUser = array(
+				$name = $this->getNewUserName(),
+				$password = $this->getNewUserPassword(),
+				$passwordRepeat = $this->getNewPasswordRepeat()
+			);
+	
+			return $newUser;
+		}
 
 
 		// if ($this->hasUsername() && $this->hasPassword() && $this->hasPasswordRepeat()) {
