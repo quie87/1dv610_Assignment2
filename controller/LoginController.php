@@ -59,4 +59,5 @@ class LoginController {
         $this->view->setMessage('Bye bye!');
         $this->authenticationModel->logout();
     }
+
 }

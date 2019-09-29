@@ -26,9 +26,9 @@ class RegistrationModel {
             throw new PasswordDidNotMatchException("Passwords do not match.");
         }
 
-        // if (htmlspecialchars($this->userName)) {
-        //     throw new UserHasInvalidCharacters("Username contains invalid characters.");
-        // }
+        if ($this->userName == strip_tags($this->userName)) {
+            throw new UserHasInvalidCharacters("Username contains invalid characters.");
+        }
     }
 
     public function getUserName() {
