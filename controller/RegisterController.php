@@ -13,13 +13,11 @@ use view\LoginView;
 
 class RegisterController {
     private $view;
-    private $loginview;
     private $authenticationModel;
 
     public function __construct(\view\RegisterView $view, \model\AuthenticationModel $authenticationModel)
     {
         $this->view = $view;
-        $this->loginView = $loginview;
         $this->authenticationModel = $authenticationModel;
     }
 
@@ -44,7 +42,7 @@ class RegisterController {
         } 
         
         if ($success) {
-            $this->loginView->setMessage('Successful registration');
+            $this->view->setMessage('Successful registration');
             header('Location: ./');
         } 
     }
