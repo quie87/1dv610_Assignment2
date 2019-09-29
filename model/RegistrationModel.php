@@ -27,6 +27,10 @@ class RegistrationModel {
         if (!$this->passwordMatch()) {
             throw new PasswordDidNotMatchException("Passwords do not match.");
         }
+
+        if (htmlspecialchars($this->userName)) {
+            throw new UserHasInvalidCharacters("Username contains invalid characters.");
+        }
     }
 
     // private function validateUserInput($userName, $password, $repeatPassword) {
