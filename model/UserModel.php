@@ -27,6 +27,7 @@ class UserModel {
     }
 
     public static function applyFilter(string $rawInput) : string {
-        return trim(htmlentities($rawInput));
+        $input = filter_var($rawInput, FILTER_SANITIZE_SPECIAL_CHARS);
+        return trim(htmlentities($input));
     }
 }
