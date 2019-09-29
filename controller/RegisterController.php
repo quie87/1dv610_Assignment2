@@ -26,9 +26,7 @@ class RegisterController {
         
         try {
             $newUserCredentials = $this->view->getRegisterCredentials();
-            $newUser = new \model\RegistrationModel($newUserCredentials[0], $newUserCredentials[1], $newUserCredentials[2]);
-
-            $success = $this->authenticationModel->saveUser($newUser);
+            $success = $this->authenticationModel->saveUser($newUserCredentials);
         } catch (\model\UsernameAndPasswordEmpty $e) {
             $this->view->setMessage($e->getMessage());
         } catch (\model\UserNameToShortException $e){

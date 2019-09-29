@@ -2,8 +2,6 @@
 
 namespace view;
 
-use model\UsernameAndPasswordEmpty;
-
 class RegisterView {
     private static $name = 'RegisterView::UserName';
 	private static $password = 'RegisterView::Password';
@@ -55,36 +53,34 @@ class RegisterView {
 	}
 
 	public function userWantToRegister() : bool {
-		return isset($_POST[self::$register]);
-		// if ($this->userClickedRegister()) {
-		// 	$this->checkForEmptyFields();
-		// 	$this->oldUserName = $this->getNewUsername();
-		// }
+		if ($this->userClickedRegister()) {
+			$this->checkForEmptyFields();
+			$this->oldUserName = $this->getNewUsername();
+		}
 		
-		// if ($this->userClickedRegister() && $this->hasUsername() && $this->hasPassword() && $this->hasPasswordRepeat()) {
-		// 	return true;
-		// } else {
-		// 	return false;
-		// }
+		if ($this->userClickedRegister() && $this->hasUsername() && $this->hasPassword() && $this->hasPasswordRepeat()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
-	// private function userClickedRegister() {
-	// 	return isset($_POST[self::$register]);
-	// }
+	private function userClickedRegister() {
+		return isset($_POST[self::$register]);
+	}
 
-	// private function checkForEmptyFields () {
-	// 	if (!$this->hasUsername() && !$this->hasPassword()) {
-	// 		$this->setMessage("Username has too few characters, at least 3 characters. <br> Password has too few characters, at least 6 characters.");
-	// 	}
-	// 	if (!$this->hasUsername()) {
-	// 		$this->setMessage("Username has too few characters, at least 3 characters.");
-	// 	} else if (!$this->hasPassword()) {
-	// 		$this->setMessage("Password has too few characters, at least 6 characters.");
-	// 	} else if (!$this->hasPasswordRepeat()) {
-	// 		$this->setMessage("Password has too few characters, at least 6 characters.");
-	// 	}
-	// 	return;
-	// }
+	private function checkForEmptyFields () {
+		if(!$this->hasUsername() && !$this->hasPassword()) {
+			$this->setMessage("Username has too few characters, at least 3 characters. <br> Password has too few characters, at least 6 characters.");
+		} else if (!$this->hasUsername()) {
+			$this->setMessage("Username has too few characters, at least 3 characters.");
+		} else if (!$this->hasPassword()) {
+			$this->setMessage("Password has too few characters, at least 6 characters.");
+		} else if (!$this->hasPasswordRepeat()) {
+			$this->setMessage("Password has too few characters, at least 6 characters.");
+		}
+		return;
+	}
 
 	public function getNewUserName() {
 		return ($_POST[self::$name]);
@@ -112,24 +108,13 @@ class RegisterView {
 		$this->message = $message;
 	}
 
-	public function getRegisterCredentials () {
-		if($this->hasUsername() && $this->hasPassword() && $this->hasPasswordRepeat()) {
-			$newUser = array(
-				$name = $this->getNewUserName(),
-				$password = $this->getNewUserPassword(),
-				$passwordRepeat = $this->getNewPasswordRepeat()
-			);
-	
-			return $newUser;
-		}
-
-
-		// if ($this->hasUsername() && $this->hasPassword() && $this->hasPasswordRepeat()) {
-		// 	$user = $this->getNewUsername();
-		// 	$password = $this->getNewUserPassword();
-		// 	$passwordRepeat = $this->getNewPasswordRepeat();
+	public function getRegisterCredentials () : \model\RegistrationModel {
+		if ($this->hasUsername() && $this->hasPassword() && $this->hasPasswordRepeat()) {
+			$user = $this->getNewUsername();
+			$password = $this->getNewUserPassword();
+			$passwordRepeat = $this->getNewPasswordRepeat();
 		
-		// 	return new \model\RegistrationModel($user, $password, $passwordRepeat);
-		// }
+			return new \model\RegistrationModel($user, $password, $passwordRepeat);
+		}
 	}
 }
