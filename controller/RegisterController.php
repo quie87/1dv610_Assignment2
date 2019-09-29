@@ -33,6 +33,8 @@ class RegisterController {
             $this->view->setMessage($e->getMessage());
         } catch (\model\UserAllReadyExistException $e) {
             $this->view->setMessage($e->getMessage());
+        } catch (\model\UserHasInvalidCharacters $e) {
+            $this->view->setMessage($e->getMessage());
         }
 
         if ($success) {

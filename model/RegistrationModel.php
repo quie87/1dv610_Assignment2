@@ -53,7 +53,9 @@ class RegistrationModel {
     }
 
     public static function applyFilter(string $rawInput) : string {
-        $input = htmlspecialchars($rawInput);
-        return trim(htmlentities($input));
+        if (htmlspecialchars($rawInput)) {
+            throw new UserHasInvalidCharacters("Username contains invalid characters.");
+        }
+        return trim(htmlentities($rawInput));
     } 
 }
