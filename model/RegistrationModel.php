@@ -53,7 +53,7 @@ class RegistrationModel {
     }
 
     public static function applyFilter(string $rawInput) : string {
-        $input = filter_var($rawInput, FILTER_SANITIZE_SPECIAL_CHARS);
+        $input = htmlspecialchars($rawInput);
         return trim(htmlentities($input));
     } 
 }
