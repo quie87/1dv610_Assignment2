@@ -4,7 +4,7 @@ class DateTimeModel {
     public static function getCurrentTime () : string {
 		
 		$weekDay = date('l');
-		$date = date('dS');
+		$date = date('jS');
 		$month = date('F');
 		$year = date('Y');
 		$currentTime = date('H:i:s');
