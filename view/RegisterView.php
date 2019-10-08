@@ -108,6 +108,11 @@ class RegisterView {
 		$this->message = $message;
 	}
 
+	public function succesfulRegistration() {
+		$this->setMessage('Registered new user.');
+		header('Location: ./');
+	}
+
 	public function getRegisterCredentials () : \model\RegistrationModel {
 		if ($this->hasUsername() && $this->hasPassword() && $this->hasPasswordRepeat()) {
 			$user = $this->getNewUsername();
