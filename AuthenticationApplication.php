@@ -13,7 +13,6 @@ require_once('model/AuthenticationModel.php');
 require_once('model/UserModel.php');
 require_once('model/AuthenticationModel.php');
 require_once('model/UserStorage.php');
-require_once('model/Cookie.php');
 require_once('model/RegistrationModel.php');
 require_once('model/Exceptions.php');
 
@@ -32,7 +31,6 @@ class AuthenticationApplication {
     private $registerController;
 
     private $userStorage;
-    private $cookie;
 
     private $userNavigatesToRegister;
     
@@ -45,7 +43,6 @@ class AuthenticationApplication {
         $this->dateTimeView = new DateTimeView();
         
         $this->userStorage = new \model\UserStorage();
-        $this->cookie = new \model\Cookie();
         
         $this->authenticationModel = new \model\AuthenticationModel();
         $this->loginController = new \controller\LoginController($this->loginView, $this->authenticationModel, $this->userStorage);
@@ -60,7 +57,7 @@ class AuthenticationApplication {
     
 	private function changeState() {
         $userHasSession = $this->userStorage->loadUser();
-        $userHasCookie = $this->cookie->userHasCookie();
+        $userHasCookie = $this->loginView->userHasCookie();
 
         $this->userNavigatesToRegister = $this->layoutView->userNavigatesToRegister();
 

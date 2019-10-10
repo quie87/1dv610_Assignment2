@@ -22,11 +22,11 @@ class RegisterController {
     }
 
     public function registerNewUser() {
-        $succesfulRegistration = false;
+        $successfulRegistration = false;
 
         try {
             $newUserCredentials = $this->view->getRegisterCredentials();
-            $succesfulRegistration = $this->authenticationModel->saveUser($newUserCredentials);
+            $successfulRegistration = $this->authenticationModel->saveUser($newUserCredentials);
         } catch (\model\UsernameAndPasswordEmpty $e) {
             $this->view->setMessage($e->getMessage());
         } catch (\model\UserNameToShortException $e){
@@ -41,7 +41,7 @@ class RegisterController {
             $this->view->setMessage($e->getMessage());
         } 
 
-        if($succesfulRegistration) {
+        if($successfulRegistration) {
             $this->view->succesfulRegistration();
         }
     }

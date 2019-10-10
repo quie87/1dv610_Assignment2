@@ -6,15 +6,12 @@ class LoginController {
     private $view;
     private $authenticationModel;
     private $userStorage;
-    private $cookie;
 
     public function __construct(\view\LoginView $view, \model\AuthenticationModel $authenticationModel, \model\UserStorage $userStorage)
     {
         $this->view = $view;
         $this->authenticationModel = $authenticationModel;
         $this->userStorage = $userStorage;
-        $this->cookie = new \model\Cookie();
-
     }
 
     public function login() 
@@ -26,7 +23,7 @@ class LoginController {
         // TODO: Add try block on saving user to session and cookie
         if ($isAuthenticated && $wantsToSaveCredentials) {
             $this->userStorage->saveUser($credentials); 
-            $this->cookie->saveCookie($credentials);
+            $this->view->saveCookie($credentials);
             $this->view->setMessage('Welcome and you will be remembered');
             return true;
         } else if($isAuthenticated) {
@@ -40,7 +37,7 @@ class LoginController {
     }
 
     public function loginWithCookie() {
-        $cookieCredentials = $this->cookie->getUserByCookie();
+        $cookieCredentials = $this->view->getUserByCookie();
         $isAuthenticated = $this->authenticationModel->tryToLogin($cookieCredentials);
 
         if($isAuthenticated) {
@@ -55,7 +52,7 @@ class LoginController {
     
     public function logout() {
         $this->userStorage->destroySession();
-        $this->cookie->removeCookie();
+        $this->view->removeCookie();
         $this->view->setMessage('Bye bye!');
         $this->authenticationModel->logout();
     }

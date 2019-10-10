@@ -147,4 +147,28 @@ class LoginView {
 			return new \model\UserModel($name, $pass, $stayLoggedIn);
 		}
 	}
+
+	public function userHasCookie() : bool {
+        return isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword]);
+    }
+
+    public function getUserByCookie() {
+        $username = $_COOKIE[self::$cookieName];
+        $password = $_COOKIE[self::$cookiePassword];
+        return new \model\UserModel($username, $password, true);
+    }
+    
+    public function saveCookie($credentials) {
+        $name = $credentials->getUserName();
+        $password = $credentials->getUserPassword();
+        $int = 3600;
+
+        setCookie(self::$cookieName, $name, time()+$int);
+        setCookie(self::$cookiePassword, $password, time()+$int);
+    }
+
+    public function removeCookie () {
+        setCookie(self::$cookieName, "", time() -4000);
+        setCookie(self::$cookiePassword, "", time() -4000);
+    }
 }
