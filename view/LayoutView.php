@@ -1,28 +1,6 @@
 <?php
 
 class LayoutView {  
-  public function render($isLoggedIn, $view, DateTimeView $dtv) {
-    echo '<!DOCTYPE html>
-      <html>
-        <head>
-          <meta charset="utf-8">
-          <title>Login Application</title>
-        </head>
-        <body>
-          <h1>Assignment 2</h1>
-          ' . $this->renderLinks($isLoggedIn) . '
-          ' . $this->renderIsLoggedIn($isLoggedIn) . '
-          
-          <div class="container">
-              ' . $view->response($isLoggedIn) . '
-              
-              ' . $dtv->show() . '
-          </div>
-         </body>
-      </html>
-    ';
-  }
-  
   private function renderIsLoggedIn($isLoggedIn) {
     if ($isLoggedIn) {
       return '<h2>Logged in</h2>';
@@ -49,5 +27,27 @@ class LayoutView {
       $ret = '<a href="./">Back to login</a>';
     }
     return $ret;
+  }
+  
+  public function render($isLoggedIn, $view, DateTimeView $dtv) {
+    echo '<!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <title>Login Application</title>
+        </head>
+        <body>
+          <h1>Assignment 2</h1>
+          ' . $this->renderLinks($isLoggedIn) . '
+          ' . $this->renderIsLoggedIn($isLoggedIn) . '
+          
+          <div class="container">
+              ' . $view->response($isLoggedIn) . '
+              
+              ' . $dtv->show() . '
+          </div>
+         </body>
+      </html>
+    ';
   }
 }

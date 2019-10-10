@@ -25,8 +25,4 @@ class UserStorage {
 			return $_SESSION[self::$SESSION_KEY];
 		}
 	}
-
-	public function userHasSession() {
-		throw new \Exception('Not implemented yet');
-	}
 }

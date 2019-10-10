@@ -90,11 +90,50 @@ class LoginView {
 		}
 	}
 
+	private function userClickedLogin() {
+		return isset($_POST[self::$login]);
+	}
+	
+	private function checkForEmptyFields () {
+		if (!$this->hasUsername()) {
+			$this->setMessage("Username is missing");
+		} else if (!$this->hasPassword()) {
+			$this->setMessage("Password is missing");
+		}
+		return;
+	}
+
+	private function hasUsername () : bool {
+		return isset($_POST[self::$name]) && !empty($_POST[self::$name]);
+	}
+
+	private function hasPassword () : bool {
+		return isset($_POST[self::$password]) && !empty($_POST[self::$password]);
+	}
+
+	public function setMessage($message) {
+		$this->message = $message;
+	}
+	
 	public function userWantToLogout() : bool {
 		if ($this->userClickedLogout()) {
 			return true;
 		} else {
 			return false;
+		}
+	}
+
+	private function userClickedLogout() {
+		return isset($_POST[self::$logout]);
+	}
+	
+	public function getUserCredentials () : \model\UserModel {
+		if ($this->hasUsername() && $this->hasPassword()) {
+			$name = $this->getUsername();
+			$pass = $this->getUserPassword();
+			$stayLoggedIn = $this->getStayLoggedIn();
+
+			return new \model\UserModel($name, $pass, $stayLoggedIn);
 		}
 	}
 
@@ -108,44 +147,6 @@ class LoginView {
 
 	public function getStayLoggedIn() : bool {
 		return isset($_POST[self::$stayLoggedIn]);
-	}
-
-	private function hasUsername () : bool {
-		return isset($_POST[self::$name]) && !empty($_POST[self::$name]);
-	}
-	private function hasPassword () : bool {
-		return isset($_POST[self::$password]) && !empty($_POST[self::$password]);
-	}
-
-	private function userClickedLogin() {
-		return isset($_POST[self::$login]);
-	}
-
-	private function userClickedLogout() {
-		return isset($_POST[self::$logout]);
-	}
-
-	private function checkForEmptyFields () {
-		if (!$this->hasUsername()) {
-			$this->setMessage("Username is missing");
-		} else if (!$this->hasPassword()) {
-			$this->setMessage("Password is missing");
-		}
-		return;
-	}
-
-	public function setMessage($message) {
-		$this->message = $message;
-	}
-
-	public function getUserCredentials () : \model\UserModel {
-		if ($this->hasUsername() && $this->hasPassword()) {
-			$name = $this->getUsername();
-			$pass = $this->getUserPassword();
-			$stayLoggedIn = $this->getStayLoggedIn();
-
-			return new \model\UserModel($name, $pass, $stayLoggedIn);
-		}
 	}
 
 	public function userHasCookie() : bool {

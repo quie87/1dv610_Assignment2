@@ -43,8 +43,8 @@ class AuthenticationApplication {
         $this->dateTimeView = new DateTimeView();
         
         $this->userStorage = new \model\UserStorage();
-        
         $this->authenticationModel = new \model\AuthenticationModel();
+        
         $this->loginController = new \controller\LoginController($this->loginView, $this->authenticationModel, $this->userStorage);
         $this->registerController = new \controller\RegisterController($this->registerView, $this->authenticationModel);
     }

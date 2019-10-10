@@ -36,6 +36,19 @@ class RegistrationModel {
         }
     }
 
+    
+    private function checkIfContainsInvalidCharacters(string $userName) : bool { 
+        return $userName != htmlspecialchars($userName) ? true : false; 
+    }
+
+    private function passwordMatch($password, $repeatPassword) : bool {
+        return $password == $repeatPassword ? true : false;
+    }
+    
+    public static function applyFilter(string $rawInput) : string {
+        return trim(htmlentities($rawInput));
+    } 
+    
     public function getUserName() {
         return $this->userName;
     }
@@ -47,16 +60,4 @@ class RegistrationModel {
     public function getRepeatPassword() {
         return $this->repeatPassword;
     }
-
-    private function checkIfContainsInvalidCharacters(string $userName) : bool { 
-        return $userName != htmlspecialchars($userName) ? true : false; 
-    }
-
-    private function passwordMatch($password, $repeatPassword) : bool {
-        return $password == $repeatPassword ? true : false;
-    }
-
-    public static function applyFilter(string $rawInput) : string {
-        return trim(htmlentities($rawInput));
-    } 
 }

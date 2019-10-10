@@ -42,18 +42,6 @@ class RegisterView {
 		return;
 	}
 
-	public function getNewUserName() {
-		return ($_POST[self::$name]);
-	}
-
-	public function getNewUserPassword() {
-		return ($_POST[self::$password]);
-	}
-
-	public function getNewPasswordRepeat() {
-		return ($_POST[self::$passwordRepeat]);
-	}
-
 	private function hasUsername () : bool {
 		return isset($_POST[self::$name]) && !empty($_POST[self::$name]);
 	}
@@ -63,25 +51,39 @@ class RegisterView {
 	private function hasPasswordRepeat () : bool {
 		return isset($_POST[self::$passwordRepeat]) && !empty($_POST[self::$passwordRepeat]);
 	}
-
+	
 	public function setMessage($message) {
 		$this->message = $message;
+	}
+	
+	
+	public function getRegisterCredentials () : \model\RegistrationModel {
+		if ($this->hasUsername() && $this->hasPassword() && $this->hasPasswordRepeat()) {
+			$user = $this->getNewUsername();
+			$password = $this->getNewUserPassword();
+			$passwordRepeat = $this->getNewPasswordRepeat();
+			
+			return new \model\RegistrationModel($user, $password, $passwordRepeat);
+		}
+	}
+	
+	public function getNewUserName() {
+		return ($_POST[self::$name]);
+	}
+	
+	public function getNewUserPassword() {
+		return ($_POST[self::$password]);
+	}
+	
+	public function getNewPasswordRepeat() {
+		return ($_POST[self::$passwordRepeat]);
 	}
 
 	public function succesfulRegistration() {
 		// $this->loginView->setMessage('Registered new user.');
 		header('Location: ./');
 	}
-
-	public function getRegisterCredentials () : \model\RegistrationModel {
-		if ($this->hasUsername() && $this->hasPassword() && $this->hasPasswordRepeat()) {
-			$user = $this->getNewUsername();
-			$password = $this->getNewUserPassword();
-			$passwordRepeat = $this->getNewPasswordRepeat();
-		
-			return new \model\RegistrationModel($user, $password, $passwordRepeat);
-		}
-	}
+	
 	/**
 	 * Create HTTP response
 	 *
