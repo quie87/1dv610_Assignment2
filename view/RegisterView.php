@@ -3,11 +3,11 @@
 namespace view;
 
 class RegisterView {
-    private static $name = __class__ . ':UserName';
-	private static $password = __class__ . ':Password';
-	private static $passwordRepeat = __class__ . ':PasswordRepeat';
-	private static $register = __class__ . ':Register';
-	private static $messageId = __class__ . ':Message';
+    private static $name =  'RegisterView::UserName';
+	private static $password = 'RegisterView::Password';
+	private static $passwordRepeat = 'RegisterView::PasswordRepeat';
+	private static $register = 'RegisterView::Register';
+	private static $messageId = 'RegisterView::Message';
 	
 	private $message;
 	private $previusUserNameInput;
