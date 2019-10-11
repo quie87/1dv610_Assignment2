@@ -1,6 +1,6 @@
 <?php
 
-require_once('AuthenticationApplication.php');
+require_once('AuthenticationApplication/AuthenticationApplication.php');
 
 //MAKE SURE ERRORS ARE SHOWN... MIGHT WANT TO TURN THIS OFF ON A PUBLIC SERVER
 error_reporting(E_ALL);
