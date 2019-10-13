@@ -11,7 +11,8 @@ use \model\UsernameAndPasswordEmpty;
 use \model\UserHasInvalidCharacters;
 use view\LoginView;
 
-class RegisterController {
+class RegisterController 
+{
     private $view;
     private $authenticationModel;
 

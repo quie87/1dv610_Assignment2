@@ -2,7 +2,8 @@
 
 namespace controller;
 
-class LoginController {
+class LoginController 
+{
     private $view;
     private $authenticationModel;
     private $userStorage;

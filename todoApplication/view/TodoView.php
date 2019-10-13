@@ -17,11 +17,6 @@ class TodoView {
 	 * @return  void BUT writes to standard output and cookies!
 	 */
 	public function response() {
-		// if(!$isLoggedin) {
-		// 	$response = $this->generateLoginFormHTML($this->message);
-		// } else {
-		// 	$response = $this->generateLogoutButtonHTML($this->message);
-		// }
         $response = $this->generateAddTodoFormHTML($this->message);
         
 		return $response;
@@ -41,5 +36,48 @@ class TodoView {
 				</fieldset>
 			</form>
 		';
+    }
+    
+    public function doUserWantToAddNewTodo() : bool {
+		if ($this->userClickedSubmit()) {
+			$this->checkForEmptyFields();
+		}
+		
+		if ($this->userClickedSubmit() && $this->hasNewTodo()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private function userClickedSubmit() {
+		return isset($_GET[self::$submit]);
+	}
+	
+	private function checkForEmptyFields () {
+		if (!$this->hasNewTodo()) {
+			$this->setMessage("Pls enter something Todo");
+		} 
+		return;
+	}
+
+	private function hasNewTodo () : bool {
+		return isset($_GET[self::$todo]) && !empty($_GET[self::$todo]);
+	}
+
+	public function setMessage($message) {
+		$this->message = $message;
+	}
+	
+	public function getTodoItem () : \model\TodoModel {
+		if ($this->hasNewTodo() ) {
+			$todo = $this->getNewTodo();
+
+			return new \model\TodoModel($todo);
+		}
+	}
+
+	public function getNewTodo() {
+		return ($_GET[self::$todo]);
 	}
 }
