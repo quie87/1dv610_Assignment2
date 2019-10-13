@@ -2,19 +2,23 @@
 
 namespace TodoController;
 
+use TodoModel\PersistantDataModel;
+
 class TodoController 
 {
     private $view;
-    private $todoModel;
+    private $persistantData;
 
-    public function __construct(\TodoView\TodoView $view,\TodoModel\TodoModel $todo)
+    public function __construct(\TodoView\TodoView $view)
     {
         $this->view = $view;
-        $this->todoModel = $todo;
+
+        $this->persistantData = new PersistantDataModel();
     }
 
-    public function addTodo() {
-        $newTodo = $this->view->getNewTodo();
-        var_dump($newTodo);
+    public function addTodo() 
+    {
+        $newTodo = $this->view->getTodoItem();
+        $this->persistantData->saveTodo($newTodo);
     }
 }

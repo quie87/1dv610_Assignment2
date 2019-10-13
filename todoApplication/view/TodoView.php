@@ -69,11 +69,11 @@ class TodoView {
 		$this->message = $message;
 	}
 	
-	public function getTodoItem () : \model\TodoModel {
+	public function getTodoItem () : \Todomodel\TodoModel {
 		if ($this->hasNewTodo() ) {
 			$todo = $this->getNewTodo();
 
-			return new \model\TodoModel($todo);
+			return new \Todomodel\TodoModel($todo);
 		}
 	}
 
