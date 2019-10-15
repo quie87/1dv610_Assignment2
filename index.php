@@ -1,6 +1,6 @@
 <?php
 
-require_once('authenticationApplication/AuthenticationApplication.php');
+require_once('Application.php');
 require_once('todoApplication/todoApp.php');
 
 //MAKE SURE ERRORS ARE SHOWN... MIGHT WANT TO TURN THIS OFF ON A PUBLIC SERVER
@@ -9,8 +9,8 @@ ini_set('display_errors', 'On');
 ini_set('display_startup_errors', 'on');
 
 // Initiat the application
-// $app = new AuthenticationApplication();
-// $app->run();
-
-$app = new TodoApp();
+$app = new Application();
 $app->run();
+
+// $app = new TodoApp();
+// $app->run();

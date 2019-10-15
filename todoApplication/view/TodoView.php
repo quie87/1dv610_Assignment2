@@ -2,12 +2,20 @@
 
 namespace Todoview;
 
-class TodoView {
+class TodoView 
+{
     private static $todo = 'TodoView::todo';
     private static $submit = 'TodoView::submit';
+    private static $delete = 'TodoView::delete';
     private static $messageId = 'TodoView::Message';
 
     private $message;
+    private $database;
+
+    public function __construct(\TodoModel\PersistantDataModel $database)
+    {
+        $this->database = $database;
+    }
 
     /**
 	 * Create HTTP response
@@ -16,13 +24,16 @@ class TodoView {
 	 *
 	 * @return  void BUT writes to standard output and cookies!
 	 */
-	public function response() {
+    public function response() 
+    {
         $response = $this->generateAddTodoFormHTML($this->message);
+        $response .= $this->generateListOfTodosHTML();
         
 		return $response;
 	}
 
-    private function generateAddTodoFormHTML($message) {
+    private function generateAddTodoFormHTML($message) 
+    {
 		return '
 			<form method="get" > 
 				<fieldset>
@@ -37,39 +48,80 @@ class TodoView {
 			</form>
 		';
     }
-    
-    public function doUserWantToAddNewTodo() : bool {
+
+    private function generateListOfTodosHTML() 
+    {
+        return '
+            <h2>Current Todos</h2>
+            <ul>' . $this->getTodoList() . '</ul>
+        ';
+    }
+
+    private function getTodoList()
+    {
+        $stringToReturn = '';
+
+        $todos = $this->database->getTodosArray();
+
+        foreach($todos as $todo)
+        {
+            $stringToReturn .= "<li>" . $todo . "</li>" . '<input type="submit" name="' . self::$delete . '" value="Delete" className="remove-btn" />';
+        }
+
+        return $stringToReturn;
+    }
+
+    public function doUserWantToAddNewTodo() : bool 
+    {
 		if ($this->userClickedSubmit()) {
 			$this->checkForEmptyFields();
 		}
 		
-		if ($this->userClickedSubmit() && $this->hasNewTodo()) {
+        if ($this->userClickedSubmit() && $this->hasNewTodo()) {
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	private function userClickedSubmit() {
+    private function userClickedSubmit() 
+    {
 		return isset($_GET[self::$submit]);
-	}
-	
-	private function checkForEmptyFields () {
-		if (!$this->hasNewTodo()) {
-			$this->setMessage("Pls enter something Todo");
-		} 
-		return;
-	}
+    }
+    
+    private function checkForEmptyFields () 
+    {
+        if (!$this->hasNewTodo()) {
+            $this->setMessage("Pls enter something Todo");
+        } 
+        return;
+    }
 
-	private function hasNewTodo () : bool {
+    public function userClickedDelete()
+    {
+        // du jobbar med delete 
+        var_dump(isset($_GET[self::$delete]));
+        return isset($_GET[self::$delete]);
+    }
+
+    public function getTodoToDelete()
+    {
+        return isset($_GET[self::$delete]);
+    } 
+	
+
+    private function hasNewTodo () : bool 
+    {
 		return isset($_GET[self::$todo]) && !empty($_GET[self::$todo]);
 	}
 
-	public function setMessage($message) {
+    public function setMessage($message) 
+    {
 		$this->message = $message;
 	}
 	
-	public function getTodoItem () : \Todomodel\TodoModel {
+    public function getTodoItem () : \Todomodel\TodoModel 
+    {
 		if ($this->hasNewTodo() ) {
 			$todo = $this->getNewTodo();
 
@@ -77,7 +129,8 @@ class TodoView {
 		}
 	}
 
-	public function getNewTodo() {
+    public function getNewTodo() 
+    {
 		return ($_GET[self::$todo]);
 	}
 }

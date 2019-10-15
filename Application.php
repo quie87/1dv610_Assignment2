@@ -3,23 +3,23 @@
 session_start(); 
 
 //INCLUDE THE FILES NEEDED...
-require_once('view/LoginView.php');
-require_once('view/DateTimeView.php');
-require_once('view/LayoutView.php');
-require_once('view/RegisterView.php');
+require_once('LayoutView.php');
+require_once('authentication/view/LoginView.php');
+require_once('authentication/view/DateTimeView.php');
+require_once('authentication/view/RegisterView.php');
 
-require_once('model/DateTimeModel.php');
-require_once('model/AuthenticationModel.php');
-require_once('model/UserModel.php');
-require_once('model/AuthenticationModel.php');
-require_once('model/UserStorage.php');
-require_once('model/RegistrationModel.php');
-require_once('model/Exceptions.php');
+require_once('authentication/model/DateTimeModel.php');
+require_once('authentication/model/AuthenticationModel.php');
+require_once('authentication/model/UserModel.php');
+require_once('authentication/model/AuthenticationModel.php');
+require_once('authentication/model/UserStorage.php');
+require_once('authentication/model/RegistrationModel.php');
+require_once('authentication/model/Exceptions.php');
 
-require_once('controller/LoginController.php');
-require_once('controller/RegisterController.php');
+require_once('authentication/controller/LoginController.php');
+require_once('authentication/controller/RegisterController.php');
 
-class AuthenticationApplication {
+class Application {
     private $loginView;
     private $dateTimeView;
     private $layoutView;

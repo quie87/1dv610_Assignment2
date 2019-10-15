@@ -2,11 +2,16 @@
 
 namespace TodoModel;
 
+use Exception;
+
 class PersistantDataModel
 {
     public function saveTodo($newTodo) {
-        $file = (__DIR__ . '/todos.json');
-        $todos = json_decode(file_get_contents($file), true);
+        $file = (__DIR__ . '../../todos.json');
+
+        if ($file) {
+            $todos = json_decode(file_get_contents($file), true);
+        }
 
         $newTodo = $newTodo->getTodo();
 
@@ -18,20 +23,17 @@ class PersistantDataModel
 
         $json = json_encode($todos);
         file_put_contents($file, $json);
+    }
 
-        
-        // $json = json_decode(file_get_contents(__DIR__ . '/todos.json'));
-        // $newJsonString = $json . " " . $newTodo->getTodo();
+    public function getTodosArray()
+    {
+        $file = (__DIR__ . '../../todos.json');
 
-        // $file = fopen(__DIR__ . '/todos.json','w');
-        // fwrite($file, json_encode($newJsonString, JSON_PRETTY_PRINT));
-        // fclose($file);
+        if ($file) {
+            $todos = json_decode(file_get_contents($file), true);
+        }
 
-
-        // $array = array('todo' => $todos, $newTodo);
-        // $fp = fopen(__DIR__ . '/todos.json','w');
-        // fwrite($fp, json_encode($array, JSON_PRETTY_PRINT));   //here it will print the array pretty
-        // fclose($fp);
+        return $todos;
     }
 
     // public function deleteTodo($todo)

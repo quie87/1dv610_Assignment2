@@ -11,6 +11,7 @@ require_once('model/PersistantDataModel.php');
 require_once('controller/TodoController.php');
 
 class TodoApp {
+    private $database;
     private $layoutView;
     private $todoView;
 
@@ -18,10 +19,12 @@ class TodoApp {
 
     public function __construct()
     {
-        $this->layoutView = new \Todoview\LayoutView();
-        $this->todoView = new \TodoView\TodoView();
+        $this->database = new \TodoModel\PersistantDataModel();
 
-        $this->todoController = new TodoController($this->todoView);
+        $this->layoutView = new \Todoview\LayoutView();
+        $this->todoView = new \TodoView\TodoView($this->database);
+
+        $this->todoController = new TodoController($this->todoView, $this->database);
     }
 
     public function run() {
@@ -31,10 +34,16 @@ class TodoApp {
 
     private function changeState() {
         $userWantToAddTodo = $this->todoView->doUserWantToAddNewTodo();
+        $userWantToDeleteTodo = $this->todoView->userClickedDelete();
 
-        if($userWantToAddTodo)
+        if ($userWantToAddTodo)
         {
             $this->todoController->addTodo();
+        }
+
+        if ($userWantToDeleteTodo)
+        {
+            $this->todoController->deleteTodo();
         }
     }
 
