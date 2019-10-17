@@ -1,23 +1,24 @@
 <?php
 
-require_once('authentication/AuthenticationApplication.php');
-require_once('todoApplication/todoApp.php');
-
-
 class Appliction 
 {
     private $authentication;
-    private $todo;
+
+    private $isLoggedIn = false;
 
     public function __construct ()
     {
         $this->authentication = new AuthenticationApplication();
-        $this->todo = new TodoApp();
     }
 
     public function run()
     {
-        // $this->todo->run();
-        $this->authentication->run();
+        if ($this->isLoggedIn)
+        {
+            new TodoApp();
+        } else
+        {
+            $this->isLoggedIn = $this->authentication->run();
+        }
     }
 }

@@ -10,9 +10,11 @@ require_once('model/PersistantDataModel.php');
 
 
 class TodoApp {
-    public function run() 
+    private $todoController;
+
+    public function __construct()
     {
-        $controller = new TodoController();
-        $controller->run();
+        $this->todoController = new TodoController();
+        $this->todoController->run();   
     }
 }
