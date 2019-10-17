@@ -2,14 +2,18 @@
 
 namespace Todoview;
 
+use TodoModel\TodoModel;
+
 class TodoView 
 {
     private static $todo = 'TodoView::todo';
+    // private static $todoID = 'TodoView::todoID';
     private static $submit = 'TodoView::submit';
     private static $delete = 'TodoView::delete';
     private static $messageId = 'TodoView::Message';
 
     private $message;
+    // private $todoToDelete;
     private $database;
 
     public function __construct(\TodoModel\PersistantDataModel $database)
@@ -53,19 +57,34 @@ class TodoView
     {
         return '
             <h2>Current Todos</h2>
+            <form method="post">
             <ul>' . $this->getTodoList() . '</ul>
-        ';
+            </form>
+            ';
     }
 
     private function getTodoList()
     {
+        $todos = $this->database->getTodosArray();
+        
         $stringToReturn = '';
 
-        $todos = $this->database->getTodosArray();
-
+        // foreach($todos as $key => $todo)
         foreach($todos as $todo)
         {
-            $stringToReturn .= "<li>" . $todo . "</li>" . '<input type="submit" name="' . self::$delete . '" value="Delete" className="remove-btn" />';
+            $stringToReturn .= "<form method='post'>";
+            $stringToReturn .= "<li>";
+            $stringToReturn .= $todo;
+            $stringToReturn .= "<input type='submit' name='";
+            $stringToReturn .= self::$delete;
+            $stringToReturn .= "' value='Delete' ";
+            $stringToReturn .= "className='remove-btn' />";
+            
+            // $stringToReturn .= "<input type='hidden' name='";
+            // $stringToReturn .= __class__ .":delete:" . $key;
+            // $stringToReturn .= "' />";
+            // $stringToReturn .= "</li>";
+            // $stringToReturn .= "</form>";
         }
 
         return $stringToReturn;
@@ -99,14 +118,27 @@ class TodoView
 
     public function userClickedDelete()
     {
-        // du jobbar med delete 
-        var_dump(isset($_GET[self::$delete]));
         return isset($_GET[self::$delete]);
     }
 
     public function getTodoToDelete()
     {
-        return isset($_GET[self::$delete]);
+        //TODO: Should return a Todo with name and ID
+
+        // print_r($_POST);
+
+        // $todos = $this->database->getTodosArray();
+        
+        // $stringToReturn = '';
+
+        // foreach($todos as  $todo)
+        //     if... $_POST[__class__ .":delete:" . $todo->getUnique() ]
+
+
+        // var_dump($_GET['id']);
+        // print_r($_GET);
+        // return isset($_GET[self::$todo]);
+        
     } 
 	
 
@@ -115,22 +147,23 @@ class TodoView
 		return isset($_GET[self::$todo]) && !empty($_GET[self::$todo]);
 	}
 
-    public function setMessage($message) 
-    {
-		$this->message = $message;
-	}
 	
     public function getTodoItem () : \Todomodel\TodoModel 
     {
-		if ($this->hasNewTodo() ) {
-			$todo = $this->getNewTodo();
-
+        if ($this->hasNewTodo() ) {
+            $todo = $this->getNewTodo();
+            
 			return new \Todomodel\TodoModel($todo);
 		}
 	}
-
+    
     public function getNewTodo() 
     {
-		return ($_GET[self::$todo]);
-	}
+        return ($_GET[self::$todo]);
+    }
+    
+    public function setMessage($message) 
+    {
+        $this->message = $message;
+    }
 }

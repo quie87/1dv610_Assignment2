@@ -1,31 +1,53 @@
 <?php
 
-namespace TodoController;
+class TodoController {
+    private $database;
+    private $layoutView;
+    private $todoView;
 
-use Exception;
-use TodoModel\PersistantDataModel;
-
-class TodoController 
-{
-    private $view;
-    private $persistantData;
-
-    public function __construct(\TodoView\TodoView $view, \TodoModel\PersistantDataModel $database)
+    public function __construct()
     {
-        $this->view = $view;
+        $this->database = new \TodoModel\PersistantDataModel();
 
-        $this->persistantData = $database;
+        $this->layoutView = new \Todoview\LayoutView();
+        $this->todoView = new \TodoView\TodoView($this->database);
     }
 
-    public function addTodo() 
-    {
-        $newTodo = $this->view->getTodoItem();
-        $this->persistantData->saveTodo($newTodo);
+    public function run() {
+        $this->changeState();
+        $this->generateOutput();
     }
 
-    public function deleteTodo()
+    private function changeState() {
+        $userWantToAddTodo = $this->todoView->doUserWantToAddNewTodo();
+        $userWantToDeleteTodo = $this->todoView->userClickedDelete();
+        // var_dump($userWantToDeleteTodo);
+
+        if ($userWantToAddTodo)
+        {
+            $this->addTodo();
+        }
+
+        if ($userWantToDeleteTodo)
+        {
+            $this->deleteTodo();
+        }
+    }
+
+    private function generateOutput() {
+        $this->layoutView->render($this->todoView);
+    }
+
+    private function addTodo() 
     {
-        $todoToDelete = $this->view->getTodoToDelete();
-        throw new Exception("Not implemented yet");
+        $newTodo = $this->todoView->getTodoItem();
+        $this->database->saveTodo($newTodo);
+    }
+
+    private function deleteTodo()
+    {
+        $todoToDeleteByName = $this->todoView->getTodoToDelete();
+        // print_r($todoToDeleteByName);
+        $this->database->deleteTodoByName($todoToDeleteByName);
     }
 }
