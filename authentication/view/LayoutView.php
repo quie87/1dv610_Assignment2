@@ -1,5 +1,7 @@
 <?php
 
+namespace view;
+
 class LayoutView {  
   private function renderIsLoggedIn($isLoggedIn) {
     if ($isLoggedIn) {

@@ -9,7 +9,6 @@ require_once('view/DateTimeView.php');
 require_once('view/RegisterView.php');
 
 # model
-require_once('model/DateTimeModel.php');
 require_once('model/AuthenticationModel.php');
 require_once('model/UserModel.php');
 require_once('model/AuthenticationModel.php');
@@ -31,7 +30,7 @@ class AuthenticationApplication
 
     public function __construct()
     {   
-        $this->mainController = new MainController();
+        $this->mainController = new \controller\MainController();
     }
 
     public function runMainController()

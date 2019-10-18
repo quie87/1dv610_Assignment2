@@ -1,5 +1,7 @@
 <?php
 
+namespace controller;
+
 class MainController {
     private $loginView;
     private $dateTimeView;
@@ -15,10 +17,10 @@ class MainController {
 
     public function __construct()
     {
-        $this->layoutView = new LayoutView();
+        $this->layoutView = new \view\LayoutView();
         $this->loginView = new \view\LoginView();
         $this->registerView = new \view\RegisterView();
-        $this->dateTimeView = new DateTimeView();
+        $this->dateTimeView = new \view\DateTimeView();
         
         $this->userStorage = new \model\UserStorage();
         $this->authenticationModel = new \model\AuthenticationModel();

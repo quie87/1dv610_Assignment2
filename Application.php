@@ -7,6 +7,7 @@ class Appliction
     private $authenticationApplication;
     private $todoApplication;
     private $authController;
+    private $todoController;
 
     public function __construct ()
     {

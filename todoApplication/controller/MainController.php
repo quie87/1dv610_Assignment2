@@ -1,6 +1,8 @@
 <?php
 
-class TodoController {
+namespace TodoController;
+
+class MainController {
     private $database;
     private $layoutView;
     private $todoView;
