@@ -15,6 +15,15 @@ class TodoApp {
     public function __construct()
     {
         $this->todoController = new TodoController();
-        $this->todoController->run();   
+    }
+
+    public function runMainController()
+    {
+        $this->todoController->run();
+    }
+
+    public function getMainController()
+    {
+        return $this->todoController;
     }
 }

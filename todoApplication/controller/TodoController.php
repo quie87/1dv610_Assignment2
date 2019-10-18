@@ -18,24 +18,25 @@ class TodoController {
         $this->generateOutput();
     }
 
-    private function changeState() {
-        $userWantToAddTodo = $this->todoView->doUserWantToAddNewTodo();
-        $userWantToDeleteTodo = $this->todoView->userClickedDelete();
-        // var_dump($userWantToDeleteTodo);
-
-        if ($userWantToAddTodo)
+    public function changeState() {
+        if ($this->todoView->doUserWantToAddNewTodo())
         {
             $this->addTodo();
         }
 
-        if ($userWantToDeleteTodo)
+        if ($this->todoView->userClickedDelete())
         {
             $this->deleteTodo();
         }
     }
 
-    private function generateOutput() {
-        $this->layoutView->render($this->todoView);
+    public function getHTML()
+    {
+        return $this->todoView;
+    }
+
+    public function generateOutput() {
+        $this->layoutView->render($this->getHTML());
     }
 
     private function addTodo() 

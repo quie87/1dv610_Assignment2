@@ -2,23 +2,46 @@
 
 class Appliction 
 {
-    private $authentication;
+    private $view;
 
-    private $isLoggedIn = false;
+    private $authenticationApplication;
+    private $todoApplication;
+    private $authController;
 
     public function __construct ()
     {
-        $this->authentication = new AuthenticationApplication();
+        $this->authenticationApplication = new AuthenticationApplication();
+        $this->authController = $this->authenticationApplication->getMainController();
+
+        $this->todoApplication = new TodoApp();
+        $this->todoController = $this->todoApplication->getMainController();
+
+        $this->view = new MainView();
     }
 
     public function run()
     {
-        if ($this->isLoggedIn)
+        $this->changeState();
+        $this->generateOutput();
+    }
+    
+    public function changeState()
+    {
+        $this->authController->changeState();
+        
+        if ($this->authController->isLoggedIn())
         {
-            new TodoApp();
-        } else
-        {
-            $this->isLoggedIn = $this->authentication->run();
+            $this->todoController->changeState();
         }
+    }
+    
+    public function generateOutput()
+    {
+        $this->view->render($this->authController->isLoggedIn(), $this->authController->getHTML());
+
+        if ($this->authController->isLoggedIn())
+        {
+            $this->view->render($this->authController->isLoggedIn(), $this->todoController->getHTML());
+        } 
     }
 }

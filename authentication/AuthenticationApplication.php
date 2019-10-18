@@ -1,14 +1,14 @@
 <?php
 
-session_start(); 
-
 //INCLUDE THE FILES NEEDED...
-require_once('LayoutView.php');
 
+# View
+require_once('view/LayoutView.php');
 require_once('view/LoginView.php');
 require_once('view/DateTimeView.php');
-require_once('authentication/view/RegisterView.php');
+require_once('view/RegisterView.php');
 
+# model
 require_once('model/DateTimeModel.php');
 require_once('model/AuthenticationModel.php');
 require_once('model/UserModel.php');
@@ -17,78 +17,31 @@ require_once('model/UserStorage.php');
 require_once('model/RegistrationModel.php');
 require_once('model/Exceptions.php');
 
+# Controller
+require_once('controller/MainController.php');
 require_once('controller/LoginController.php');
 require_once('controller/RegisterController.php');
 
-class AuthenticationApplication {
-    private $loginView;
-    private $dateTimeView;
-    private $layoutView;
-    private $registerView;
+// Start session
+session_start(); 
 
-    private $authenticationModel;
-    
-    private $loginController;
-    private $registerController;
-
-    private $userStorage;
-
-    private $userNavigatesToRegister;
-    
+class AuthenticationApplication
+{
+    private $mainController;
 
     public function __construct()
+    {   
+        $this->mainController = new MainController();
+    }
+
+    public function runMainController()
     {
-        $this->layoutView = new LayoutView();
-        $this->loginView = new \view\LoginView();
-        $this->registerView = new \view\RegisterView();
-        $this->dateTimeView = new DateTimeView();
-        
-        $this->userStorage = new \model\UserStorage();
-        $this->authenticationModel = new \model\AuthenticationModel();
-        
-        $this->loginController = new \controller\LoginController($this->loginView, $this->authenticationModel, $this->userStorage);
-        $this->registerController = new \controller\RegisterController($this->registerView, $this->authenticationModel);
-    }
-    
-    public function run() {
-        $this->changeState();
-        $this->generateOutput();
+        return $this->mainController->run();
     }
 
-    
-	private function changeState() {
-        $userHasSession = $this->userStorage->loadUser();
-        $userHasCookie = $this->loginView->userHasCookie();
-
-        $this->userNavigatesToRegister = $this->layoutView->userNavigatesToRegister();
-
-        $userWantToRegister = $this->registerView->userWantToRegister();
-        $userWantToLoggIn = $this->loginView->userWantToLogIn();
-        
-        if($userHasSession) {
-            $this->authenticationModel->setIsUserLoggedIn(true);
-        } else if ($userHasCookie){
-            $this->authenticationModel->setIsUserLoggedIn($this->loginController->loginWithCookie());
-        }
-
-        if ($this->authenticationModel->getIsUserLoggedIn()) {
-            if ($this->loginView->userWantToLogout()) {
-                $this->loginController->logout();
-            }
-        } else {
-            if($userWantToRegister) {
-                $this->registerController->registerNewUser();
-            } else if ($userWantToLoggIn) {
-                $this->authenticationModel->setIsUserLoggedIn($this->loginController->login());
-            }
-        }            
+    public function getMainController()
+    {
+        return $this->mainController;
     }
-    
-	private function generateOutput() {
-        if ($this->userNavigatesToRegister) {
-            $this->layoutView->render($this->authenticationModel->getIsUserLoggedIn(), $this->registerView, $this->dateTimeView);
-        } else {
-            $this->layoutView->render($this->authenticationModel->getIsUserLoggedIn(), $this->loginView, $this->dateTimeView);
-        }
-	}
+
 }
