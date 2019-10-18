@@ -54,17 +54,23 @@ class MainController {
         }            
     }
     
-	public function getHTML() {
+    
+    public function showOutput()
+    {
+        $this->layoutView->render($this->authenticationModel->getIsUserLoggedIn(), $this->getHTML(), $this->getDateTimeView());
+    }
+
+    public function getHTML() {
         if ($this->loginView->userNavigatesToRegister()) {
             return $this->registerView;
         } else {
             return $this->loginView;
         }
     }
-    
-    public function showOutput()
+
+    private function getLoggedInUser()
     {
-        $this->layoutView->render($this->authenticationModel->getIsUserLoggedIn(), $this->getHTML(), $this->getDateTimeView());
+        return $this->userStorage->loadUser();
     }
 
     public function isLoggedIn()
@@ -81,10 +87,5 @@ class MainController {
     public function getDateTimeView()
     {
         return $this->dateTimeView;
-    }
-
-    private function getLoggedInUser()
-    {
-        return $this->userStorage->loadUser();
     }
 }

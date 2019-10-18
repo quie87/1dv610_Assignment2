@@ -1,6 +1,7 @@
 <?php
 
 require_once('controller/MainController.php');
+require_once('controller/TodoController.php');
 
 require_once('view/LayoutView.php');
 require_once('view/TodoView.php');

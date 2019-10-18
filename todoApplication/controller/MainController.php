@@ -3,16 +3,21 @@
 namespace TodoController;
 
 class MainController {
-    private $database;
+    private $persistantDataModel;
+    
     private $layoutView;
     private $todoView;
 
+    private $todoController;
+
     public function __construct()
     {
-        $this->database = new \TodoModel\PersistantDataModel();
+        $this->persistantDataModel = new \TodoModel\PersistantDataModel();
 
         $this->layoutView = new \Todoview\LayoutView();
-        $this->todoView = new \TodoView\TodoView($this->database);
+        $this->todoView = new \TodoView\TodoView($this->persistantDataModel);
+
+        $this->todoController = new \TodoController\TodoController($this->persistantDataModel, $this->todoView);
     }
 
     public function run() {
@@ -23,12 +28,12 @@ class MainController {
     public function changeState() {
         if ($this->todoView->doUserWantToAddNewTodo())
         {
-            $this->addTodo();
+            $this->todoController->addTodo();
         }
 
         if ($this->todoView->userClickedDelete())
         {
-            $this->deleteTodo();
+            $this->todoController->deleteTodo();
         }
     }
 
@@ -39,18 +44,5 @@ class MainController {
 
     public function generateOutput() {
         $this->layoutView->render($this->getHTML());
-    }
-
-    private function addTodo() 
-    {
-        $newTodo = $this->todoView->getTodoItem();
-        $this->database->saveTodo($newTodo);
-    }
-
-    private function deleteTodo()
-    {
-        $todoToDeleteByName = $this->todoView->getTodoToDelete();
-        // print_r($todoToDeleteByName);
-        $this->database->deleteTodoByName($todoToDeleteByName);
     }
 }

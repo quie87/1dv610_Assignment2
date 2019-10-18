@@ -2,8 +2,6 @@
 
 namespace TodoModel;
 
-use Exception;
-
 class PersistantDataModel
 {
     public function saveTodo($newTodo) 
