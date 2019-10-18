@@ -13,8 +13,6 @@ ini_set('display_startup_errors', 'on');
 $app = new Appliction();
 $app->run();
 
-// $app = new TodoApp();
-// $app->run();
 
 // $app = new AuthenticationApplication();
 // $app->runMainController();

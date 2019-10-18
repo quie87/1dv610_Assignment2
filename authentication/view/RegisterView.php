@@ -83,6 +83,25 @@ class RegisterView {
 		// $this->loginView->setMessage('Registered new user.');
 		header('Location: ./');
 	}
+
+	private function renderLinks($isLoggedIn) {
+		$ret = '';
+
+		if(!$isLoggedIn && !$this->userNavigatesToRegister()) {
+		$ret = '<a href="?register">Register a new user</a>';
+		} else if (!$isLoggedIn && $this->userNavigatesToRegister()){ 
+		$ret = '<a href="./">Back to login</a>';
+		}
+		return $ret;
+	}
+	
+	public function userNavigatesToRegister() : bool {
+		if (isset($_GET['register'])) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	
 	/**
 	 * Create HTTP response
@@ -91,8 +110,9 @@ class RegisterView {
 	 *
 	 * @return void BUT writes to standard output!
 	 */
-	public function response() {
-        $response = $this->generateRegistrationFormHTML($this->message);
+	public function response($isLoggedin) {
+		$response = $this->generateRegistrationFormHTML($this->message);
+		$response .= $this->renderLinks($isLoggedin);
 		
 		return $response;
 	}

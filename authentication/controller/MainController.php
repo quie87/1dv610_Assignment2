@@ -53,7 +53,7 @@ class MainController {
     }
     
 	public function getHTML() {
-        if ($this->layoutView->userNavigatesToRegister()) {
+        if ($this->loginView->userNavigatesToRegister()) {
             return $this->registerView;
         } else {
             return $this->loginView;
