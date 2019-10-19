@@ -93,7 +93,7 @@ class LoginView {
         return isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword]);
     }
 
-    public function getUserByCookie() {
+    public function getUserByCookie() : \model\UserModel {
         $username = $_COOKIE[self::$cookieName];
         $password = $_COOKIE[self::$cookiePassword];
         return new \model\UserModel($username, $password, true);
@@ -113,17 +113,6 @@ class LoginView {
         setCookie(self::$cookiePassword, "", time() -4000);
 	}
 
-	private function renderLinks($isLoggedIn) {
-		$ret = '';
-
-		if(!$isLoggedIn && !$this->userNavigatesToRegister()) {
-		$ret = '<a href="?register">Register a new user</a>';
-		} else if (!$isLoggedIn && $this->userNavigatesToRegister()){ 
-		$ret = '<a href="./">Back to login</a>';
-		}
-		return $ret;
-	}
-	
 	public function userNavigatesToRegister() : bool {
 		if (isset($_GET['register'])) {
 			return true;
@@ -134,10 +123,9 @@ class LoginView {
 	
 	/**
 	 * Create HTTP response
-	 *
 	 * Should be called after a login attempt has been determined
 	 *
-	 * @return  void BUT writes to standard output and cookies!
+	 * @return  void BUT writes to standard output
 	 */
 	public function response($isLoggedin) {
 		if(!$isLoggedin) {
@@ -146,7 +134,7 @@ class LoginView {
 			$response = $this->generateLogoutButtonHTML($this->message);
 		}
 		
-		$response .=$this->renderLinks($isLoggedin);
+		$response .=$this->renderNavigationLink($isLoggedin);
 		return $response;
 	}
 
@@ -189,5 +177,15 @@ class LoginView {
 				</fieldset>
 			</form>
 		';
+	}
+
+	private function renderNavigationLink($isLoggedIn) {
+		$ret = '';
+
+		if(!$isLoggedIn && !$this->userNavigatesToRegister()) {
+		$ret = '<a href="?register">Register a new user</a>';
+		} 
+
+		return $ret;
 	}
 }

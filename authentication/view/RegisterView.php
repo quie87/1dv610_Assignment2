@@ -80,19 +80,9 @@ class RegisterView {
 	}
 
 	public function succesfulRegistration() {
+		// TODO: Find a way to give the message to the loginView
 		// $this->loginView->setMessage('Registered new user.');
 		header('Location: ./');
-	}
-
-	private function renderLinks($isLoggedIn) {
-		$ret = '';
-
-		if(!$isLoggedIn && !$this->userNavigatesToRegister()) {
-		$ret = '<a href="?register">Register a new user</a>';
-		} else if (!$isLoggedIn && $this->userNavigatesToRegister()){ 
-		$ret = '<a href="./">Back to login</a>';
-		}
-		return $ret;
 	}
 	
 	public function userNavigatesToRegister() : bool {
@@ -112,7 +102,7 @@ class RegisterView {
 	 */
 	public function response($isLoggedin) {
 		$response = $this->generateRegistrationFormHTML($this->message);
-		$response .= $this->renderLinks($isLoggedin);
+		$response .= $this->renderNavigationLink($isLoggedin);
 		
 		return $response;
 	}
@@ -143,5 +133,14 @@ class RegisterView {
 				</fieldset>
 			</form>
 		';
+	}
+	
+	private function renderNavigationLink($isLoggedIn) {
+		$ret = '';
+
+		if (!$isLoggedIn && $this->userNavigatesToRegister()){ 
+		$ret = '<a href="./">Back to login</a>';
+		}
+		return $ret;
 	}
 }

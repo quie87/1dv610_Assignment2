@@ -18,16 +18,14 @@ class LoginController
     public function login() 
     {
         $credentials = $this->view->getUserCredentials();
-        $isAuthenticated = $this->authenticationModel->tryToLogin($credentials);
-        $wantsToSaveCredentials = $credentials->getStayLoggedIn();
+        $this->authenticationModel->tryToLogin($credentials);
 
-        // TODO: Add try block on saving user to session and cookie
-        if ($isAuthenticated && $wantsToSaveCredentials) {
+        if ($this->authenticationModel->getIsUserLoggedIn() && $credentials->getStayLoggedIn()) {
             $this->userStorage->saveUser($credentials); 
             $this->view->saveCookie($credentials);
             $this->view->setMessage('Welcome and you will be remembered');
             return true;
-        } else if($isAuthenticated) {
+        } else if($this->authenticationModel->getIsUserLoggedIn()) {
             $this->view->setMessage('Welcome');
             $this->userStorage->saveUser($credentials);
             return true;
@@ -39,9 +37,9 @@ class LoginController
 
     public function loginWithCookie() {
         $cookieCredentials = $this->view->getUserByCookie();
-        $isAuthenticated = $this->authenticationModel->tryToLogin($cookieCredentials);
+        $this->authenticationModel->tryToLogin($cookieCredentials);
 
-        if($isAuthenticated) {
+        if($this->authenticationModel->getIsUserLoggedIn()) {
             $this->userStorage->saveUser($cookieCredentials);
             $this->view->setMessage('Welcome back with cookie');
             return true;

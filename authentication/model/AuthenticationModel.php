@@ -11,9 +11,7 @@ class AuthenticationModel {
     public function tryToLogin(\model\UserModel $userCredentials) {
         //TODO: Search the database for existing user
         if ($userCredentials->getUserName() == 'Admin' && $userCredentials->getUserPassword() == 'Password') {
-            return true;
-        } else {
-            return false;
+            $this->setIsUserLoggedIn(true);
         }
     }
 
