@@ -2,110 +2,41 @@
 
 namespace Todoview;
 
-use TodoModel\TodoModel;
-
 class TodoView 
 {
+    private $authController;
+
     private static $todo = 'TodoView::todo';
     // private static $todoID = 'TodoView::todoID';
-    private static $submit = 'TodoView::submit';
+    private static $add = 'TodoView::add';
     private static $delete = 'TodoView::delete';
     private static $messageId = 'TodoView::Message';
 
     private $message;
-    // private $todoToDelete;
-    private $database;
+    private $todos;
 
-    public function __construct(\TodoModel\PersistantDataModel $database)
+    public function __construct($authController)
     {
-        $this->database = $database;
-    }
-
-    /**
-	 * Create HTTP response
-	 *
-	 * Should be called after an attempt to add new todo has been determined
-	 *
-	 * @return  void BUT writes to standard output and cookies!
-	 */
-    public function response() 
-    {
-        $response = $this->generateAddTodoFormHTML($this->message);
-        $response .= $this->generateListOfTodosHTML();
-        
-		return $response;
-	}
-
-    private function generateAddTodoFormHTML($message) 
-    {
-		return '
-			<form method="get" > 
-				<fieldset>
-					<legend>Enter a new Todo</legend>
-					<p id="' . self::$messageId . '">' . $message . '</p>
-					
-					<label for="' . self::$todo . '">Todo :</label>
-					<input type="text" id="' . self::$todo . '" name="' . self::$todo . '" value="' .'" />
-					
-					<input type="submit" name="' . self::$submit . '" value="Add" />
-				</fieldset>
-			</form>
-		';
-    }
-
-    private function generateListOfTodosHTML() 
-    {
-        return '
-            <h2>Current Todos</h2>
-            <form method="post">
-            <ul>' . $this->getTodoList() . '</ul>
-            </form>
-            ';
-    }
-
-    private function getTodoList()
-    {
-        $todos = $this->database->getTodosArray();
-        
-        $stringToReturn = '';
-
-        // foreach($todos as $key => $todo)
-        foreach($todos as $todo)
-        {
-            $stringToReturn .= "<form method='post'>";
-            $stringToReturn .= "<li>";
-            $stringToReturn .= $todo;
-            $stringToReturn .= "<input type='submit' name='";
-            $stringToReturn .= self::$delete;
-            $stringToReturn .= "' value='Delete' ";
-            $stringToReturn .= "className='remove-btn' />";
-            
-            // $stringToReturn .= "<input type='hidden' name='";
-            // $stringToReturn .= __class__ .":delete:" . $key;
-            // $stringToReturn .= "' />";
-            // $stringToReturn .= "</li>";
-            // $stringToReturn .= "</form>";
-        }
-
-        return $stringToReturn;
+        $this->authController = $authController;
+        $this->todos = new \TodoModel\Todos();
     }
 
     public function doUserWantToAddNewTodo() : bool 
     {
-		if ($this->userClickedSubmit()) {
+		if ($this->userClickedAddTodo()) {
 			$this->checkForEmptyFields();
 		}
 		
-        if ($this->userClickedSubmit() && $this->hasNewTodo()) {
+        if ($this->userClickedAddTodo() && $this->hasNewTodo()) {
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-    private function userClickedSubmit() 
+    private function userClickedAddTodo() 
     {
-		return isset($_GET[self::$submit]);
+		return isset($_GET[self::$add]);
     }
     
     private function checkForEmptyFields () 
@@ -116,7 +47,7 @@ class TodoView
         return;
     }
 
-    public function userClickedDelete()
+    public function doUserWantToDeleteTodo()
     {
         return isset($_GET[self::$delete]);
     }
@@ -127,7 +58,7 @@ class TodoView
 
         // print_r($_POST);
 
-        // $todos = $this->database->getTodosArray();
+        // $todos = $this->todos->getTodosArray();
         
         // $stringToReturn = '';
 
@@ -148,12 +79,12 @@ class TodoView
 	}
 
 	
-    public function getTodoItem () : \Todomodel\TodoModel 
+    public function getTodoItem () : \Todomodel\Todo
     {
         if ($this->hasNewTodo() ) {
             $todo = $this->getNewTodo();
             
-			return new \Todomodel\TodoModel($todo);
+			return new \Todomodel\Todo($this->authController->getLoggedInUserName(), $todo);
 		}
 	}
     
@@ -166,4 +97,79 @@ class TodoView
     {
         $this->message = $message;
     }
+
+    /**
+	 * Create HTTP response
+	 *
+	 * Should be called after an attempt to add new todo has been determined
+	 *
+	 * @return  void BUT writes to standard output
+	 */
+    public function response() 
+    {
+        $response = $this->generateAddTodoFormHTML($this->message);
+        $response .= $this->generateListOfTodosHTML();
+        
+		return $response;
+	}
+
+    private function generateAddTodoFormHTML($message) 
+    {
+		return '
+			<form method="GET" > 
+				<fieldset>
+					<legend>Enter a new Todo</legend>
+					<p id="' . self::$messageId . '">' . $message . '</p>
+					
+					<label for="' . self::$todo . '">Todo :</label>
+					<input type="text" id="' . self::$todo . '" name="' . self::$todo . '" value="' .'" />
+					
+					<input type="submit" name="' . self::$add . '" value="Add" />
+				</fieldset>
+			</form>
+		';
+    }
+
+    private function generateListOfTodosHTML() 
+    {
+        return '
+            <h2>Current Todos</h2>
+            <form method="GET">
+            <ul>' . $this->getTodoList() . '</ul>
+            </form>
+            ';
+    }
+
+    private function getTodoList()
+    {
+        $todos = $this->todos->getTodos();
+        
+        if (empty($todos))
+        {
+            return '';
+        }
+        $stringToReturn = '';
+
+        // foreach($todos as $key => $todo)
+        foreach($todos as $todo)
+        {
+            $stringToReturn .= "<form method='GET'>";
+            $stringToReturn .= "<li>";
+            $stringToReturn .= $todo;
+            $stringToReturn .= "<input type='submit' name='";
+            $stringToReturn .= self::$delete;
+            $stringToReturn .= "' value='Delete' ";
+            $stringToReturn .= "className='remove-btn' />";
+            
+            // $stringToReturn .= "<input type='hidden' name='";
+            // $stringToReturn .= __class__ .":delete:" . $key;
+            // $stringToReturn .= "' />";
+            // $stringToReturn .= "</li>";
+            // $stringToReturn .= "</form>";
+        }
+
+        return $stringToReturn;
+    }
+
+
 }

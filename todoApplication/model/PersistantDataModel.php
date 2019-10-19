@@ -7,13 +7,17 @@ class PersistantDataModel
     public function saveTodo($newTodo) 
     {
         $todos = $this->loadTodoFile();
+        $todoObject = array (
+            $newTodo->getUserName(),
+            $newTodo->getTodoName()
+        );
 
-        $newTodo = $newTodo->getTodo();
+        // $newTodo = $newTodo->getTodoName();
 
         if ($todos) {
-            array_push($todos, $newTodo);
+            array_push($todos, $todoObject);
         } else {
-            $todos = array ($newTodo);
+            $todos[] = $todoObject;
         }
 
         $this->saveTodoFile($todos);
@@ -71,8 +75,7 @@ class PersistantDataModel
     public function saveTodoFile(array $todos)
     {
         $file = (__DIR__ . '../../todos.json');
-        $todos = $todos;
-        
+
         $json = json_encode($todos);
         file_put_contents($file, $json);
         // fwrite($file, $todos);

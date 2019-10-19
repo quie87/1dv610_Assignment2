@@ -5,24 +5,24 @@ namespace TodoController;
 class TodoController
 {
     private $view;
-    private $persistantData;
+    private $todos;
 
-    public function __construct(\TodoModel\PersistantDataModel $persistantData, \TodoView\TodoView $view)
+    public function __construct(\TodoView\TodoView $view)
     {
         $this->view = $view; 
-        $this->persistantData = $persistantData;   
+   
+        $this->todos = new \TodoModel\Todos();
     }
 
     public function addTodo() 
     {
         $newTodo = $this->view->getTodoItem();
-        $this->persistantData->saveTodo($newTodo);
+        $this->todos->saveTodo($newTodo);
     }
 
-    public function deleteTodo()
-    {
-        $todoToDeleteByName = $this->view->getTodoToDelete();
-        // print_r($todoToDeleteByName);
-        $this->persistantData->deleteTodoByName($todoToDeleteByName);
-    }
+    // public function deleteTodo()
+    // {
+    //     $todoToDeleteByName = $this->view->getTodoToDelete();
+    //     $this->todos->deleteTodoByName($todoToDeleteByName);
+    // }
 }

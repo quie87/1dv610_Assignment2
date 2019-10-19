@@ -2,22 +2,21 @@
 
 namespace TodoController;
 
-class MainController {
-    private $persistantDataModel;
-    
+class MainController {    
     private $layoutView;
     private $todoView;
 
+    private $authController;
     private $todoController;
 
-    public function __construct()
+    public function __construct($authController)
     {
-        $this->persistantDataModel = new \TodoModel\PersistantDataModel();
+        $this->authController = $authController;
 
         $this->layoutView = new \Todoview\LayoutView();
-        $this->todoView = new \TodoView\TodoView($this->persistantDataModel);
+        $this->todoView = new \TodoView\TodoView($authController);
 
-        $this->todoController = new \TodoController\TodoController($this->persistantDataModel, $this->todoView);
+        $this->todoController = new \TodoController\TodoController($this->todoView);
     }
 
     public function run() {
@@ -31,7 +30,7 @@ class MainController {
             $this->todoController->addTodo();
         }
 
-        if ($this->todoView->userClickedDelete())
+        if ($this->todoView->doUserWantToDeleteTodo())
         {
             $this->todoController->deleteTodo();
         }
