@@ -34,15 +34,16 @@ class Appliction
         {
             $this->todoController->changeState();
         }
+        
     }
     
     public function generateOutput()
     {
         $this->view->render($this->authController->isLoggedIn(), $this->authController->getHTML());
-
+        
         if ($this->authController->isLoggedIn())
         {
             $this->view->render($this->authController->isLoggedIn(), $this->todoController->getHTML());
-        } 
+        }
     }
 }

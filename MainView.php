@@ -9,12 +9,12 @@ class MainView {
               <title>Todo Application</title>
             </head>
             <body>
-            <h1>Todo</h1>
-              
-              <div class="container">
-              ' . $view->response($isLoggedIn) . '
+              <div class="mainContainer">
+                <div class="container">
+                ' . $view->response($isLoggedIn) . '
+                </div>
               </div>
-             </body>
+            </body>
           </html>
         ';
     }
