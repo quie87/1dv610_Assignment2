@@ -23,10 +23,10 @@ class PersistantDataModel
         }
 
         $this->connection = new \mysqli(
-          $this->settings->server_name,
-          $this->settings->db_name,
-          $this->settings->db_password,
-          $this->settings->database
+          $this->settings->DB_HOST,
+          $this->settings->DB_USERNAME,
+          $this->settings->DB_PASSWORD,
+          $this->settings->DB_NAME
         );
 
         // Check connection

@@ -3,8 +3,8 @@
 namespace TodoModel;
 
 class LocalSettings {
-  public $server_name = 'localhost';
-  public $db_name = 'root';
-  public $db_password = '';
-  public $database = 'todoApplication';
+  public $DB_HOST = 'localhost';
+  public $DB_USERNAME = 'root';
+  public $DB_PASSWORD = '';
+  public $DB_NAME = 'todoApplication';
 }
