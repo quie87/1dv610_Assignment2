@@ -52,7 +52,7 @@ class PersistantDataModel
 
     public function getTodos()
     {
-        $query = 'SELECT * FROM todos ';
+        $query = 'SELECT * FROM todos';
 
         // Get result
         $result = mysqli_query($this->connection, $query);
@@ -77,24 +77,4 @@ class PersistantDataModel
             echo 'ERROR: ' . mysqli_error($this->connection);
         }
     }
-
-    public function loadTodoFile()
-    {
-        $file = (__DIR__ . '../../todos.json');
-        if ($file) {
-            $todos = json_decode(file_get_contents($file), true);
-        }
-
-        return $todos;
-    }
-
-    public function saveTodoFile(array $todos)
-    {
-        $file = (__DIR__ . '../../todos.json');
-
-        $json = json_encode($todos);
-        file_put_contents($file, $json);
-        // fwrite($file, $todos);
-    }
-
 }
