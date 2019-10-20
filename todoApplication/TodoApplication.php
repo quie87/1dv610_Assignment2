@@ -14,7 +14,7 @@ require_once('view/LayoutView.php');
 require_once('view/TodoView.php');
 
 
-class TodoApp {
+class TodoApplication {
     private $mainController;
     private $authController;
 

@@ -14,7 +14,7 @@ class Appliction
         $this->authenticationApplication = new AuthenticationApplication();
         $this->authController = $this->authenticationApplication->getMainController();
 
-        $this->todoApplication = new TodoApp($this->authController);
+        $this->todoApplication = new TodoApplication($this->authController);
         $this->todoController = $this->todoApplication->getMainController();
 
         $this->view = new MainView();
