@@ -2,8 +2,10 @@
 
 namespace Todoview;
 
-class LayoutView {
-    public function render($view) {
+class LayoutView 
+{
+    public function render($view) 
+    {
         echo '<!DOCTYPE html>
           <html>
             <head>

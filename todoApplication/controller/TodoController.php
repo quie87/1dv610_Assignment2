@@ -23,7 +23,6 @@ class TodoController
     public function deleteTodo()
     {
         $todoToDelete = $this->view->getTodoToDelete();
-        // var_dump($todoToDelete);
         $this->todos->deleteTodo($todoToDelete);
     }
 }

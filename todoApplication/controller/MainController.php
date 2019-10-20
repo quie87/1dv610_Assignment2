@@ -2,7 +2,8 @@
 
 namespace TodoController;
 
-class MainController {    
+class MainController 
+{    
     private $layoutView;
     private $todoView;
 
@@ -19,19 +20,19 @@ class MainController {
         $this->todoController = new \TodoController\TodoController($this->todoView);
     }
 
-    public function run() {
+    public function run() 
+    {
         $this->changeState();
         $this->generateOutput();
     }
 
-    public function changeState() {
-        if ($this->todoView->doUserWantToAddNewTodo())
-        {
+    public function changeState() 
+    {
+        if ($this->todoView->doUserWantToAddNewTodo()) {
             $this->todoController->addTodo();
         }
 
-        if ($this->todoView->doUserWantToDeleteTodo())
-        {
+        if ($this->todoView->doUserWantToDeleteTodo()) {
             $this->todoController->deleteTodo();
         }
     }
@@ -41,7 +42,8 @@ class MainController {
         return $this->todoView;
     }
 
-    public function generateOutput() {
+    public function generateOutput() 
+    {
         $this->layoutView->render($this->getHTML());
     }
 }

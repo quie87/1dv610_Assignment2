@@ -2,8 +2,6 @@
 
 namespace TodoModel;
 
-use mysqli;
-
 class PersistantDataModel
 {
     private $connection;
@@ -37,7 +35,6 @@ class PersistantDataModel
 
     public function saveTodo($newTodo) 
     {
-
         $author = mysqli_real_escape_string($this->connection, $newTodo->getUserName());
         $title = mysqli_real_escape_string($this->connection, $newTodo->getTodoName());
 

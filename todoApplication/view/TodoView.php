@@ -153,6 +153,4 @@ class TodoView
 
         return $stringToReturn;
     }
-
-
 }

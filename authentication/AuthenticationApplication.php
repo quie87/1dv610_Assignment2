@@ -10,6 +10,7 @@ require_once('view/RegisterView.php');
 
 # model
 require_once('model/AuthenticationModel.php');
+require_once('model/DataBase.php');
 require_once('model/UserModel.php');
 require_once('model/AuthenticationModel.php');
 require_once('model/UserStorage.php');
@@ -20,6 +21,10 @@ require_once('model/Exceptions.php');
 require_once('controller/MainController.php');
 require_once('controller/LoginController.php');
 require_once('controller/RegisterController.php');
+
+#Config
+require_once('LocalSettings.php');
+require_once('ProductionSettings.php');
 
 // Start session
 session_start(); 

@@ -26,7 +26,7 @@ class RegisterController
 
         try {
             $newUserCredentials = $this->rv->getRegisterCredentials();
-            $successfulRegistration = $this->authenticationModel->saveUser($newUserCredentials);
+            $successfulRegistration = $this->authenticationModel->registerUser($newUserCredentials);
         } catch (\model\UsernameAndPasswordEmpty $e) {
             $this->rv->setMessage($e->getMessage());
         } catch (\model\UserNameToShortException $e){

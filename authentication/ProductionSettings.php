@@ -1,7 +1,5 @@
 <?php
 
-namespace TodoModel;
-
 class ProductionSettings 
 {
   public $DB_HOST;
