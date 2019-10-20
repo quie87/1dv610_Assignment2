@@ -35,7 +35,8 @@ class LoginController
         }
     }
 
-    public function loginWithCookie() {
+    public function loginWithCookie() 
+    {
         $cookieCredentials = $this->view->getUserByCookie();
         $this->authenticationModel->tryToLogin($cookieCredentials);
 
@@ -49,7 +50,8 @@ class LoginController
         }
     }
     
-    public function logout() {
+    public function logout() 
+    {
         $this->userStorage->destroySession();
         $this->view->removeCookie();
         $this->view->setMessage('Bye bye!');

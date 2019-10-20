@@ -2,7 +2,8 @@
 
 namespace view;
 
-class LoginView {
+class LoginView 
+{
 	private static $login = 'LoginView::Login';
 	private static $logout = 'LoginView::Logout';
 	private static $name = 'LoginView::UserName';
@@ -14,10 +15,9 @@ class LoginView {
 	
 	private $oldUserName;
 	private $message;
-
-	public function __construct() {}
 	
-	public function userWantToLogIn() : bool {
+	public function userWantToLogIn() : bool 
+	{
 		if ($this->userClickedLogin()) {
 			$this->checkForEmptyFields();
 			$this->oldUserName = $this->getUsername();
@@ -30,32 +30,39 @@ class LoginView {
 		}
 	}
 
-	private function userClickedLogin() {
+	private function userClickedLogin() 
+	{
 		return isset($_POST[self::$login]);
 	}
 	
-	private function checkForEmptyFields () {
+	private function checkForEmptyFields () 
+	{
 		if (!$this->hasUsername()) {
 			$this->setMessage("Username is missing");
 		} else if (!$this->hasPassword()) {
 			$this->setMessage("Password is missing");
 		}
+
 		return;
 	}
 
-	private function hasUsername () : bool {
+	private function hasUsername () : bool 
+	{
 		return isset($_POST[self::$name]) && !empty($_POST[self::$name]);
 	}
 
-	private function hasPassword () : bool {
+	private function hasPassword () : bool 
+	{
 		return isset($_POST[self::$password]) && !empty($_POST[self::$password]);
 	}
 
-	public function setMessage($message) {
+	public function setMessage($message) 
+	{
 		$this->message = $message;
 	}
 	
-	public function userWantToLogout() : bool {
+	public function userWantToLogout() : bool 
+	{
 		if ($this->userClickedLogout()) {
 			return true;
 		} else {
@@ -63,11 +70,13 @@ class LoginView {
 		}
 	}
 
-	private function userClickedLogout() {
+	private function userClickedLogout() : bool
+	{
 		return isset($_POST[self::$logout]);
 	}
 	
-	public function getUserCredentials () : \model\UserModel {
+	public function getUserCredentials () : \model\UserModel 
+	{
 		if ($this->hasUsername() && $this->hasPassword()) {
 			$name = $this->getUsername();
 			$pass = $this->getUserPassword();
@@ -77,29 +86,36 @@ class LoginView {
 		}
 	}
 
-	public function getUserName() {
+	public function getUserName() : string
+	{
 		return ($_POST[self::$name]);
 	}
 
-	public function getUserPassword() {
+	public function getUserPassword() : string 
+	{
 		return ($_POST[self::$password]);
 	}
 
-	public function getStayLoggedIn() : bool {
+	public function getStayLoggedIn() : bool 
+	{
 		return isset($_POST[self::$stayLoggedIn]);
 	}
 
-	public function userHasCookie() : bool {
+	public function userHasCookie() : bool 
+	{
         return isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword]);
     }
 
-    public function getUserByCookie() : \model\UserModel {
+	public function getUserByCookie() : \model\UserModel 
+	{
         $username = $_COOKIE[self::$cookieName];
-        $password = $_COOKIE[self::$cookiePassword];
+		$password = $_COOKIE[self::$cookiePassword];
+		
         return new \model\UserModel($username, $password, true);
     }
     
-    public function saveCookie($credentials) {
+	public function saveCookie($credentials) 
+	{
         $name = $credentials->getUserName();
         $password = $credentials->getUserPassword();
         $int = 3600;
@@ -108,12 +124,14 @@ class LoginView {
         setCookie(self::$cookiePassword, $password, time()+$int);
     }
 
-    public function removeCookie () {
+	public function removeCookie () 
+	{
         setCookie(self::$cookieName, "", time() -4000);
         setCookie(self::$cookiePassword, "", time() -4000);
 	}
 
-	public function userNavigatesToRegister() : bool {
+	public function userNavigatesToRegister() : bool 
+	{
 		if (isset($_GET['register'])) {
 			return true;
 		} else {
@@ -127,7 +145,8 @@ class LoginView {
 	 *
 	 * @return  void BUT writes to standard output
 	 */
-	public function response($isLoggedin) {
+	public function response($isLoggedin) 
+	{
 		if(!$isLoggedin) {
 			$response = $this->generateLoginFormHTML($this->message);
 		} else {
@@ -138,12 +157,8 @@ class LoginView {
 		return $response;
 	}
 
-	/**
-	* Generate HTML code on the output buffer for the logout button
-	* @param $message, String output message
-	* @return  void, BUT writes to standard output!
-	*/
-	private function generateLogoutButtonHTML($message) {
+	private function generateLogoutButtonHTML($message) 
+	{
 		return '
 			<form  method="post" >
 				<p id="' . self::$messageId . '">' . $message .'</p>
@@ -151,13 +166,9 @@ class LoginView {
 			</form>
 		';
 	}
-	
-	/**
-	* Generate HTML code on the output buffer for the Login form
-	* @param $message, String output message
-	* @return  void, BUT writes to standard output!
-	*/
-	private function generateLoginFormHTML($message) {
+
+	private function generateLoginFormHTML($message) 
+	{
 		return '
 			<form method="post" > 
 				<fieldset>
@@ -179,11 +190,12 @@ class LoginView {
 		';
 	}
 
-	private function renderNavigationLink($isLoggedIn) {
+	private function renderNavigationLink($isLoggedIn) 
+	{
 		$ret = '';
 
-		if(!$isLoggedIn && !$this->userNavigatesToRegister()) {
-		$ret = '<a href="?register">Register a new user</a>';
+		if (!$isLoggedIn && !$this->userNavigatesToRegister()) {
+			$ret = '<a href="?register">Register a new user</a>';
 		} 
 
 		return $ret;

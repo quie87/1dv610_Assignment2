@@ -29,15 +29,17 @@ class MainController {
         $this->registerController = new \controller\RegisterController($this->registerView, $this->authenticationModel);
     }
     
-    public function run() {
+    public function run() 
+    {
         $this->changeState();
         $this->showOutput();
     }
 
-	public function changeState() {        
-        if($this->getLoggedInUser()) {
+    public function changeState() 
+    {        
+        if ($this->getLoggedInUser()) {
             $this->authenticationModel->setIsUserLoggedIn(true);
-        } else if ($this->loginView->userHasCookie()){
+        } elseif ($this->loginView->userHasCookie()) {
             $this->authenticationModel->setIsUserLoggedIn($this->loginController->loginWithCookie());
         }
 
@@ -46,9 +48,9 @@ class MainController {
                 $this->loginController->logout();
             }
         } else {
-            if($this->registerView->userWantToRegister()) {
+            if ($this->registerView->userWantToRegister()) {
                 $this->registerController->registerNewUser();
-            } else if ($this->loginView->userWantToLogIn()) {
+            } elseif ($this->loginView->userWantToLogIn()) {
                 $this->authenticationModel->setIsUserLoggedIn($this->loginController->login());
             }
         }            
@@ -60,7 +62,8 @@ class MainController {
         $this->layoutView->render($this->authenticationModel->getIsUserLoggedIn(), $this->getHTML(), $this->getDateTimeView());
     }
 
-    public function getHTML() {
+    public function getHTML() 
+    {
         if ($this->loginView->userNavigatesToRegister()) {
             return $this->registerView;
         } else {

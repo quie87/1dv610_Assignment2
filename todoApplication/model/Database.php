@@ -2,7 +2,9 @@
 
 namespace TodoModel;
 
-class PersistantDataModel
+use Exception;
+
+class Database
 {
     private $connection;
     private $settings;
@@ -27,9 +29,9 @@ class PersistantDataModel
           $this->settings->DB_NAME
         );
 
-        // Check connection
+        // TODO: Implement correct error handling
         if ($this->connection->connect_error) {
-            die("Connection failed: " . $this->connection->connect_error);
+            throw new Exception();
         }
     }
 
@@ -40,10 +42,10 @@ class PersistantDataModel
 
         $query = "INSERT INTO todos(author, title) VALUES('$author','$title')";
 
-        // Remove this later or throw a real error
+        // TODO: Implement correct error handling
         if (!mysqli_query($this->connection, $query))
         {
-            echo 'Error: ' . mysqli_error($this->connection);
+            throw new Exception();
         }
     }
 
@@ -69,9 +71,10 @@ class PersistantDataModel
 
         $query = "DELETE FROM todos WHERE id = {$delete_id}";
 
+        // TODO: Implement correct error handling
         if (!mysqli_query($this->connection, $query))
         {
-            echo 'ERROR: ' . mysqli_error($this->connection);
+            throw new Exception();
         }
     }
 }

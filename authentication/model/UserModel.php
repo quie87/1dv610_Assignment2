@@ -2,7 +2,8 @@
 
 namespace model;
 
-class UserModel {
+class UserModel 
+{
     private $userName;
     private $password;
     private $stayLoggedIn;
@@ -14,19 +15,23 @@ class UserModel {
         $this->stayLoggedIn = $stay;
     }
     
-    public function getUserName() {
+    public function getUserName() : string
+    {
         return $this->userName;
     }
 
-    public function getUserPassword() {
+    public function getUserPassword() : string
+    {
         return $this->password;
     }
 
-    public function getStayLoggedIn() : bool {
+    public function getStayLoggedIn() : bool 
+    {
         return $this->stayLoggedIn;
     }
 
-    public static function applyFilter(string $rawInput) : string {
+    public static function applyFilter(string $rawInput) : string 
+    {
         return trim(htmlentities($rawInput));
     }
 }

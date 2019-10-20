@@ -21,7 +21,8 @@ class RegisterController
         $this->authenticationModel = $authenticationModel;
     }
 
-    public function registerNewUser() {
+    public function registerNewUser() 
+    {
         $successfulRegistration = false;
 
         try {

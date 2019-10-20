@@ -2,8 +2,10 @@
 
 namespace view;
 
-class LayoutView {  
-  private function renderIsLoggedIn($isLoggedIn) {
+class LayoutView 
+{  
+  private function renderIsLoggedIn($isLoggedIn) 
+  {
     if ($isLoggedIn) {
       return '<h2>Logged in</h2>';
     }
@@ -12,7 +14,8 @@ class LayoutView {
     }
   }
   
-  public function render($isLoggedIn, $view, DateTimeView $dtv) {
+  public function render($isLoggedIn, $view, DateTimeView $dtv) 
+  {
     echo '<!DOCTYPE html>
       <html>
         <head>

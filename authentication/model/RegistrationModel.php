@@ -2,7 +2,8 @@
 
 namespace model;
 
-class RegistrationModel {
+class RegistrationModel 
+{
     private $userName;
     private $password;
     private $repeatPassword;
@@ -20,7 +21,8 @@ class RegistrationModel {
 
     }
 
-    private function validateNewUserCredentials($userName, $password, $repeatPassword) {
+    private function validateNewUserCredentials($userName, $password, $repeatPassword) 
+    {
         if ($this->checkIfContainsInvalidCharacters($userName)) {
             throw new UserHasInvalidCharacters('Username contains invalid characters.');
         }
@@ -37,27 +39,33 @@ class RegistrationModel {
     }
 
     
-    private function checkIfContainsInvalidCharacters(string $userName) : bool { 
+    private function checkIfContainsInvalidCharacters(string $userName) : bool 
+    { 
         return $userName != htmlspecialchars($userName) ? true : false; 
     }
 
-    private function passwordMatch($password, $repeatPassword) : bool {
+    private function passwordMatch($password, $repeatPassword) : bool 
+    {
         return $password == $repeatPassword ? true : false;
     }
     
-    public static function applyFilter(string $rawInput) : string {
+    public static function applyFilter(string $rawInput) : string 
+    {
         return trim(htmlentities($rawInput));
     } 
     
-    public function getUserName() {
+    public function getUserName() 
+    {
         return $this->userName;
     }
 
-    public function getUserPassword() {
+    public function getUserPassword() 
+    {
         return $this->password;
     }
 
-    public function getRepeatPassword() {
+    public function getRepeatPassword() 
+    {
         return $this->repeatPassword;
     }
 }

@@ -2,7 +2,8 @@
 
 namespace view;
 
-class DateTimeView {
+class DateTimeView 
+{
 	public function show() : string {
 		$weekDay = date('l');
 		$date = date('jS');

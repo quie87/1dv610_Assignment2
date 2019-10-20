@@ -2,7 +2,7 @@
 
 class MainView {
     public function render($isLoggedIn, $view) {
-        echo '<!DOCTYPE html>
+        echo '<!DOCTYPE html lang="sv">
           <html>
             <head>
               <meta charset="utf-8">

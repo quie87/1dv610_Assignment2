@@ -4,25 +4,25 @@ namespace TodoModel;
 
 class Todos
 {
-    private $persistantDataModel;
+    private $Database;
 
     public function __construct()
     {
-        $this->persistantDataModel = new \TodoModel\PersistantDataModel();
+        $this->Database = new \TodoModel\Database();
     }
 
     public function getTodos()
     {
-        return $this->persistantDataModel->getTodos();
+        return $this->Database->getTodos();
     }
 
     public function saveTodo ($todo)
     {
-        $this->persistantDataModel->saveTodo($todo);
+        $this->Database->saveTodo($todo);
     }
 
     public function deleteTodo (string $ID)
     {
-        $this->persistantDataModel->deleteTodo($ID);
+        $this->Database->deleteTodo($ID);
     }
 }

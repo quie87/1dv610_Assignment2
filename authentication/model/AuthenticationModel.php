@@ -2,7 +2,8 @@
 
 namespace model;
 
-class AuthenticationModel {
+class AuthenticationModel 
+{
     private $isLoggedIn = false;
     private $database;
 
@@ -11,7 +12,8 @@ class AuthenticationModel {
         $this->database = new \model\Database();
     }
 
-    public function tryToLogin(\model\UserModel $userCredentials) {
+    public function tryToLogin(\model\UserModel $userCredentials) 
+    {
         $username = $userCredentials->getUserName();
         $password = $userCredentials->getUserPassword();
 
@@ -20,7 +22,8 @@ class AuthenticationModel {
         }
     }
 
-    public function registerUser($credentials) {
+    public function registerUser($credentials)
+    {
         $username = $credentials->getUserName();
         $password = $credentials->getUserPassword();
 
@@ -33,15 +36,18 @@ class AuthenticationModel {
         }
     }
 
-    public function getIsUserLoggedIn() {
+    public function getIsUserLoggedIn() 
+    {
         return $this->isLoggedIn;
     }
 
-    public function setIsUserLoggedIn (bool $state) {
+    public function setIsUserLoggedIn (bool $state) 
+    {
         $this->isLoggedIn = $state;
     }
 
-    public function logout() {
+    public function logout() 
+    {
         $this->setIsUserLoggedIn(false);
     }
 }
