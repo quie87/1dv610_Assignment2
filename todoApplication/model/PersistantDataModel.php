@@ -2,6 +2,8 @@
 
 namespace TodoModel;
 
+use mysqli;
+
 class PersistantDataModel
 {
     private $connection;
@@ -35,60 +37,45 @@ class PersistantDataModel
 
     public function saveTodo($newTodo) 
     {
-        $todos = $this->loadTodoFile();
-        $todoObject = array (
-            $newTodo->getUserName(),
-            $newTodo->getTodoName()
-        );
 
-        // $newTodo = $newTodo->getTodoName();
+        $author = mysqli_real_escape_string($this->connection, $newTodo->getUserName());
+        $title = mysqli_real_escape_string($this->connection, $newTodo->getTodoName());
 
-        if ($todos) {
-            array_push($todos, $todoObject);
-        } else {
-            $todos[] = $todoObject;
+        $query = "INSERT INTO todos(author, title) VALUES('$author','$title')";
+
+        // Remove this later or throw a real error
+        if (!mysqli_query($this->connection, $query))
+        {
+            echo 'Error: ' . mysqli_error($this->connection);
         }
-
-        $this->saveTodoFile($todos);
     }
 
-    public function getTodosArray()
+    public function getTodos()
     {
-        $file = (__DIR__ . '../../todos.json');
+        $query = 'SELECT * FROM todos ';
 
-        if ($file) {
-            $todos = json_decode(file_get_contents($file), true);
-        }
-        
+        // Get result
+        $result = mysqli_query($this->connection, $query);
+
+        // Fetch data
+        $todos = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+        mysqli_free_result($result);
+        mysqli_close($this->connection);
+
         return $todos;
     }
 
-    public function deleteTodoByName($todo)
+    public function deleteTodo($todoId)
     {
-        $todos = $this->loadTodoFile();
-        $todoToDelete = $todo;
-        // var_dump($todoToDelete);
+        $delete_id = mysqli_real_escape_string($this->connection, $todoId);
 
-        // unset($todos[$todoToDelete]);
+        $query = "DELETE FROM todos WHERE id = {$delete_id}";
 
-        // $this->saveTodoFile($todos);
-        // foreach($todo as $todos)
-        // {
-        //     if ($todo == $todoToDelete)
-        //     {
-        //         $todos
-        //     }
-        // }
-
-        // $data[0]['activity_name'] = "TENNIS";
-        // // or if you want to change all entries with activity_code "1"
-        // foreach ($data as $key => $entry) {
-        //     if ($entry['activity_code'] == '1') {
-        //         $data[$key]['activity_name'] = "TENNIS";
-        //     }
-        // }
-            // $newJsonString = json_encode($data);
-            // file_put_contents('jsonFile.json', $newJsonString);
+        if (!mysqli_query($this->connection, $query))
+        {
+            echo 'ERROR: ' . mysqli_error($this->connection);
+        }
     }
 
     public function loadTodoFile()

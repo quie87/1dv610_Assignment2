@@ -20,9 +20,10 @@ class TodoController
         $this->todos->saveTodo($newTodo);
     }
 
-    // public function deleteTodo()
-    // {
-    //     $todoToDeleteByName = $this->view->getTodoToDelete();
-    //     $this->todos->deleteTodoByName($todoToDeleteByName);
-    // }
+    public function deleteTodo()
+    {
+        $todoToDelete = $this->view->getTodoToDelete();
+        // var_dump($todoToDelete);
+        $this->todos->deleteTodo($todoToDelete);
+    }
 }

@@ -7,9 +7,9 @@ class TodoView
     private $authController;
 
     private static $todo = 'TodoView::todo';
-    // private static $todoID = 'TodoView::todoID';
     private static $add = 'TodoView::add';
     private static $delete = 'TodoView::delete';
+    private static $deleteId = 'TodoView::deleteId';
     private static $messageId = 'TodoView::Message';
 
     private $message;
@@ -36,7 +36,7 @@ class TodoView
 
     private function userClickedAddTodo() 
     {
-		return isset($_GET[self::$add]);
+		return isset($_POST[self::$add]);
     }
     
     private function checkForEmptyFields () 
@@ -49,33 +49,18 @@ class TodoView
 
     public function doUserWantToDeleteTodo()
     {
-        return isset($_GET[self::$delete]);
+        return isset($_POST[self::$delete]);
     }
 
     public function getTodoToDelete()
     {
-        //TODO: Should return a Todo with name and ID
-
-        // print_r($_POST);
-
-        // $todos = $this->todos->getTodosArray();
-        
-        // $stringToReturn = '';
-
-        // foreach($todos as  $todo)
-        //     if... $_POST[__class__ .":delete:" . $todo->getUnique() ]
-
-
-        // var_dump($_GET['id']);
-        // print_r($_GET);
-        // return isset($_GET[self::$todo]);
-        
+        return $_POST[self::$deleteId];        
     } 
 	
 
     private function hasNewTodo () : bool 
     {
-		return isset($_GET[self::$todo]) && !empty($_GET[self::$todo]);
+		return isset($_POST[self::$todo]) && !empty($_POST[self::$todo]);
 	}
 
 	
@@ -90,7 +75,7 @@ class TodoView
     
     public function getNewTodo() 
     {
-        return ($_GET[self::$todo]);
+        return ($_POST[self::$todo]);
     }
     
     public function setMessage($message) 
@@ -116,7 +101,7 @@ class TodoView
     private function generateAddTodoFormHTML($message) 
     {
 		return '
-			<form method="GET" > 
+			<form method="POST" > 
 				<fieldset>
 					<legend>Enter a new Todo</legend>
 					<p id="' . self::$messageId . '">' . $message . '</p>
@@ -134,10 +119,10 @@ class TodoView
     {
         return '
             <h2>Current Todos</h2>
-            <form method="GET">
+            <form method="POST">
+                <ul>' . $this->getTodoList() . '</ul>
             </form>
             ';
-            // <ul>' . $this->getTodoList() . '</ul>
     }
 
     private function getTodoList()
@@ -148,24 +133,22 @@ class TodoView
         {
             return '';
         }
+        
         $stringToReturn = '';
 
-        // foreach($todos as $key => $todo)
         foreach($todos as $todo)
         {
-            $stringToReturn .= "<form method='GET'>";
+            $stringToReturn .= "<form method='POST'>";
             $stringToReturn .= "<li>";
-            $stringToReturn .= $todo;
+            $stringToReturn .= $todo['title'];
             $stringToReturn .= "<input type='submit' name='";
             $stringToReturn .= self::$delete;
             $stringToReturn .= "' value='Delete' ";
             $stringToReturn .= "className='remove-btn' />";
             
-            // $stringToReturn .= "<input type='hidden' name='";
-            // $stringToReturn .= __class__ .":delete:" . $key;
-            // $stringToReturn .= "' />";
-            // $stringToReturn .= "</li>";
-            // $stringToReturn .= "</form>";
+            $stringToReturn .= "<input name='" . self::$deleteId . "' type='hidden' value='" . $todo['id'] . "' />";
+            $stringToReturn .= "</li>";
+            $stringToReturn .= "</form>";
         }
 
         return $stringToReturn;

@@ -13,11 +13,16 @@ class Todos
 
     public function getTodos()
     {
-        return $this->persistantDataModel->getTodosArray();
+        return $this->persistantDataModel->getTodos();
     }
 
     public function saveTodo ($todo)
     {
         $this->persistantDataModel->saveTodo($todo);
+    }
+
+    public function deleteTodo (string $ID)
+    {
+        $this->persistantDataModel->deleteTodo($ID);
     }
 }
