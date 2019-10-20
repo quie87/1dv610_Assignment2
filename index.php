@@ -10,8 +10,8 @@ require_once('todoApplication/TodoApplication.php');
 // ini_set('display_errors', 'On');
 // ini_set('display_startup_errors', 'on');
 
-$app = new Appliction();
-$app->run();
+// $app = new Appliction();
+// $app->run();
 
-// $app = new AuthenticationApplication();
-// $app->runMainController();
+$app = new AuthenticationApplication();
+$app->runMainController();
