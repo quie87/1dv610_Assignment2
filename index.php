@@ -12,3 +12,6 @@ require_once('todoApplication/TodoApplication.php');
 
 $app = new Appliction();
 $app->run();
+
+// $app = new AuthenticationApplication();
+// $app->runMainController();

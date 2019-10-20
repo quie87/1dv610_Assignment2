@@ -2,8 +2,6 @@
 
 namespace model;
 
-use mysqli;
-
 class Database
 {
     private $connection;
@@ -29,7 +27,6 @@ class Database
           $this->settings->DB_NAME
         );
 
-        // Check connection
         if ($this->connection->connect_error) {
             die("Connection failed: " . $this->connection->connect_error);
         }
@@ -66,19 +63,14 @@ class Database
         return $row;
     }
 
-    // public function validateUser($userCredentials)
-    // {
-    //     $query = 'SELECT * FROM users';
+    public function validateUser($username, $password)
+    {
+        $row = $this->findUsers($username);
 
-    //     // Get result
-    //     $result = mysqli_query($this->connection, $query);
-
-    //     // Fetch data
-    //     $todos = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-    //     mysqli_free_result($result);
-    //     mysqli_close($this->connection);
-
-    //     return $todos;
-    // }
+        if ($row['username'] === $username && ($password === $row['password'])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

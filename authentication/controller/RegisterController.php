@@ -12,12 +12,12 @@ use \model\UserHasInvalidCharacters;
 
 class RegisterController 
 {
-    private $rv;
+    private $view;
     private $authenticationModel;
 
-    public function __construct(\view\RegisterView $rv, \model\AuthenticationModel $authenticationModel)
+    public function __construct(\view\Registerview $view, \model\AuthenticationModel $authenticationModel)
     {
-        $this->rv = $rv;
+        $this->view = $view;
         $this->authenticationModel = $authenticationModel;
     }
 
@@ -25,24 +25,23 @@ class RegisterController
         $successfulRegistration = false;
 
         try {
-            $newUserCredentials = $this->rv->getRegisterCredentials();
-            $successfulRegistration = $this->authenticationModel->registerUser($newUserCredentials);
+            $this->authenticationModel->registerUser($this->view->getRegisterCredentials());
         } catch (\model\UsernameAndPasswordEmpty $e) {
-            $this->rv->setMessage($e->getMessage());
+            $this->view->setMessage($e->getMessage());
         } catch (\model\UserNameToShortException $e){
-            $this->rv->setMessage($e->getMessage());
+            $this->view->setMessage($e->getMessage());
         } catch (\model\PasswordIsToShortException $e) {
-            $this->rv->setMessage($e->getMessage());
+            $this->view->setMessage($e->getMessage());
         } catch (\model\PasswordDidNotMatchException $e) {
-            $this->rv->setMessage($e->getMessage());
+            $this->view->setMessage($e->getMessage());
         } catch (\model\UserAllReadyExistException $e) {
-            $this->rv->setMessage($e->getMessage());
+            $this->view->setMessage($e->getMessage());
         } catch (\model\UserHasInvalidCharacters $e) {
-            $this->rv->setMessage($e->getMessage());
+            $this->view->setMessage($e->getMessage());
         } 
 
         if ($successfulRegistration) {
-            $this->rv->succesfulRegistration();
+            $this->view->succesfulRegistration();
         }
     }
 }

@@ -12,20 +12,12 @@ class AuthenticationModel {
     }
 
     public function tryToLogin(\model\UserModel $userCredentials) {
-        // $this->database->validateUser($userCredentials);
-        //TODO: Search the database for existing user
-    
-        if ($userCredentials->getUserName() == 'Admin' && $userCredentials->getUserPassword() == 'Password') {
+        $username = $userCredentials->getUserName();
+        $password = $userCredentials->getUserPassword();
+
+        if ($this->database->validateUser($username, $password)) {
             $this->setIsUserLoggedIn(true);
         }
-    }
-
-    public function getIsUserLoggedIn() {
-        return $this->isLoggedIn;
-    }
-
-    public function setIsUserLoggedIn (bool $state) {
-        $this->isLoggedIn = $state;
     }
 
     public function registerUser($credentials) {
@@ -39,6 +31,14 @@ class AuthenticationModel {
             $this->database->saveUser($username, $password);
             return true;
         }
+    }
+
+    public function getIsUserLoggedIn() {
+        return $this->isLoggedIn;
+    }
+
+    public function setIsUserLoggedIn (bool $state) {
+        $this->isLoggedIn = $state;
     }
 
     public function logout() {
