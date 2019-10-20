@@ -4,6 +4,35 @@ namespace TodoModel;
 
 class PersistantDataModel
 {
+    private $connection;
+    private $settings;
+
+    private static $LOCALHOST = 'localhost';
+    private static $SERVER_NAME = 'SERVER_NAME';
+
+    public function __construct()
+    {
+        $hostname = $_SERVER[self::$SERVER_NAME];
+
+        if ($hostname == self::$LOCALHOST) {
+          $this->settings = new \TodoModel\LocalSettings();
+        } else {
+          $this->settings = new \TodoModel\ProductionSettings();
+        }
+
+        $this->connection = new \mysqli(
+          $this->settings->server_name,
+          $this->settings->db_name,
+          $this->settings->db_password,
+          $this->settings->database
+        );
+
+        // Check connection
+        if ($this->connection->connect_error) {
+            die("Connection failed: " . $this->connection->connect_error);
+        }
+    }
+
     public function saveTodo($newTodo) 
     {
         $todos = $this->loadTodoFile();

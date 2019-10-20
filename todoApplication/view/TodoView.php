@@ -135,9 +135,9 @@ class TodoView
         return '
             <h2>Current Todos</h2>
             <form method="GET">
-            <ul>' . $this->getTodoList() . '</ul>
             </form>
             ';
+            // <ul>' . $this->getTodoList() . '</ul>
     }
 
     private function getTodoList()

@@ -1,5 +1,8 @@
 <?php
 
+require_once('LocalSettings.php');
+require_once('ProductionSettings.php');
+
 require_once('controller/MainController.php');
 require_once('controller/TodoController.php');
 
