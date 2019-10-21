@@ -27,8 +27,14 @@ I dont have a % number for the Todo application at this point.
 
 # Configure application
 To run the application as your own, some steps are required. These needs to be made for 
-the Authentication application, and also the Todo application.
+the Authentication application, and also the Todo application. I assume you have some knowledge of php and know how to run a local setup
+with a phpmyadmin table.
+
 
 ## 1. Configure Local settings
-
+![setup image](https://github.com/quie87/1dv610_Assignment2/blob/master/Tests/images/TodoLocalSettings.png)
 ## 2. Configure Production settings
+![setup image](https://github.com/quie87/1dv610_Assignment2/blob/master/Tests/images/TodoProductionSettings.png)
+
+## 3. You also have to create your databases and populate them with tables.
+Two tables are needed. One named "users" and one named "todos".
