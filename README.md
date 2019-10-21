@@ -16,7 +16,7 @@ To see the live version click <a href="https://php-authentication-app.herokuapp.
 
 ## Todo
 * Use Cases
-* Test Cases
+* <a href="https://github.com/quie87/1dv610_Assignment2/wiki/Test-Cases-for-Todo">Test Cases</a>
 
 All the functionallity intenden are not yet implemented.
 The authentication application passes 77% of the test cases.
