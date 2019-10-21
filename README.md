@@ -21,7 +21,7 @@ To see the live version click <a href="https://php-authentication-app.herokuapp.
 All the functionallity intenden are not yet implemented.
 The authentication application passes 77% of the test cases.
 
-I dont have a % number for the Todo application at this point.
+The todo application passes 100% of the test cases.
 
 <hr>
 
