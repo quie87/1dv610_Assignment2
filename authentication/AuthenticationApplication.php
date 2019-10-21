@@ -38,11 +38,20 @@ class AuthenticationApplication
         $this->mainController = new \controller\MainController();
     }
 
+    /**
+     * Function to be called if the application is to be runned on its own
+     * @return controller\MainController - And calls its Run function
+     */
     public function runMainController()
     {
         return $this->mainController->run();
     }
 
+    /**
+     * Funktion to be called if the application is to be user together with
+     * a nother application.
+     * @return controller\MainController
+     */
     public function getMainController()
     {
         return $this->mainController;

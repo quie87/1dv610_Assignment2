@@ -1,5 +1,7 @@
 <?php
 
+// Local settings for SQL database
+
 class LocalSettings 
 {
   public $DB_HOST = 'localhost';

@@ -25,11 +25,20 @@ class TodoApplication
         $this->mainController = new \TodoController\MainController($authController);
     }
 
+    /**
+     * Function to be called if the application is to be runned on its own
+     * @return controller\MainController - And calls its Run function
+     */
     public function runMainController()
     {
         $this->mainController->run();
     }
-
+    
+    /**
+     * Funktion to be called if the application is to be user together with
+     * a nother application.
+     * @return controller\MainController
+     */
     public function getMainController()
     {
         return $this->mainController;

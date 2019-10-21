@@ -2,6 +2,8 @@
 
 namespace TodoModel;
 
+// Local settings for SQL database
+
 class LocalSettings {
   public $DB_HOST = 'localhost';
   public $DB_USERNAME = 'root';

@@ -2,6 +2,8 @@
 
 namespace TodoModel;
 
+// Production settings for SQL database
+
 class ProductionSettings 
 {
   public $DB_HOST;
